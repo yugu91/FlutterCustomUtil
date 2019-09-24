@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 //import 'package:flutter/material.dart';
 
 enum CustomListViewLinsentFlag {
@@ -105,16 +106,21 @@ class _CustomListViewState extends State<CustomListView> {
     );
   }
 
+  Widget _addView(Widget child){
+    return SliverToBoxAdapter(
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var list = <Widget>[];
-    if (widget.pullRefresh && Platform.isIOS) {
+    if (widget.pullRefresh && Platform.isIOS)
       list.add(CupertinoSliverRefreshControl(
         onRefresh: () => widget.lisent(1,CustomListViewLinsentFlag.refresh)
       ));
-    }
     if(widget.header != null)
-      list.add(widget.header);
+      list.add(_addView(widget.header));
     list.add(SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
@@ -131,18 +137,18 @@ class _CustomListViewState extends State<CustomListView> {
         childCount: widget.data.length,
       ),
     ));
-    if(widget.footer != null)
-      list.add(widget.footer);
+//    if(widget.footer != null)
+//      list.add(widget.footer);
 
     if (widget.data.length == 0) {
       //没有数据
-      list.add(_noData());
+      list.add(_addView(_noData()));
     } else if (widget.pageMax > 1) {
       //没有下一页
       if(pageNum >= widget.pageMax)
-        list.add(_loadFinalWidget());
+        list.add(_addView(_loadFinalWidget()));
       else
-        list.add(_loadMoreWidget());
+        list.add(_addView(_loadMoreWidget()));
     }
 
     if(Platform.isIOS) {
@@ -151,13 +157,19 @@ class _CustomListViewState extends State<CustomListView> {
         controller: _scrollController,
       );
     }else{
-      return RefreshIndicator(
-        onRefresh: ()=> widget.lisent(1,CustomListViewLinsentFlag.refresh),
-        child: CustomScrollView(
+      if(widget.pullRefresh)
+        return RefreshIndicator(
+          onRefresh: ()=> widget.lisent(1,CustomListViewLinsentFlag.refresh),
+          child: CustomScrollView(
+            slivers: list,
+            controller: _scrollController,
+          ),
+        );
+      else
+        return CustomScrollView(
           slivers: list,
           controller: _scrollController,
-        ),
-      );
+        );
     }
   }
 }
