@@ -12,10 +12,10 @@ class PlatformApp extends CupertinoApp{
   final Widget home;
   final Map<String, WidgetBuilder> router;
   PlatformApp({
-    this.title,
+    @required this.title,
     @required this.theme,
     @required this.home,
-    this.router,
+    @required this.router,
   }) : super(
     title: title,
     home: home,
@@ -77,7 +77,7 @@ class PlatformAppBar
     this.leading,
     this.backgroundColor,
     this.trailing,
-    this.showBackButton,
+    this.showBackButton = false,
     this.backButtonColor,
     this.backTap
   });
