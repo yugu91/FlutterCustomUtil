@@ -14,6 +14,8 @@ class CustomListView extends StatefulWidget {
   List<Object> data;
   int pageMax;
   final bool pullRefresh;
+  final Widget header;
+  final Widget footer;
 //  int pageCount;
   final IndexedWidgetBuilder itemBuilder;
   final Function(int index,CustomListViewLinsentFlag flag) lisent;
@@ -24,6 +26,8 @@ class CustomListView extends StatefulWidget {
     this.pullRefresh = true,
     this.lisent,
     this.pageMax = 1,
+    this.footer,
+    this.header
   }) : super();
   State nowState;
   @override
@@ -109,22 +113,11 @@ class _CustomListViewState extends State<CustomListView> {
         onRefresh: () => widget.lisent(1,CustomListViewLinsentFlag.refresh)
       ));
     }
-
+    if(widget.header != null)
+      list.add(widget.header);
     list.add(SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          if (widget.data.length == 0) {
-            //没有数据
-            return _noData();
-          } else if (pageNum >= widget.pageMax &&
-              index == widget.data.length &&
-              widget.pageMax > 1) {
-            //没有下一页
-            return _loadFinalWidget();
-          } else if (index == widget.data.length) {
-            //加载下一页
-            return _loadMoreWidget();
-          } else {
             //普通数据显示
             return CupertinoButton(
               child: widget.itemBuilder(context, index),
@@ -134,13 +127,24 @@ class _CustomListViewState extends State<CustomListView> {
               },
             );
             //          return Text("fdgfh");
-          }
         },
-        childCount:
-            widget.pageMax > 1 ? widget.data.length + 1 : widget.data.length,
+        childCount: widget.data.length,
       ),
     ));
-    
+    if(widget.footer != null)
+      list.add(widget.footer);
+
+    if (widget.data.length == 0) {
+      //没有数据
+      list.add(_noData());
+    } else if (widget.pageMax > 1) {
+      //没有下一页
+      if(pageNum >= widget.pageMax)
+        list.add(_loadFinalWidget());
+      else
+        list.add(_loadMoreWidget());
+    }
+
     if(Platform.isIOS) {
       return CustomScrollView(
         slivers: list,
