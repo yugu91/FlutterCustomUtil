@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'BasePlatformWidget.dart';
 import 'generated/i18n.dart';
 
-class PlatformApp extends CupertinoApp{
+class PlatformApp extends CupertinoApp {
   final String title;
   final CupertinoThemeData theme;
   final Widget home;
@@ -21,23 +21,27 @@ class PlatformApp extends CupertinoApp{
     this.delegate,
     this.local,
   }) : super(
-    title: title,
-    home: home,
-    localizationsDelegates: delegate == null ? [                             //此处
-      S.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-    ] : [
-      delegate,
-      S.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-    ],
-    supportedLocales: local != null ? local.contains(S.delegate.supportedLocales) : S.delegate.supportedLocales,
-    localeResolutionCallback:
-        S.delegate.resolution(fallback: const Locale('en', '')),
-    routes: router
-  );
+            title: title,
+            home: home,
+            localizationsDelegates: delegate == null
+                ? [
+                    //此处
+                    S.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                  ]
+                : [
+                    delegate,
+                    S.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                  ],
+            supportedLocales: local != null
+                ? local.contains(S.delegate.supportedLocales)
+                : S.delegate.supportedLocales,
+            localeResolutionCallback:
+                S.delegate.resolution(fallback: const Locale('en', '')),
+            routes: router);
 }
 
 /**
@@ -45,13 +49,7 @@ class PlatformApp extends CupertinoApp{
  */
 class PlatformScaffold
     extends BasePlatformWidget<Scaffold, CupertinoPageScaffold> {
-
-
-  PlatformScaffold({
-    this.appBar,
-    @required this.body,
-    this.backgroundColor
-  });
+  PlatformScaffold({this.appBar, @required this.body, this.backgroundColor});
 
   final PlatformAppBar appBar;
   final Widget body;
@@ -62,7 +60,9 @@ class PlatformScaffold
     return Scaffold(
       appBar: appBar != null ? appBar.createAndroidWidget(context) : null,
       body: body,
-      backgroundColor: backgroundColor != null ? backgroundColor : CupertinoTheme.of(context).barBackgroundColor,
+      backgroundColor: backgroundColor != null
+          ? backgroundColor
+          : CupertinoTheme.of(context).scaffoldBackgroundColor,
     );
   }
 
@@ -71,7 +71,9 @@ class PlatformScaffold
     return CupertinoPageScaffold(
       navigationBar: appBar != null ? appBar.createIosWidget(context) : null,
       child: body,
-      backgroundColor: backgroundColor != null ? backgroundColor : CupertinoTheme.of(context).barBackgroundColor,
+      backgroundColor: backgroundColor != null
+          ? backgroundColor
+          : CupertinoTheme.of(context).scaffoldBackgroundColor,
     );
   }
 }
@@ -88,57 +90,63 @@ class PlatformAppBar
   final bool showBackButton;
   final Color backButtonColor;
   final Function() backTap;
-  PlatformAppBar({
-    this.title,
-    this.leading,
-    this.backgroundColor,
-    this.trailing,
-    this.showBackButton = false,
-    this.backButtonColor,
-    this.backTap
-  });
+  PlatformAppBar(
+      {this.title,
+      this.leading,
+      this.backgroundColor,
+      this.trailing,
+      this.showBackButton = false,
+      this.backButtonColor,
+      this.backTap});
 
   @override
   AppBar createAndroidWidget(BuildContext context) {
     var leftBt;
-    if(leading != null)
+    if (leading != null)
       leftBt = leading;
-    else if(showBackButton)
+    else if (showBackButton)
       leftBt = IconButton(
         icon: Icon(
           Icons.close,
-          color: backButtonColor != null ? backButtonColor : Theme.of(context).scaffoldBackgroundColor,
+          color: backButtonColor != null
+              ? backButtonColor
+              : Theme.of(context).backgroundColor,
         ),
         onPressed: () => backTap(),
       );
     return new AppBar(
-      leading: leftBt ,
-      title: title,
-      actions: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: 8,bottom: 8, right: 15),
-          child: trailing,
-        )
-      ],
-      backgroundColor: this.backgroundColor == null ? CupertinoTheme.of(context).primaryColor : this.backgroundColor
-    );
+        leading: leftBt,
+        title: title,
+        actions: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 8, bottom: 8, right: 15),
+            child: trailing,
+          )
+        ],
+        backgroundColor: this.backgroundColor == null
+            ? CupertinoTheme.of(context).primaryColor
+            : this.backgroundColor);
   }
 
   @override
   CupertinoNavigationBar createIosWidget(BuildContext context) {
     var leftBt;
-    if(leading != null)
+    if (leading != null)
       leftBt = leading;
-    else if(showBackButton)
+    else if (showBackButton)
       leftBt = CupertinoNavigationBarBackButton(
-        onPressed: () => backTap(),//Navigator.pop(context),
-        color: backButtonColor != null ? backButtonColor : CupertinoTheme.of(context).scaffoldBackgroundColor,
+        onPressed: () => backTap(), //Navigator.pop(context),
+        color: backButtonColor != null
+            ? backButtonColor
+            : CupertinoTheme.of(context).primaryContrastingColor,
       );
     return new CupertinoNavigationBar(
       leading: leftBt,
-        middle: title,
-        trailing: trailing,
-      backgroundColor: this.backgroundColor == null ? CupertinoTheme.of(context).primaryColor : this.backgroundColor,
+      middle: title,
+      trailing: trailing,
+      backgroundColor: this.backgroundColor == null
+          ? CupertinoTheme.of(context).primaryColor
+          : this.backgroundColor,
     );
   }
 }
@@ -146,7 +154,8 @@ class PlatformAppBar
 /**
  * TextField
  */
-class PlatformTextField extends BasePlatformWidget<TextField, CupertinoTextField> {
+class PlatformTextField
+    extends BasePlatformWidget<TextField, CupertinoTextField> {
   final TextEditingController controller;
   final Widget suffix;
   final Widget prefix;
@@ -169,27 +178,23 @@ class PlatformTextField extends BasePlatformWidget<TextField, CupertinoTextField
   @override
   TextField createAndroidWidget(BuildContext context) {
     // TODO: implement createAndroidWidget
-    if(placeholder != null)
-      if(androidDecoration != null)
-          androidDecoration.copyWith(hintText: placeholder);
-      else
-        androidDecoration = InputDecoration(hintText: placeholder);
-    if(suffix != null)
-      if(androidDecoration != null)
-        androidDecoration.copyWith(suffix: prefix);
-      else
-        androidDecoration = InputDecoration(prefixIcon: suffix);
-    if(prefix != null)
-      if(androidDecoration != null)
-        androidDecoration.copyWith(prefix: prefix);
-      else
-        androidDecoration = InputDecoration(prefix: suffix);
+    if (placeholder != null) if (androidDecoration != null)
+      androidDecoration.copyWith(hintText: placeholder);
+    else
+      androidDecoration = InputDecoration(hintText: placeholder);
+    if (suffix != null) if (androidDecoration != null)
+      androidDecoration.copyWith(suffix: prefix);
+    else
+      androidDecoration = InputDecoration(prefixIcon: suffix);
+    if (prefix != null) if (androidDecoration != null)
+      androidDecoration.copyWith(prefix: prefix);
+    else
+      androidDecoration = InputDecoration(prefix: suffix);
     return TextField(
       controller: controller,
       decoration: androidDecoration,
       onTap: onTap,
       readOnly: readOnly,
-
     );
   }
 
@@ -198,24 +203,25 @@ class PlatformTextField extends BasePlatformWidget<TextField, CupertinoTextField
     // TODO: implement createIosWidget
     return CupertinoTextField(
       placeholder: placeholder,
-      decoration: iosDecoration == null ? BoxDecoration(
-        border: Border(
-              bottom: BorderSide(color: CupertinoTheme.of(context).barBackgroundColor),
-              top: BorderSide(color: CupertinoTheme.of(context).barBackgroundColor),
-              left: BorderSide(color: CupertinoTheme.of(context).barBackgroundColor),
-              right: BorderSide(color: CupertinoTheme.of(context).barBackgroundColor)
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(4))
-          )
-        : iosDecoration,
+      decoration: iosDecoration == null
+          ? BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                      color: CupertinoTheme.of(context).barBackgroundColor),
+                  top: BorderSide(
+                      color: CupertinoTheme.of(context).barBackgroundColor),
+                  left: BorderSide(
+                      color: CupertinoTheme.of(context).barBackgroundColor),
+                  right: BorderSide(
+                      color: CupertinoTheme.of(context).barBackgroundColor)),
+              borderRadius: BorderRadius.all(Radius.circular(4)))
+          : iosDecoration,
       suffix: suffix,
       prefix: prefix,
       onTap: onTap,
       readOnly: readOnly,
-
     );
   }
-
 }
 
 enum PlatformIconEnum {
@@ -229,38 +235,38 @@ enum PlatformIconEnum {
 /**
  * icon
  */
-class PlatformIcon{
-  static Icon getIcon(PlatformIconEnum icon,{
-    Color color = Colors.white
-  }){
-
-    if(Platform.isIOS){
-      switch(icon){
+class PlatformIcon {
+  static Icon getIcon(PlatformIconEnum icon, {Color color = Colors.white}) {
+    if (Platform.isIOS) {
+      switch (icon) {
         case PlatformIconEnum.add:
-          return Icon(CupertinoIcons.add,color: color,);
+          return Icon(
+            CupertinoIcons.add,
+            color: color,
+          );
         case PlatformIconEnum.back:
-          return Icon(CupertinoIcons.back,color: color);
+          return Icon(CupertinoIcons.back, color: color);
         case PlatformIconEnum.delete:
-          return Icon(CupertinoIcons.delete,color: color);
+          return Icon(CupertinoIcons.delete, color: color);
         case PlatformIconEnum.right_arrow:
-          return Icon(CupertinoIcons.forward,color: color);
+          return Icon(CupertinoIcons.forward, color: color);
         case PlatformIconEnum.left_arrow:
-          return Icon(CupertinoIcons.back,color: color);
+          return Icon(CupertinoIcons.back, color: color);
         default:
           return null;
       }
-    }else{
-      switch(icon){
+    } else {
+      switch (icon) {
         case PlatformIconEnum.add:
-          return Icon(Icons.add,color: color);
+          return Icon(Icons.add, color: color);
         case PlatformIconEnum.back:
-          return Icon(Icons.arrow_back,color: color);
+          return Icon(Icons.arrow_back, color: color);
         case PlatformIconEnum.delete:
-          return Icon(Icons.delete,color: color);
+          return Icon(Icons.delete, color: color);
         case PlatformIconEnum.right_arrow:
-          return Icon(Icons.arrow_forward_ios,color: color);
+          return Icon(Icons.arrow_forward_ios, color: color);
         case PlatformIconEnum.left_arrow:
-          return Icon(Icons.arrow_back_ios,color: color);
+          return Icon(Icons.arrow_back_ios, color: color);
         default:
           return null;
       }
@@ -280,16 +286,15 @@ class PlatformButton extends BasePlatformWidget<FlatButton, CupertinoButton> {
   final double minSize;
   final BorderRadius borderRadius;
   final ButtonTextTheme textTheme;
-  PlatformButton({
-    this.onPressed,
-    this.child,
-    this.color,
-    this.padding,
-    this.disabledColor,
-    this.minSize,
-    this.borderRadius,
-    this.textTheme
-  });
+  PlatformButton(
+      {this.onPressed,
+      this.child,
+      this.color,
+      this.padding,
+      this.disabledColor,
+      this.minSize,
+      this.borderRadius,
+      this.textTheme});
 
   @override
   FlatButton createAndroidWidget(BuildContext context) {
@@ -307,8 +312,8 @@ class PlatformButton extends BasePlatformWidget<FlatButton, CupertinoButton> {
   @override
   CupertinoButton createIosWidget(BuildContext context) {
     return new CupertinoButton(
-        child: child,
-        onPressed: onPressed,
+      child: child,
+      onPressed: onPressed,
       disabledColor: disabledColor,
       color: color,
       padding: padding,
