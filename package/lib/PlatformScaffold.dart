@@ -230,35 +230,37 @@ enum PlatformIconEnum {
  * icon
  */
 class PlatformIcon{
-  static Icon getIcon(PlatformIconEnum icon){
+  static Icon getIcon(PlatformIconEnum icon,{
+    Color color = Colors.white
+  }){
 
     if(Platform.isIOS){
       switch(icon){
         case PlatformIconEnum.add:
-          return Icon(CupertinoIcons.add);
+          return Icon(CupertinoIcons.add,color: color,);
         case PlatformIconEnum.back:
-          return Icon(CupertinoIcons.back);
+          return Icon(CupertinoIcons.back,color: color);
         case PlatformIconEnum.delete:
-          return Icon(CupertinoIcons.delete);
+          return Icon(CupertinoIcons.delete,color: color);
         case PlatformIconEnum.right_arrow:
-          return Icon(CupertinoIcons.forward);
+          return Icon(CupertinoIcons.forward,color: color);
         case PlatformIconEnum.left_arrow:
-          return Icon(CupertinoIcons.back);
+          return Icon(CupertinoIcons.back,color: color);
         default:
           return null;
       }
     }else{
       switch(icon){
         case PlatformIconEnum.add:
-          return Icon(Icons.add);
+          return Icon(Icons.add,color: color);
         case PlatformIconEnum.back:
-          return Icon(Icons.arrow_back);
+          return Icon(Icons.arrow_back,color: color);
         case PlatformIconEnum.delete:
-          return Icon(Icons.delete);
+          return Icon(Icons.delete,color: color);
         case PlatformIconEnum.right_arrow:
-          return Icon(Icons.arrow_forward_ios);
+          return Icon(Icons.arrow_forward_ios,color: color);
         case PlatformIconEnum.left_arrow:
-          return Icon(Icons.arrow_back_ios);
+          return Icon(Icons.arrow_back_ios,color: color);
         default:
           return null;
       }
