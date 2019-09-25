@@ -21,8 +21,8 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  String get cancel => "cancel";
-  String get dialogDismiss => "dismiss";
+  String get cancel => "Cancel";
+  String get dialogDismiss => "Dismiss";
   String get errorTitle => "Error";
   String get errorTryAgain => "Try again";
   String get listLoadMore => "Load more...";

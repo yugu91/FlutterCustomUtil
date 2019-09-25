@@ -1,8 +1,8 @@
 {
-  "dialogDismiss": "dismiss",
+  "dialogDismiss": "Dismiss",
   "listLoadMore": "Load more...",
   "listNoMore": "No more",
-  "cancel": "cancel",
+  "cancel": "Cancel",
   "errorTryAgain": "Try again",
   "errorTitle": "Error"
 }
