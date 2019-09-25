@@ -47,24 +47,31 @@ class PlatformScaffold
     extends BasePlatformWidget<Scaffold, CupertinoPageScaffold> {
 
 
-  PlatformScaffold({this.appBar, this.body});
+  PlatformScaffold({
+    this.appBar,
+    @required this.body,
+    this.backgroundColor
+  });
 
   final PlatformAppBar appBar;
   final Widget body;
+  final Color backgroundColor;
 
   @override
   Scaffold createAndroidWidget(BuildContext context) {
     return Scaffold(
-      appBar: appBar.createAndroidWidget(context),
+      appBar: appBar != null ? appBar.createAndroidWidget(context) : null,
       body: body,
+      backgroundColor: backgroundColor != null ? backgroundColor : CupertinoTheme.of(context).barBackgroundColor,
     );
   }
 
   @override
   CupertinoPageScaffold createIosWidget(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: appBar.createIosWidget(context),
+      navigationBar: appBar != null ? appBar.createIosWidget(context) : null,
       child: body,
+      backgroundColor: backgroundColor != null ? backgroundColor : CupertinoTheme.of(context).barBackgroundColor,
     );
   }
 }
