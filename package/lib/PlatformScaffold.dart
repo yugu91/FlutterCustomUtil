@@ -215,6 +215,8 @@ enum PlatformIconEnum {
   back,
   delete,
   add,
+  right_arrow,
+  left_arrow,
 }
 
 /**
@@ -222,6 +224,7 @@ enum PlatformIconEnum {
  */
 class PlatformIcon{
   static Icon getIcon(PlatformIconEnum icon){
+
     if(Platform.isIOS){
       switch(icon){
         case PlatformIconEnum.add:
@@ -230,6 +233,10 @@ class PlatformIcon{
           return Icon(CupertinoIcons.back);
         case PlatformIconEnum.delete:
           return Icon(CupertinoIcons.delete);
+        case PlatformIconEnum.right_arrow:
+          return Icon(CupertinoIcons.forward);
+        case PlatformIconEnum.left_arrow:
+          return Icon(CupertinoIcons.back);
         default:
           return null;
       }
@@ -241,6 +248,10 @@ class PlatformIcon{
           return Icon(Icons.arrow_back);
         case PlatformIconEnum.delete:
           return Icon(Icons.delete);
+        case PlatformIconEnum.right_arrow:
+          return Icon(Icons.arrow_forward_ios);
+        case PlatformIconEnum.left_arrow:
+          return Icon(Icons.arrow_back_ios);
         default:
           return null;
       }
