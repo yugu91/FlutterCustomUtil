@@ -163,7 +163,9 @@ class PlatformTextField
   final Function() onTap;
   final String placeholder;
   InputDecoration androidDecoration;
-  final BoxDecoration iosDecoration;
+  BoxDecoration iosDecoration;
+  final BorderSide borderSide;
+  final BorderRadius borderRadius;
   PlatformTextField({
     this.controller,
     this.suffix,
@@ -173,6 +175,8 @@ class PlatformTextField
     this.placeholder,
     this.androidDecoration,
     this.iosDecoration,
+    this.borderSide,
+    this.borderRadius,
   });
 
   @override
@@ -190,6 +194,19 @@ class PlatformTextField
       androidDecoration.copyWith(prefix: prefix);
     else
       androidDecoration = InputDecoration(prefix: suffix);
+
+    if(borderSide != null || borderRadius != null)
+      if(androidDecoration != null)
+        androidDecoration.copyWith(border: OutlineInputBorder(
+            borderSide: borderSide,
+            borderRadius: borderRadius
+        ));
+      else
+        androidDecoration = InputDecoration(border: OutlineInputBorder(
+            borderSide: borderSide,
+            borderRadius: borderRadius
+        ));
+
     return TextField(
       controller: controller,
       decoration: androidDecoration,
@@ -201,21 +218,20 @@ class PlatformTextField
   @override
   CupertinoTextField createIosWidget(BuildContext context) {
     // TODO: implement createIosWidget
+    if(borderSide != null || borderRadius != null)
+      if(iosDecoration != null)
+        iosDecoration.copyWith(border: Border(
+            bottom: borderSide,top: borderSide,left: borderSide,right: borderSide),
+            borderRadius: borderRadius
+        );
+      else
+        iosDecoration = BoxDecoration(
+            border: Border(bottom: borderSide,top: borderSide,left: borderSide,right: borderSide),
+            borderRadius: borderRadius
+        );
     return CupertinoTextField(
       placeholder: placeholder,
-      decoration: iosDecoration == null
-          ? BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      color: CupertinoTheme.of(context).barBackgroundColor),
-                  top: BorderSide(
-                      color: CupertinoTheme.of(context).barBackgroundColor),
-                  left: BorderSide(
-                      color: CupertinoTheme.of(context).barBackgroundColor),
-                  right: BorderSide(
-                      color: CupertinoTheme.of(context).barBackgroundColor)),
-              borderRadius: BorderRadius.all(Radius.circular(4)))
-          : iosDecoration,
+      decoration: iosDecoration,
       suffix: suffix,
       prefix: prefix,
       onTap: onTap,
