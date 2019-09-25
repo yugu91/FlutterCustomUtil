@@ -12,7 +12,7 @@ class PlatformApp extends CupertinoApp{
   final Widget home;
   final Map<String, WidgetBuilder> router;
   final LocalizationsDelegate delegate;
-  final Locale local;
+  final List<Locale> local;
   PlatformApp({
     @required this.title,
     @required this.theme,
@@ -24,6 +24,7 @@ class PlatformApp extends CupertinoApp{
     title: title,
     home: home,
     localizationsDelegates: delegate == null ? [                             //此处
+      S.delegate,
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
     ] : [
@@ -32,14 +33,9 @@ class PlatformApp extends CupertinoApp{
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
     ],
-    supportedLocales: local == null ? [
-      const Locale('zh', 'CH'),
-      const Locale('en', 'US'), // English
-    ] : [
-      local,
-      const Locale('zh', 'CH'),
-      const Locale('en', 'US'), // English
-    ],
+    supportedLocales: local != null ? local.contains(S.delegate.supportedLocales) : S.delegate.supportedLocales,
+    localeResolutionCallback:
+        S.delegate.resolution(fallback: const Locale('en', '')),
     routes: router
   );
 }

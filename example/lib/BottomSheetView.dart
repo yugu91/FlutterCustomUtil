@@ -8,6 +8,7 @@ import 'package:custom_util_plugin/custom_util_plugin.dart';
 import 'package:fluttercustom/CustomListView.dart';
 import 'package:fluttercustom/PlatformScaffold.dart';
 import 'package:fluttercustom/CustomBottomSheetDialog.dart';
+import 'package:fluttercustom/generated/i18n.dart';
 
 void main() => runApp(app());
 
@@ -15,6 +16,7 @@ class app extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     return PlatformApp(
       title: "test",
       theme: CupertinoTheme.of(context),
