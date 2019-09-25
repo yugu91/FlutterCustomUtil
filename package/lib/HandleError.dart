@@ -1,9 +1,9 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'CustomDialog.dart';
+import 'generated/i18n.dart';
 class CustomError implements Exception{
   String msg;
   bool canReload;
@@ -20,25 +20,19 @@ class CustomError implements Exception{
 }
 
 class HandleError {
-  static Future<int> show(BuildContext context,Exception error,[bool canReload,String title = null]) async{
+  static Future<int> show(BuildContext context,Exception error,[bool canReload,String title = null]){
     var bt = <String>[];
     if(canReload == null){
       if((error is CustomError && (error as CustomError).canReload) || error is DioError){
-        bt.add("重试");
+        bt.add(S.of(context).errorTryAgain);
       }
     }else if(canReload == true){
-      bt.add("重试");
+      bt.add(S.of(context).errorTryAgain);
     }
     if(title == null && error is CustomError && (error as CustomError).title != null)
       title = (error as CustomError).title;
     else if (title == null)
-      title = "抱歉，遇到错误!";
-    return await showDialog(
-        context: context,
-        builder: (_) => CustomDialog(msg: error.toString(),title: title,bts: bt)
-    );
-//    return await Navigator.of(context).push<int>(MaterialPageRoute<int>(
-//        builder: (_) => _ErrorDialog(error: error,canReload: canReload,title: title)
-//    ));
+      title = S.of(context).errorTitle;
+    return CustomDialog.of(context, msg: error.toString(),title: title,bts: bt).show();
   }
 }

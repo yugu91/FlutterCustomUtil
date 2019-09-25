@@ -58,6 +58,7 @@ class _ListViewTestState extends State<ListViewTest> {
               child: Text(data[index]),
             );
           },
+          header: Text("测试"),
           data: data,
           pageMax: 2,
           lisent: (index,flag) {

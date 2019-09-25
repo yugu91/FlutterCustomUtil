@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercustom/BasePlatformWidget.dart';
 
+import 'generated/i18n.dart';
+
 class CustomBottomSheetDialog{
   final BuildContext context;
   final Widget title;
@@ -48,7 +50,7 @@ class CustomBottomSheetDialog{
       message: content,
       actions: listActions,
       cancelButton: CupertinoActionSheetAction(
-        child: Text("取消"),
+        child: Text(S.of(context).cancel),
         onPressed: () => Navigator.pop(context,-1),
       ),
     );

@@ -1,29 +1,42 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'BasePlatformWidget.dart';
+import 'generated/i18n.dart';
 
 class PlatformApp extends CupertinoApp{
   final String title;
   final CupertinoThemeData theme;
   final Widget home;
   final Map<String, WidgetBuilder> router;
+  final LocalizationsDelegate delegate;
+  final Locale local;
   PlatformApp({
     @required this.title,
     @required this.theme,
     @required this.home,
     @required this.router,
+    this.delegate,
+    this.local,
   }) : super(
     title: title,
     home: home,
-    localizationsDelegates: [                             //此处
+    localizationsDelegates: delegate == null ? [                             //此处
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+    ] : [
+      delegate,
+      S.delegate,
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
     ],
-    supportedLocales: [
+    supportedLocales: local == null ? [
+      const Locale('zh', 'CH'),
+      const Locale('en', 'US'), // English
+    ] : [
+      local,
       const Locale('zh', 'CH'),
       const Locale('en', 'US'), // English
     ],

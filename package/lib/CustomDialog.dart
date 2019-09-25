@@ -4,67 +4,73 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CustomDialog extends StatefulWidget {
+import 'generated/i18n.dart';
+
+class CustomDialog {
   final String msg;
   final List<String> bts;
   final String title;
-
-  CustomDialog({
-    Key key,
+  final BuildContext context;
+  final bool canCancel;
+  CustomDialog(this.context, {
     @required this.msg,
     this.bts,
-    this.title
-  }) : super(key: key);
+    this.title,
+    this.canCancel = true,
+  });
 
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    if(Platform.isIOS) {
-      return _CustomDialogState();
+  static CustomDialog of(BuildContext context,{
+    @required String msg,
+    List<String> bts,
+    String title,
+    bool canCancel = true,
+  }){
+    return CustomDialog(context,msg: msg,bts: bts,title: title,canCancel: canCancel);
+  }
+
+  Future<int> show(){
+    if(Platform.isIOS){
+      return showCupertinoDialog<int>(context: context, builder: (context) => _buildCuprDialog(context));
     }else{
-      return _MetCustomDialogState();
+      return showDialog<int>(context: context,builder: (context) => _buildMetDialog(context));
     }
   }
-}
-class _MetCustomDialogState extends State<CustomDialog>{
-  @override
-  Widget build(BuildContext context) {
+
+  Widget _buildMetDialog(BuildContext context){
     var actionBts = <Widget>[];
-    if(widget.bts != null)
-      for(var i = 0;i < widget.bts.length;i++){
+    if(bts != null)
+      for(var i = 0;i < bts.length;i++){
         actionBts.add(
             FlatButton(
-              child: Text(widget.bts[i]),
+              child: Text(bts[i]),
               onPressed: (){
                 Navigator.pop(context,i);
               },
             )
         );
       }
-    actionBts.add(FlatButton(
-      child: const Text("关闭"),
-      onPressed: (){
-        Navigator.pop(context,-1);
-      },
-    ));
+    if(canCancel)
+      actionBts.add(FlatButton(
+        child: Text(S.of(context).dialogDismiss),
+        onPressed: (){
+          Navigator.pop(context,-1);
+        },
+      ));
     // TODO: implement build
     return AlertDialog(
-      title: widget.title != null && widget.title != "" ? Text(widget.title) : null,
-      content: Text(widget.msg),
+      title: title != null && title != "" ? Text(title) : null,
+      content: Text(msg),
       actions: actionBts,
     );
   }
-}
 
-class _CustomDialogState extends State<CustomDialog>{
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildCuprDialog(BuildContext context){
     var actionBts = <Widget>[];
-    if(widget.bts != null)
-      for(var i = 0;i < widget.bts.length;i++){
+    if(bts != null)
+      for(var i = 0;i < bts.length;i++){
         actionBts.add(
             CupertinoButton(
-              child: Text(widget.bts[i]),
+              child: Text(bts[i]),
               onPressed: (){
                 Navigator.pop(context,i);
               },
@@ -72,15 +78,15 @@ class _CustomDialogState extends State<CustomDialog>{
         );
       }
     actionBts.add(CupertinoButton(
-      child: const Text("关闭"),
+      child: Text(S.of(context).dialogDismiss),
       onPressed: (){
         Navigator.pop(context,-1);
       },
     ));
     // TODO: implement build
     return CupertinoAlertDialog(
-      title: widget.title != null && widget.title != "" ? Text(widget.title) : null,
-      content: Text(widget.msg),
+      title: title != null && title != "" ? Text(title) : null,
+      content: Text(msg),
       actions: actionBts,
     );
   }

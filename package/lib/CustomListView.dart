@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+import 'generated/i18n.dart';
 //import 'package:flutter/material.dart';
 
 enum CustomListViewLinsentFlag {
@@ -93,7 +95,7 @@ class _CustomListViewState extends State<CustomListView> {
             margin: const EdgeInsets.only(right: 20.0),
 //                child: CircularProgressIndicator(),
           ),
-          Text("正在获取更多...")
+          Text(S.of(context).listLoadMore)
         ],
       )),
     );
@@ -102,7 +104,7 @@ class _CustomListViewState extends State<CustomListView> {
   Widget _loadFinalWidget() {
     return Padding(
       padding: const EdgeInsets.all(15.0),
-      child: Center(child: Text("已没有更多数据")),
+      child: Center(child: Text(S.of(context).listNoMore)),
     );
   }
 
