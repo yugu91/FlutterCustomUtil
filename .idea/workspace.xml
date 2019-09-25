@@ -39,8 +39,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package/lib/PlatformScaffold.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="709">
-              <caret line="249" column="36" lean-forward="true" selection-start-line="249" selection-start-column="36" selection-end-line="249" selection-end-column="36" />
+            <state relative-caret-position="371">
+              <caret line="243" column="55" lean-forward="true" selection-start-line="243" selection-start-column="55" selection-end-line="243" selection-end-column="55" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
               </folding>
@@ -270,7 +270,21 @@
       <option name="project" value="LOCAL" />
       <updated>1569393563757</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="增加几个ICON">
+      <created>1569396035063</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1569396035064</updated>
+    </task>
+    <task id="LOCAL-00008" summary="PlatformScaffold 增加背景色参数">
+      <created>1569396879211</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1569396879211</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -311,7 +325,9 @@
     <MESSAGE value="添加bottom sheet dialog的测试" />
     <MESSAGE value="增加下部弹出选项卡&#10;修复App初始化页面的参数nullBUG" />
     <MESSAGE value="修复国际化初始化的BUG" />
-    <option name="LAST_COMMIT_MESSAGE" value="修复国际化初始化的BUG" />
+    <MESSAGE value="增加几个ICON" />
+    <MESSAGE value="PlatformScaffold 增加背景色参数" />
+    <option name="LAST_COMMIT_MESSAGE" value="PlatformScaffold 增加背景色参数" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lib/custom_util_plugin.dart">
@@ -604,8 +620,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package/lib/PlatformScaffold.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="709">
-          <caret line="249" column="36" lean-forward="true" selection-start-line="249" selection-start-column="36" selection-end-line="249" selection-end-column="36" />
+        <state relative-caret-position="371">
+          <caret line="243" column="55" lean-forward="true" selection-start-line="243" selection-start-column="55" selection-end-line="243" selection-end-column="55" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
           </folding>
