@@ -9,3 +9,6 @@ build/
 workspace.xml
 
 .idea/runConfigurations
+
+Podfile.lock
+xshareddata
