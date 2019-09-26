@@ -7,3 +7,5 @@
 build/
 
 workspace.xml
+
+.idea/runConfigurations
