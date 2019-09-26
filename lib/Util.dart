@@ -24,8 +24,8 @@ class Util{
     });
   }
 
-  static Future<File> chooseImage() async {
-    return await ImagePicker.pickImage(source: ImageSource.gallery);
+  static Future<File> chooseImage(ImageSource type) async {
+    return await ImagePicker.pickImage(source: type);
 //    final MethodChannel _channel = MethodChannel('custom_util_plugin');
 //    var path = await Util._channel.invokeMethod<String>(
 //      "pickImage",
