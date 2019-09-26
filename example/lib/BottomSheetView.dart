@@ -35,9 +35,9 @@ class app extends StatelessWidget {
                       Text("按钮3"),
                     ]).show().then((val) {
                       if(val == 0){
-                        Util.pickerFile().then((fileMap){
-                          fileMap.keys.forEach((key) => print(fileMap[key]));
-                        });
+//                        Util.pickerFile().then((fileMap){
+//                          fileMap.keys.forEach((key) => print(fileMap[key]));
+//                        });
                       }
                 });
               }),

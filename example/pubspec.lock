@@ -72,7 +72,7 @@ packages:
     source: hosted
     version: "0.1.2"
   custom_util_plugin:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       path: ".."
       relative: true
@@ -114,6 +114,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4"
+  image_picker:
+    dependency: transitive
+    description:
+      name: image_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.1+4"
   intl:
     dependency: transitive
     description:

@@ -18,9 +18,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  custom_util_plugin:
-    path: ../
-
 dependency_overrides:
   fluttercustom:
     path: ../package

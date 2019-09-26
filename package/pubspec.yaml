@@ -17,7 +17,10 @@ dependencies:
   cookie_jar: ^1.0.0
   modal_progress_hud: ^0.1.3
   package_info: ^0.3.2+1
-  url_launcher: ^5.1.3
+#  url_launcher: ^5.1.3
+  custom_util_plugin:
+    path: ../
+  image_picker: ^0.6.1+4
 
 dev_dependencies:
   flutter_test:

@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercustom/BasePlatformWidget.dart';
-
 import 'generated/i18n.dart';
 
 class CustomBottomSheetDialog{
