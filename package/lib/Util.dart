@@ -1,8 +1,9 @@
 
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Util{
-  static openUrlOnBrowser(String url) async{
+  static openUrlOnBrowser(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
