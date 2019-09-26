@@ -21,11 +21,36 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  String get appName => "Carpe Diem";
+  String get cancel => "Cancel";
+  String get dialogDismiss => "Dismiss";
+  String get errorTitle => "Error";
+  String get errorTryAgain => "Try again";
+  String get listLoadMore => "Load more...";
+  String get listNoMore => "No more";
 }
 
 class $en extends S {
   const $en();
+}
+
+class $zh extends S {
+  const $zh();
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+
+  @override
+  String get cancel => "取消";
+  @override
+  String get listLoadMore => "正在获取更多...";
+  @override
+  String get dialogDismiss => "关闭";
+  @override
+  String get errorTryAgain => "重试";
+  @override
+  String get listNoMore => "已没有更多数据";
+  @override
+  String get errorTitle => "抱歉，遇到错误!";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
@@ -34,6 +59,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("en", ""),
+      Locale("zh", ""),
     ];
   }
 
@@ -60,6 +86,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
       switch (lang) {
         case "en":
           S.current = const $en();
+          return SynchronousFuture<S>(S.current);
+        case "zh":
+          S.current = const $zh();
           return SynchronousFuture<S>(S.current);
         default:
           // NO-OP.

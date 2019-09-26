@@ -1,10 +1,9 @@
+import 'package:custom_util_plugin/CustomListView.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:custom_util_plugin/custom_util_plugin.dart';
-
-import 'package:fluttercustom/CustomListView.dart';
 
 void main() => runApp(ListViewTest());
 
