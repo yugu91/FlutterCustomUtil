@@ -28,17 +28,17 @@ class CustomBottomSheetDialog{
 
   Future<int> show(){
     if(Platform.isIOS){
-      return showCupertinoModalPopup<int>(context: context, builder: (_)=> _build());
+      return showCupertinoModalPopup<int>(context: context, builder: (context)=> _build(context));
     }else{
       return showModalBottomSheet(
           context: context,
           backgroundColor: Colors.transparent,
-          builder: (_)=> _build()
+          builder: (context)=> _build(context)
       );
     }
   }
 
-  Widget _build(){
+  Widget _build(BuildContext context){
     var listActions = <CupertinoActionSheetAction>[];
     for(var i = 0;i < actions.length;i++)
       listActions.add(CupertinoActionSheetAction(
