@@ -5,13 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:fluttercustom/CustomDialog.dart';
 import 'package:fluttercustom/CustomNetwork.dart';
 import 'package:fluttercustom/Util.dart';
-import 'package:package_info/package_info.dart';
 
 class ApplicationStart {
   factory ApplicationStart() => _getInstance();
   static ApplicationStart get instance => _getInstance();
   static ApplicationStart _instance;
-  PackageInfo packageInfo;
+  Map<String,dynamic> packageInfo;
   ApplicationStart._internal();
   static ApplicationStart _getInstance() {
     _instance ??= ApplicationStart._internal();
@@ -26,10 +25,14 @@ class ApplicationStart {
   }) {
     _remoteUrl = remoteUrl;
 
-    PackageInfo.fromPlatform().then((_packInfo) {
-      packageInfo = _packInfo;
+    Util.getPackageInfo().then((val){
+      packageInfo = val;
       if (checkUpdateUrl != null) _checkUpdate(context, checkUpdateUrl);
     });
+//    PackageInfo.fromPlatform().then((_packInfo) {
+//      packageInfo = _packInfo;
+//      if (checkUpdateUrl != null) _checkUpdate(context, checkUpdateUrl);
+//    });
   }
 
   void _checkUpdate(BuildContext context, String url) {
@@ -46,7 +49,7 @@ class ApplicationStart {
         return;
       }
 
-      if (int.parse(packageInfo.buildNumber) < (map["code"] as int)) {
+      if (packageInfo["versionCode"] as int < (map["code"] as int)) {
         CustomDialog.of(context,
                 msg: map["des"].toString(),
                 title: "更新提醒",

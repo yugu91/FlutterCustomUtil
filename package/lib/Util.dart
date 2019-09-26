@@ -1,4 +1,5 @@
 
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -14,6 +15,15 @@ class Util{
         }
     );
   }
+
+  static Future<Map<String,dynamic>> getPackageInfo() async{
+    return await Util._channel.invokeMethod<dynamic>(
+      "getPackageInfo"
+    ).then((val){
+      return Future.value(Map<String,dynamic>.from(val));
+    });
+  }
+
   static Future<File> chooseImage() async {
     return await ImagePicker.pickImage(source: ImageSource.gallery);
 //    final MethodChannel _channel = MethodChannel('custom_util_plugin');

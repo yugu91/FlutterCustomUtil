@@ -62,7 +62,9 @@ class _MyAppState extends State<MyApp> {
     var list = <Widget>[
       FlatButton(
         child: Text("fhfh"),
-        onPressed: () => chooseImg(),
+        onPressed: () => Util.getPackageInfo().then((val){
+          print(val["versionCode"] as int);
+        })//Util.openUrlOnBrowser("https://baidu.com")//chooseImg(),
       ),
     ];
     list.addAll(choseImgWidget());
