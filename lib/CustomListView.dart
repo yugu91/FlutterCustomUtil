@@ -117,7 +117,7 @@ class _CustomListViewState extends State<CustomListView> {
       setState(() {
         widget.pageMax = _pageMax;
       });
-    }
+    };
 
     var list = <Widget>[];
     if (widget.pullRefresh && Platform.isIOS)
