@@ -21,6 +21,8 @@ public class SwiftCustomUtilPlugin: NSObject, FlutterPlugin {
             picImage(call, result: result);
         }else if(call.method == "openUrl"){
             openUrl(call, result: result);
+        }else if(call.method == "getPlatformVersion"){
+            getPackageInfo(result);
         }else if(call.method == "showLoading"){
             MBProgressHUD.showAdded(to: _viewController.view, animated: true);
         }else if(call.method == "hideLoading"){
@@ -63,6 +65,23 @@ public class SwiftCustomUtilPlugin: NSObject, FlutterPlugin {
             }
         }else{
             result(FlutterError(code: "2001", message: "url 参数错误", details: nil));
+        }
+    }
+    
+    private func getPackageInfo(_ result:@escaping FlutterResult){
+        if let dict = Bundle.main.infoDictionary,let package = Bundle.main.bundleIdentifier {
+            var versionCode:Int = 0;
+            if let code = dict["CFBundleShortVersionString"] as? Int {
+                versionCode = code;
+            }
+            let version = dict["CFBundleVersion"] as! String;
+            result([
+                "versionCode":versionCode,
+                "version":version,
+                "package":package
+                ]);
+        }else{
+            result(FlutterError(code: "3000", message: "版本获取错误", details: nil));
         }
     }
 }
