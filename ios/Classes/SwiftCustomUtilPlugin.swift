@@ -21,7 +21,7 @@ public class SwiftCustomUtilPlugin: NSObject, FlutterPlugin {
             picImage(call, result: result);
         }else if(call.method == "openUrl"){
             openUrl(call, result: result);
-        }else if(call.method == "getPlatformVersion"){
+        }else if(call.method == "getPackageInfo"){
             getPackageInfo(result);
         }else if(call.method == "showLoading"){
             MBProgressHUD.showAdded(to: _viewController.view, animated: true);
