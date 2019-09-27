@@ -292,6 +292,7 @@ enum PlatformIconEnum {
   add,
   right_arrow,
   left_arrow,
+  close,
 }
 
 /**
@@ -314,6 +315,8 @@ class PlatformIcon {
           return Icon(CupertinoIcons.forward, color: color);
         case PlatformIconEnum.left_arrow:
           return Icon(CupertinoIcons.back, color: color);
+        case PlatformIconEnum.close:
+          return Icon(CupertinoIcons.clear_thick_circled,color:color);
         default:
           return null;
       }
@@ -329,6 +332,8 @@ class PlatformIcon {
           return Icon(Icons.arrow_forward_ios, color: color);
         case PlatformIconEnum.left_arrow:
           return Icon(Icons.arrow_back_ios, color: color);
+        case PlatformIconEnum.close:
+          return Icon(Icons.cancel,color:color);
         default:
           return null;
       }
