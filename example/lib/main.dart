@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:custom_util_plugin/PlatformScaffold.dart';
 import 'package:custom_util_plugin/Util.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -12,40 +14,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
+  PlatformScaffold baseLayout;
   @override
   void initState() {
     super.initState();
-    initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-//    String platformVersion;
-//    // Platform messages may fail, so we use a try/catch PlatformException.
-//    try {
-//      platformVersion = await CustomUtilPlugin.platformVersion;
-//    } on PlatformException {
-//      platformVersion = 'Failed to get platform version.';
-//    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-//    if (!mounted) return;
-//
-//    setState(() {
-//      _platformVersion = platformVersion;
-//    });
-  }
   List<File> files = [];
   void chooseImg() async{
-    Util.chooseImage().then((file){
-      setState(() {
-        files.add(file);
-      });
-    });
+//    Util.chooseImage().then((file){
+//      setState(() {
+//        files.add(file);
+//      });
+//    });
   }
 
   List<Widget> choseImgWidget(){
@@ -67,15 +48,26 @@ class _MyAppState extends State<MyApp> {
       ),
     ];
     list.addAll(choseImgWidget());
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Column(
-          children: list,
-        ),
+
+    baseLayout = PlatformScaffold(
+      initLoad: true,
+      appBar: PlatformAppBar(
+        title: const Text('Plugin example app'),
       ),
+      body: Column(
+        children: list,
+      ),
+    );
+    Future.delayed(Duration(seconds: 5),(){
+      baseLayout.hideLoading();
+    });
+    return PlatformApp(
+      home: baseLayout,
+      router: {
+
+      },
+      title:"测试",
+      theme: CupertinoThemeData(),
     );
   }
 }

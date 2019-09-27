@@ -22,6 +22,9 @@ class CustomListView extends StatefulWidget {
 //  int pageCount;
   final IndexedWidgetBuilder itemBuilder;
   final Function(int index,CustomListViewLinsentFlag flag) lisent;
+
+  Function(List _data) updateData;
+  Function(int _pageIndex) updatePageMax;
   CustomListView({
     @required this.itemBuilder,
     @required this.data,
@@ -38,23 +41,12 @@ class CustomListView extends StatefulWidget {
     nowState = _CustomListViewState();
     return nowState;
   }
-
-  void updateData(List _data) {
-    nowState.setState(() {
-      data = _data;
-    });
-  }
-
-  void updatePageMax(int _pageMax) {
-    nowState.setState(() {
-      pageMax = _pageMax;
-    });
-  }
 }
 
 class _CustomListViewState extends State<CustomListView> {
   final ScrollController _scrollController = ScrollController();
   int pageNum = 1;
+
   _CustomListViewState() {
     _scrollController.addListener(() {
       if (widget.lisent == null) return;
@@ -116,6 +108,17 @@ class _CustomListViewState extends State<CustomListView> {
 
   @override
   Widget build(BuildContext context) {
+    widget.updateData = (List _data){
+      setState(() {
+        widget.data = _data;
+      });
+    };
+    widget.updatePageMax = (int _pageMax){
+      setState(() {
+        widget.pageMax = _pageMax;
+      });
+    }
+
     var list = <Widget>[];
     if (widget.pullRefresh && Platform.isIOS)
       list.add(CupertinoSliverRefreshControl(

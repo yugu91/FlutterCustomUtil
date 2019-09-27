@@ -11,6 +11,9 @@
       <excludeFolder url="file://$MODULE_DIR$/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/custom_util_plugin/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/custom_util_plugin/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/custom_util_plugin/build" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/custom_util_plugin/package/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/custom_util_plugin/package/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/custom_util_plugin/package/build" />

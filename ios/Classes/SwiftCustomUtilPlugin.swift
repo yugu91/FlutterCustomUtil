@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import MBProgressHUD
 public class SwiftCustomUtilPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "custom_util_plugin", binaryMessenger: registrar.messenger())
@@ -20,6 +21,10 @@ public class SwiftCustomUtilPlugin: NSObject, FlutterPlugin {
             picImage(call, result: result);
         }else if(call.method == "openUrl"){
             openUrl(call, result: result);
+        }else if(call.method == "showLoading"){
+            MBProgressHUD.showAdded(to: _viewController.view, animated: true);
+        }else if(call.method == "hideLoading"){
+            MBProgressHUD.hide(for: _viewController.view, animated: true);
         }else{
             result(FlutterError(code: "100", message: "没有找到合适的方法\(call.method)", details: nil));
         }

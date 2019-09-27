@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import 'BasePlatformWidget.dart';
 import 'generated/i18n.dart';
@@ -13,6 +14,7 @@ class PlatformApp extends CupertinoApp {
   final Map<String, WidgetBuilder> router;
   final LocalizationsDelegate delegate;
   final List<Locale> local;
+
   PlatformApp({
     @required this.title,
     @required this.theme,
@@ -48,20 +50,43 @@ class PlatformApp extends CupertinoApp {
  * 脚手架
  */
 class PlatformScaffold
-    extends BasePlatformWidget<Scaffold, CupertinoPageScaffold> {
-  PlatformScaffold({this.appBar, @required this.body, this.backgroundColor});
+    extends BasePlatformFulWidget<Scaffold, CupertinoPageScaffold> {
 
   final PlatformAppBar appBar;
   final Widget body;
   final Color backgroundColor;
+  bool initLoad;
+  bool loading = false;
+  State nowState;
+  Function showLoading;
+  Function hideLoading;
+  PlatformScaffold({
+    this.appBar,
+    @required this.body,
+    this.backgroundColor,
+    this.initLoad = false,
+  });
+
 
   @override
+  _PlatformScaffoldState createState(){
+    nowState = _PlatformScaffoldState();
+    return nowState;
+  }
+}
+
+class _PlatformScaffoldState extends BasePlatformFulWidgetState<Scaffold,CupertinoPageScaffold,PlatformScaffold>{
+  @override
   Scaffold createAndroidWidget(BuildContext context) {
+
     return Scaffold(
-      appBar: appBar != null ? appBar.createAndroidWidget(context) : null,
-      body: body,
-      backgroundColor: backgroundColor != null
-          ? backgroundColor
+      appBar: widget.appBar != null ? widget.appBar.createAndroidWidget(context) : null,
+      body: ModalProgressHUD(
+        child: widget.initLoad ? SizedBox() : widget.body,
+        inAsyncCall: widget.initLoad || widget.loading,
+      ),
+      backgroundColor: widget.backgroundColor != null
+          ? widget.backgroundColor
           : CupertinoTheme.of(context).scaffoldBackgroundColor,
     );
   }
@@ -69,13 +94,34 @@ class PlatformScaffold
   @override
   CupertinoPageScaffold createIosWidget(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: appBar != null ? appBar.createIosWidget(context) : null,
-      child: body,
-      backgroundColor: backgroundColor != null
-          ? backgroundColor
+      navigationBar: widget.appBar != null ? widget.appBar.createIosWidget(context) : null,
+      child: ModalProgressHUD(
+        child: widget.initLoad ? SizedBox() : widget.body,
+        inAsyncCall: widget.initLoad || widget.loading,
+      ),
+      backgroundColor: widget.backgroundColor != null
+          ? widget.backgroundColor
           : CupertinoTheme.of(context).scaffoldBackgroundColor,
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    widget.showLoading = (){
+      setState(() {
+        widget.loading = true;
+      });
+    };
+    widget.hideLoading = (){
+      setState(() {
+        widget.loading = false;
+        widget.initLoad = false;
+      });
+    };
+    return Platform.isIOS ? createIosWidget(context) : createAndroidWidget(context);
+  }
+
 }
 
 /**

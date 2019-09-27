@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.net.Uri
 import android.os.Build
+import android.util.AttributeSet
+import android.widget.ProgressBar
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
