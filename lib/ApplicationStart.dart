@@ -1,7 +1,8 @@
 import 'dart:io';
 
+import 'package:custom_util_plugin/ReportError.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:sentry/sentry.dart';
 
 import 'CustomDialog.dart';
 import 'CustomNetwork.dart';
@@ -14,6 +15,7 @@ class ApplicationStart {
   factory ApplicationStart() => _getInstance();
   static ApplicationStart get instance => _getInstance();
   static ApplicationStart _instance;
+  
   Map<String,dynamic> packageInfo;
   ApplicationStart._internal();
   static ApplicationStart _getInstance() {
@@ -26,8 +28,11 @@ class ApplicationStart {
     BuildContext context, {
     @required String remoteUrl,
     String checkUpdateUrl,
+    String sentryDSN,
   }) {
     _remoteUrl = remoteUrl;
+    if(sentryDSN != null)
+      ReportError.instance.InitSentry(sentryDSN);
 
     Util.getPackageInfo().then((val){
       packageInfo = val;

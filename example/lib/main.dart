@@ -5,8 +5,14 @@ import 'package:custom_util_plugin/Util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:custom_util_plugin/ReportError.dart';
 
-void main() => runApp(MyApp());
+// void main() => runApp(MyApp());
+runZoned(() {
+    runApp(MyApp());
+}, onError: (Object obj, StackTrace stack) {
+    // ReportError.
+});
 
 class MyApp extends StatefulWidget {
   @override
