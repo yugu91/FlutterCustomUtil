@@ -25,6 +25,7 @@ class ApplicationStart {
 
   String _remoteUrl;
   void start(
+    Fuction app,
     BuildContext context, {
     @required String remoteUrl,
     String checkUpdateUrl,

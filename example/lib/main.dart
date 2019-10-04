@@ -8,11 +8,13 @@ import 'dart:async';
 import 'package:custom_util_plugin/ReportError.dart';
 
 // void main() => runApp(MyApp());
-runZoned(() {
+void main() {
+  runZoned(() {
     runApp(MyApp());
-}, onError: (Object obj, StackTrace stack) {
-    // ReportError.
-});
+  }, onError: (Object obj, StackTrace stack) {
+    ReportError.instance.report(obj,stackTrace: stack);
+  });
+}
 
 class MyApp extends StatefulWidget {
   @override
