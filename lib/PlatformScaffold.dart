@@ -389,3 +389,51 @@ class PlatformButton extends BasePlatformWidget<FlatButton, CupertinoButton> {
     );
   }
 }
+
+class PlatformPickerModel<T> {
+  Widget child;
+  T value;
+}
+class PlatformPicker<T> extends BasePlatformWidget<DropdownButton<T>,CupertinoPicker>{
+  final List<PlatformPickerModel<T>> data;
+  final String hidText;
+  final PlatformPickerModel<T> value;
+  String strValue;
+  final double childHeight;
+  final Function(T value) onChanged;
+  PlatformPicker(
+    this.data,
+    {
+      @required this.onChanged,
+      this.hidText,
+      this.value,
+      this.childHeight = 60
+    }
+  );
+
+
+  @override
+  DropdownButton<T> createAndroidWidget(BuildContext context) {
+    // TODO: implement createAndroidWidget
+    List<DropdownMenuItem> _data = [];
+    data.forEach((c) => _data.add(DropdownMenuItem(child: c.child,value: c.value)));
+    return DropdownButton<T>(
+      items: _data,
+      hint: this.hidText != null ? Text(this.hidText) : null,
+      onChanged: (value) => onChanged(value),
+    );
+  }
+
+  @override
+  CupertinoPicker createIosWidget(BuildContext context) {
+    // TODO: implement createIosWidget
+    List<Widget> _data = [];
+    data.forEach((c) => _data.add(c.child));
+    return CupertinoPicker(
+      children: _data,
+      onSelectedItemChanged:(num) => onChanged(data[num].value),
+      itemExtent:childHeight,
+    );
+  }
+    
+}
