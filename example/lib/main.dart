@@ -12,7 +12,7 @@ void main() {
   runZoned(() {
     runApp(MyApp());
   }, onError: (Object obj, StackTrace stack) {
-    ReportError.instance.report(obj,stackTrace: stack);
+    ReportError.instance.report(obj, stackTrace: stack);
   });
 }
 
@@ -22,14 +22,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  PlatformScaffold baseLayout;
   @override
   void initState() {
     super.initState();
   }
 
   List<File> files = [];
-  void chooseImg() async{
+  void chooseImg() async {
 //    Util.chooseImage().then((file){
 //      setState(() {
 //        files.add(file);
@@ -37,9 +36,9 @@ class _MyAppState extends State<MyApp> {
 //    });
   }
 
-  List<Widget> choseImgWidget(){
+  List<Widget> choseImgWidget() {
     List<Widget> list = [];
-    files.forEach((file){
+    files.forEach((file) {
       list.add(Image.file(file));
     });
     return list;
@@ -47,34 +46,32 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var list = <Widget>[
-      FlatButton(
-        child: Text("fhfh"),
-        onPressed: () => Util.getPackageInfo().then((val){
-          print(val["versionCode"] as int);
-        })//Util.openUrlOnBrowser("https://baidu.com")//chooseImg(),
-      ),
-    ];
-    list.addAll(choseImgWidget());
 
-    baseLayout = PlatformScaffold(
-      initLoad: true,
-      appBar: PlatformAppBar(
-        title: const Text('Plugin example app'),
-      ),
-      body: Column(
-        children: list,
-      ),
-    );
-    Future.delayed(Duration(seconds: 5),(){
-      baseLayout.hideLoading();
-    });
+    // Future.delayed(Duration(seconds: 5),(){
+    //   baseLayout.hideLoading();
+    // });
     return PlatformApp(
-      home: baseLayout,
-      router: {
-
-      },
-      title:"测试",
+      home: PlatformScaffold(
+        // initLoad: true,
+        appBar: PlatformAppBar(
+          title: const Text('Plugin example app'),
+        ),
+        body: Column(
+          children: <Widget>[
+            Text("ffgfgh"),
+            PlatformPicker(["ddddd", "cccccc", "kkkkkk"],
+                borderRadius: BorderRadius.circular(6.0),
+                borderSide: BorderSide(
+                  color: CupertinoTheme.of(context).barBackgroundColor,
+                ),
+                value: 0, onChanged: (value) {
+              print(value);
+            })
+          ],
+        ),
+      ),
+      router: {},
+      title: "测试",
       theme: CupertinoThemeData(),
     );
   }

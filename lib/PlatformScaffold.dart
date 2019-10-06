@@ -287,6 +287,7 @@ class PlatformTextField
       prefix: prefix,
       onTap: onTap,
       readOnly: readOnly,
+      controller: controller,
     );
   }
 }
