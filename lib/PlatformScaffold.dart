@@ -395,25 +395,13 @@ class PlatformButton extends BasePlatformWidget<FlatButton, CupertinoButton> {
   }
 }
 
-class PlatformPickerModel<T> {
-  Widget child;
-  T value;
-
-  PlatformPickerModel({
-    this.child,
-    this.value
-  });
-}
-
-class PlatformPicker<T>
-    extends BasePlatformWidget<DropdownButton<T>, PlatformTextField> {
-  final List<PlatformPickerModel<T>> data;
+class PlatformPicker<Int>
+    extends BasePlatformWidget<DropdownButton<Int>, PlatformTextField> {
+  final List<String> data;
   final String hidText;
-  T value;
-  String strValue;
+  Int value;
   final double childHeight;
-  final Function(T value, Function(T value, String strValue) setValue)
-      onChanged;
+  final Function(Int value) onChanged;
   final BorderSide borderSide;
   final BorderRadius borderRadius;
   PlatformPicker(
@@ -426,23 +414,18 @@ class PlatformPicker<T>
     this.borderRadius,
   });
 
-  void setValue(T value, String strValue) {
-    this.value = value;
-    this.strValue = strValue;
-    controller.text = strValue;
-  }
-
   @override
-  DropdownButton<T> createAndroidWidget(BuildContext context) {
+  DropdownButton<Int> createAndroidWidget(BuildContext context) {
     // TODO: implement createAndroidWidget
     List<DropdownMenuItem> _data = [];
-    data.forEach(
-        (c) => _data.add(DropdownMenuItem(child: c.child, value: c.value)));
-    return DropdownButton<T>(
+    for(var i = 0;i < data.length;i ++)
+      _data.add(DropdownMenuItem(child: Text(data[i]), value: i));
+        
+    return DropdownButton<Int>(
       items: _data,
       hint: this.hidText != null ? Text(this.hidText) : null,
-      onChanged: (value) => onChanged(value, setValue),
-      value: value,
+      onChanged: (value) => onChanged(value),
+      value: this.value,
     );
   }
 
@@ -452,8 +435,10 @@ class PlatformPicker<T>
   PlatformTextField createIosWidget(BuildContext context) {
     // TODO: implement createIosWidget
     List<Widget> _data = [];
-    data.forEach((c) => _data.add(c.child));
-    controller.text = strValue;
+    for(var i = 0;i < data.length;i ++)
+      _data.add(DropdownMenuItem(child: Text(data[i]), value: i));
+
+    controller.text = data[value as int];
     return PlatformTextField(
       borderRadius: borderRadius,
       borderSide: borderSide,
@@ -463,7 +448,7 @@ class PlatformPicker<T>
       onTap: () {
         final picker = CupertinoPicker(
           children: _data,
-          onSelectedItemChanged: (num) => onChanged(data[num].value,setValue),
+          onSelectedItemChanged: (num) => onChanged(num as Int),
           itemExtent: childHeight,
         );
         showCupertinoModalPopup(
