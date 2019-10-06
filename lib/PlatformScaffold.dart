@@ -446,6 +446,7 @@ class PlatformPicker
       placeholder: this.hidText,
       controller: controller,
       readOnly:true,
+      suffix:Icon(CupertinoIcons.down_arrow),
       onTap: () {
         final picker = CupertinoPicker(
           children: _data,
