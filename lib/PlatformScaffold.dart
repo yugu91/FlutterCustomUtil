@@ -459,6 +459,7 @@ class PlatformPicker<T>
       borderSide: borderSide,
       placeholder: this.hidText,
       controller: controller,
+      readOnly:true,
       onTap: () {
         CupertinoPicker(
           children: _data,
