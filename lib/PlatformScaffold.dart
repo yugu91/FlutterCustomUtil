@@ -461,10 +461,19 @@ class PlatformPicker<T>
       controller: controller,
       readOnly:true,
       onTap: () {
-        CupertinoPicker(
+        final picker = CupertinoPicker(
           children: _data,
           onSelectedItemChanged: (num) => onChanged(data[num].value,setValue),
           itemExtent: childHeight,
+        );
+        showCupertinoModalPopup(
+          context: context,
+          builder: (ctx){
+            return Container(
+              height: 200,
+              child: picker
+            );
+          }
         );
       },
     );
