@@ -51,7 +51,6 @@ class PlatformApp extends CupertinoApp {
  */
 class PlatformScaffold
     extends BasePlatformFulWidget<Scaffold, CupertinoPageScaffold> {
-
   final PlatformAppBar appBar;
   final Widget body;
   final Color backgroundColor;
@@ -67,20 +66,21 @@ class PlatformScaffold
     this.initLoad = false,
   });
 
-
   @override
-  _PlatformScaffoldState createState(){
+  _PlatformScaffoldState createState() {
     nowState = _PlatformScaffoldState();
     return nowState;
   }
 }
 
-class _PlatformScaffoldState extends BasePlatformFulWidgetState<Scaffold,CupertinoPageScaffold,PlatformScaffold>{
+class _PlatformScaffoldState extends BasePlatformFulWidgetState<Scaffold,
+    CupertinoPageScaffold, PlatformScaffold> {
   @override
   Scaffold createAndroidWidget(BuildContext context) {
-
     return Scaffold(
-      appBar: widget.appBar != null ? widget.appBar.createAndroidWidget(context) : null,
+      appBar: widget.appBar != null
+          ? widget.appBar.createAndroidWidget(context)
+          : null,
       body: ModalProgressHUD(
         child: widget.initLoad ? SizedBox() : widget.body,
         inAsyncCall: widget.initLoad || widget.loading,
@@ -94,7 +94,8 @@ class _PlatformScaffoldState extends BasePlatformFulWidgetState<Scaffold,Cuperti
   @override
   CupertinoPageScaffold createIosWidget(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: widget.appBar != null ? widget.appBar.createIosWidget(context) : null,
+      navigationBar:
+          widget.appBar != null ? widget.appBar.createIosWidget(context) : null,
       child: ModalProgressHUD(
         child: widget.initLoad ? SizedBox() : widget.body,
         inAsyncCall: widget.initLoad || widget.loading,
@@ -108,20 +109,21 @@ class _PlatformScaffoldState extends BasePlatformFulWidgetState<Scaffold,Cuperti
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    widget.showLoading = (){
+    widget.showLoading = () {
       setState(() {
         widget.loading = true;
       });
     };
-    widget.hideLoading = (){
+    widget.hideLoading = () {
       setState(() {
         widget.loading = false;
         widget.initLoad = false;
       });
     };
-    return Platform.isIOS ? createIosWidget(context) : createAndroidWidget(context);
+    return Platform.isIOS
+        ? createIosWidget(context)
+        : createAndroidWidget(context);
   }
-
 }
 
 /**
@@ -241,17 +243,15 @@ class PlatformTextField
     else
       androidDecoration = InputDecoration(prefix: suffix);
 
-    if(borderSide != null || borderRadius != null)
-      if(androidDecoration != null)
-        androidDecoration.copyWith(border: OutlineInputBorder(
-            borderSide: borderSide,
-            borderRadius: borderRadius
-        ));
-      else
-        androidDecoration = InputDecoration(border: OutlineInputBorder(
-            borderSide: borderSide,
-            borderRadius: borderRadius
-        ));
+    if (borderSide != null || borderRadius != null) if (androidDecoration !=
+        null)
+      androidDecoration.copyWith(
+          border: OutlineInputBorder(
+              borderSide: borderSide, borderRadius: borderRadius));
+    else
+      androidDecoration = InputDecoration(
+          border: OutlineInputBorder(
+              borderSide: borderSide, borderRadius: borderRadius));
 
     return TextField(
       controller: controller,
@@ -264,17 +264,22 @@ class PlatformTextField
   @override
   CupertinoTextField createIosWidget(BuildContext context) {
     // TODO: implement createIosWidget
-    if(borderSide != null || borderRadius != null)
-      if(iosDecoration != null)
-        iosDecoration.copyWith(border: Border(
-            bottom: borderSide,top: borderSide,left: borderSide,right: borderSide),
-            borderRadius: borderRadius
-        );
-      else
-        iosDecoration = BoxDecoration(
-            border: Border(bottom: borderSide,top: borderSide,left: borderSide,right: borderSide),
-            borderRadius: borderRadius
-        );
+    if (borderSide != null || borderRadius != null) if (iosDecoration != null)
+      iosDecoration.copyWith(
+          border: Border(
+              bottom: borderSide,
+              top: borderSide,
+              left: borderSide,
+              right: borderSide),
+          borderRadius: borderRadius);
+    else
+      iosDecoration = BoxDecoration(
+          border: Border(
+              bottom: borderSide,
+              top: borderSide,
+              left: borderSide,
+              right: borderSide),
+          borderRadius: borderRadius);
     return CupertinoTextField(
       placeholder: placeholder,
       decoration: iosDecoration,
@@ -316,7 +321,7 @@ class PlatformIcon {
         case PlatformIconEnum.left_arrow:
           return Icon(CupertinoIcons.back, color: color);
         case PlatformIconEnum.close:
-          return Icon(CupertinoIcons.clear_thick_circled,color:color);
+          return Icon(CupertinoIcons.clear_thick_circled, color: color);
         default:
           return null;
       }
@@ -333,7 +338,7 @@ class PlatformIcon {
         case PlatformIconEnum.left_arrow:
           return Icon(Icons.arrow_back_ios, color: color);
         case PlatformIconEnum.close:
-          return Icon(Icons.cancel,color:color);
+          return Icon(Icons.cancel, color: color);
         default:
           return null;
       }
@@ -394,46 +399,69 @@ class PlatformPickerModel<T> {
   Widget child;
   T value;
 }
-class PlatformPicker<T> extends BasePlatformWidget<DropdownButton<T>,CupertinoPicker>{
+
+class PlatformPicker<T>
+    extends BasePlatformWidget<DropdownButton<T>, PlatformTextField> {
   final List<PlatformPickerModel<T>> data;
   final String hidText;
-  final PlatformPickerModel<T> value;
+  T value;
   String strValue;
   final double childHeight;
-  final Function(T value) onChanged;
+  final Function(T value, Function(T value, String strValue) setValue)
+      onChanged;
+  final BorderSide borderSide;
+  final BorderRadius borderRadius;
   PlatformPicker(
-    this.data,
-    {
-      @required this.onChanged,
-      this.hidText,
-      this.value,
-      this.childHeight = 60
-    }
-  );
+    this.data, {
+    @required this.onChanged,
+    this.hidText,
+    this.value,
+    this.childHeight = 60,
+    this.borderSide,
+    this.borderRadius,
+  });
 
+  void setValue(T value, String strValue) {
+    this.value = value;
+    this.strValue = strValue;
+    controller.text = strValue;
+  }
 
   @override
   DropdownButton<T> createAndroidWidget(BuildContext context) {
     // TODO: implement createAndroidWidget
     List<DropdownMenuItem> _data = [];
-    data.forEach((c) => _data.add(DropdownMenuItem(child: c.child,value: c.value)));
+    data.forEach(
+        (c) => _data.add(DropdownMenuItem(child: c.child, value: c.value)));
     return DropdownButton<T>(
       items: _data,
       hint: this.hidText != null ? Text(this.hidText) : null,
-      onChanged: (value) => onChanged(value),
+      onChanged: (value) => onChanged(value, setValue),
+      value: value,
     );
   }
 
+  var controller = TextEditingController();
+
   @override
-  CupertinoPicker createIosWidget(BuildContext context) {
+  PlatformTextField createIosWidget(BuildContext context) {
     // TODO: implement createIosWidget
     List<Widget> _data = [];
     data.forEach((c) => _data.add(c.child));
-    return CupertinoPicker(
-      children: _data,
-      onSelectedItemChanged:(num) => onChanged(data[num].value),
-      itemExtent:childHeight,
+    controller.text = strValue;
+    return PlatformTextField(
+      borderRadius: borderRadius,
+      borderSide: borderSide,
+      placeholder: this.hidText,
+      controller: controller,
+      onTap: () {
+        CupertinoPicker(
+          children: _data,
+          onSelectedItemChanged: (num) => onChanged(data[num].value,setValue),
+          itemExtent: childHeight,
+        );
+      },
     );
+    // return
   }
-    
 }
