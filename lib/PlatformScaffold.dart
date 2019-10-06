@@ -398,6 +398,11 @@ class PlatformButton extends BasePlatformWidget<FlatButton, CupertinoButton> {
 class PlatformPickerModel<T> {
   Widget child;
   T value;
+
+  PlatformPickerModel({
+    this.child,
+    this.value
+  });
 }
 
 class PlatformPicker<T>
