@@ -448,7 +448,10 @@ class PlatformPicker<Int>
       onTap: () {
         final picker = CupertinoPicker(
           children: _data,
-          onSelectedItemChanged: (num) => onChanged(num as Int),
+          onSelectedItemChanged: (num){
+            onChanged(num as Int);
+            controller.text = data[num];
+          },
           itemExtent: childHeight,
         );
         showCupertinoModalPopup(
