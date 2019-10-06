@@ -405,6 +405,7 @@ class PlatformPicker
   final Function(int value) onChanged;
   final BorderSide borderSide;
   final BorderRadius borderRadius;
+  int tmpValue;
   PlatformPicker(
     this.data, {
     @required this.onChanged,
@@ -438,8 +439,8 @@ class PlatformPicker
     List<Widget> _data = [];
     for(var i = 0;i < data.length;i ++)
       _data.add(DropdownMenuItem(child: Center(child:Text(data[i])), value: i));
-
-    controller.text = data[value];
+    tmpValue = value;
+    controller.text = data[tmpValue];
     return PlatformTextField(
       borderRadius: borderRadius,
       borderSide: borderSide,
@@ -451,8 +452,9 @@ class PlatformPicker
         final picker = CupertinoPicker(
           children: _data,
           onSelectedItemChanged: (num){
-            onChanged(num);
-            controller.text = data[num];
+            tmpValue = num;
+            // onChanged(num);
+            // controller.text = data[num];
           },
           itemExtent: childHeight,
         );
@@ -460,8 +462,27 @@ class PlatformPicker
           context: context,
           builder: (ctx){
             return Container(
-              height: 200,
-              child: picker
+              color: CupertinoTheme.of(context).primaryColor,
+              height: 240,
+              child: Row(children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    PlatformButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text("取消"),
+                    ),
+                    Expanded(flex: 1,child:SizedBox()),
+                    PlatformButton(
+                      onPressed: (){
+                        onChanged(tmpValue);
+                        controller.text = data[tmpValue];
+                      },
+                      child: Text("确定",style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(color:CupertinoTheme.of(context).primaryColor),),
+                    )
+                  ],
+                ),
+                picker
+              ]) 
             );
           }
         );
