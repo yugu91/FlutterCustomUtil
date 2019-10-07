@@ -155,7 +155,7 @@ class PlatformAppBar
     else if (showBackButton)
       leftBt = IconButton(
         icon: Icon(
-          Icons.close,
+          Icons.arrow_back_ios,
           color: backButtonColor != null
               ? backButtonColor
               : Theme.of(context).backgroundColor,
