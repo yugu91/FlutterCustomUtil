@@ -214,6 +214,7 @@ class PlatformTextField
   BoxDecoration iosDecoration;
   final BorderSide borderSide;
   final BorderRadius borderRadius;
+  final TextInputType inputType;
   PlatformTextField({
     this.controller,
     this.suffix,
@@ -225,6 +226,7 @@ class PlatformTextField
     this.iosDecoration,
     this.borderSide,
     this.borderRadius,
+    this.inputType = TextInputType.text
   });
 
   @override
@@ -268,6 +270,7 @@ class PlatformTextField
       decoration: androidDecoration,
       onTap: onTap,
       readOnly: readOnly,
+      keyboardType: inputType,
     );
   }
 
@@ -298,6 +301,7 @@ class PlatformTextField
       onTap: onTap,
       readOnly: readOnly,
       controller: controller,
+      keyboardType: inputType,
     );
   }
 }
