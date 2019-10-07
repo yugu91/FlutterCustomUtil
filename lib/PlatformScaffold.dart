@@ -235,13 +235,14 @@ class PlatformTextField
     else
       androidDecoration = InputDecoration(hintText: placeholder);
     if (suffix != null) if (androidDecoration != null)
-      androidDecoration = androidDecoration.copyWith(suffix: prefix);
+      androidDecoration = androidDecoration.copyWith(suffix: suffix);
     else
-      androidDecoration = InputDecoration(prefixIcon: suffix);
+      androidDecoration = InputDecoration(suffix: suffix);
+
     if (prefix != null) if (androidDecoration != null)
       androidDecoration = androidDecoration.copyWith(prefix: prefix);
     else
-      androidDecoration = InputDecoration(prefix: suffix);
+      androidDecoration = InputDecoration(prefix: prefix);
 
     if (borderSide != null || borderRadius != null) if (androidDecoration !=
         null)
