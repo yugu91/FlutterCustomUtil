@@ -247,16 +247,24 @@ class PlatformTextField
     if (borderSide != null || borderRadius != null) if (androidDecoration !=
         null)
       androidDecoration = androidDecoration.copyWith(
-          border: OutlineInputBorder(
-              borderSide: borderSide, borderRadius: borderRadius));
+        border: OutlineInputBorder(
+            borderSide: borderSide, borderRadius: borderRadius),
+        enabledBorder: OutlineInputBorder(
+            borderSide: borderSide, borderRadius: borderRadius),
+        focusedBorder: OutlineInputBorder(
+            borderSide: borderSide, borderRadius: borderRadius),
+      );
     else
       androidDecoration = InputDecoration(
           border: OutlineInputBorder(
+              borderSide: borderSide, borderRadius: borderRadius),
+          enabledBorder: OutlineInputBorder(
+              borderSide: borderSide, borderRadius: borderRadius),
+          focusedBorder: OutlineInputBorder(
               borderSide: borderSide, borderRadius: borderRadius));
 
     return TextField(
       controller: controller,
-
       decoration: androidDecoration,
       onTap: onTap,
       readOnly: readOnly,
@@ -422,9 +430,9 @@ class PlatformPicker
   DropdownButton<int> createAndroidWidget(BuildContext context) {
     // TODO: implement createAndroidWidget
     List<DropdownMenuItem<int>> _data = [];
-    for(var i = 0;i < data.length;i ++)
+    for (var i = 0; i < data.length; i++)
       _data.add(DropdownMenuItem<int>(child: Text(data[i]), value: i));
-        
+
     return DropdownButton<int>(
       items: _data,
       hint: this.hidText != null ? Text(this.hidText) : null,
@@ -439,8 +447,9 @@ class PlatformPicker
   PlatformTextField createIosWidget(BuildContext context) {
     // TODO: implement createIosWidget
     List<Widget> _data = [];
-    for(var i = 0;i < data.length;i ++)
-      _data.add(DropdownMenuItem(child: Center(child:Text(data[i])), value: i));
+    for (var i = 0; i < data.length; i++)
+      _data
+          .add(DropdownMenuItem(child: Center(child: Text(data[i])), value: i));
     tmpValue = value;
     controller.text = data[tmpValue];
     return PlatformTextField(
@@ -448,12 +457,12 @@ class PlatformPicker
       borderSide: borderSide,
       placeholder: this.hidText,
       controller: controller,
-      readOnly:true,
-      suffix:Icon(CupertinoIcons.down_arrow),
+      readOnly: true,
+      suffix: Icon(CupertinoIcons.down_arrow),
       onTap: () {
         final picker = CupertinoPicker(
           children: _data,
-          onSelectedItemChanged: (num){
+          onSelectedItemChanged: (num) {
             tmpValue = num;
             // onChanged(num);
             // controller.text = data[num];
@@ -461,33 +470,39 @@ class PlatformPicker
           itemExtent: childHeight,
         );
         showCupertinoModalPopup(
-          context: context,
-          builder: (ctx){
-            return Container(
-              color: CupertinoTheme.of(context).primaryColor,
-              height: 240,
-              child: Row(children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    PlatformButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: Text("取消"),
+            context: context,
+            builder: (ctx) {
+              return Container(
+                  color: CupertinoTheme.of(context).primaryColor,
+                  height: 240,
+                  child: Row(children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        PlatformButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text("取消"),
+                        ),
+                        Expanded(flex: 1, child: SizedBox()),
+                        PlatformButton(
+                          onPressed: () {
+                            onChanged(tmpValue);
+                            controller.text = data[tmpValue];
+                          },
+                          child: Text(
+                            "确定",
+                            style: CupertinoTheme.of(context)
+                                .textTheme
+                                .textStyle
+                                .copyWith(
+                                    color: CupertinoTheme.of(context)
+                                        .primaryColor),
+                          ),
+                        )
+                      ],
                     ),
-                    Expanded(flex: 1,child:SizedBox()),
-                    PlatformButton(
-                      onPressed: (){
-                        onChanged(tmpValue);
-                        controller.text = data[tmpValue];
-                      },
-                      child: Text("确定",style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(color:CupertinoTheme.of(context).primaryColor),),
-                    )
-                  ],
-                ),
-                picker
-              ]) 
-            );
-          }
-        );
+                    picker
+                  ]));
+            });
       },
     );
     // return
