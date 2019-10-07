@@ -231,21 +231,21 @@ class PlatformTextField
   TextField createAndroidWidget(BuildContext context) {
     // TODO: implement createAndroidWidget
     if (placeholder != null) if (androidDecoration != null)
-      androidDecoration.copyWith(hintText: placeholder);
+      androidDecoration = androidDecoration.copyWith(hintText: placeholder);
     else
       androidDecoration = InputDecoration(hintText: placeholder);
     if (suffix != null) if (androidDecoration != null)
-      androidDecoration.copyWith(suffix: prefix);
+      androidDecoration = androidDecoration.copyWith(suffix: prefix);
     else
       androidDecoration = InputDecoration(prefixIcon: suffix);
     if (prefix != null) if (androidDecoration != null)
-      androidDecoration.copyWith(prefix: prefix);
+      androidDecoration = androidDecoration.copyWith(prefix: prefix);
     else
       androidDecoration = InputDecoration(prefix: suffix);
 
     if (borderSide != null || borderRadius != null) if (androidDecoration !=
         null)
-      androidDecoration.copyWith(
+      androidDecoration = androidDecoration.copyWith(
           border: OutlineInputBorder(
               borderSide: borderSide, borderRadius: borderRadius));
     else
@@ -255,6 +255,7 @@ class PlatformTextField
 
     return TextField(
       controller: controller,
+
       decoration: androidDecoration,
       onTap: onTap,
       readOnly: readOnly,
