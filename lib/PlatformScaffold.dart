@@ -273,7 +273,7 @@ class PlatformTextField
       onTap: onTap,
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : 1) ,
       readOnly: readOnly,
-      expands: inputType == TextInputType.multiline,
+      expands: inputType == TextInputType.multiline ? true : false,
       keyboardType: inputType,
       obscureText: inputType == TextInputType.visiblePassword ,
     );
@@ -305,6 +305,7 @@ class PlatformTextField
       prefix: prefix,
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : maxLines),
       obscureText: inputType == TextInputType.visiblePassword ,
+      expands: inputType == TextInputType.multiline ? true : false,
       onTap: onTap,
       readOnly: readOnly,
       controller: controller,
