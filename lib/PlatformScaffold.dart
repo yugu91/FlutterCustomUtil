@@ -419,9 +419,9 @@ class PlatformPicker
   @override
   DropdownButton<int> createAndroidWidget(BuildContext context) {
     // TODO: implement createAndroidWidget
-    List<DropdownMenuItem> _data = [];
+    List<DropdownMenuItem<int>> _data = [];
     for(var i = 0;i < data.length;i ++)
-      _data.add(DropdownMenuItem(child: Text(data[i]), value: i));
+      _data.add(DropdownMenuItem<int>(child: Text(data[i]), value: i));
         
     return DropdownButton<int>(
       items: _data,
