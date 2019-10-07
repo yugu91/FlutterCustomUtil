@@ -215,6 +215,7 @@ class PlatformTextField
   final BorderSide borderSide;
   final BorderRadius borderRadius;
   final TextInputType inputType;
+  final int maxLines;
   PlatformTextField({
     this.controller,
     this.suffix,
@@ -226,6 +227,7 @@ class PlatformTextField
     this.iosDecoration,
     this.borderSide,
     this.borderRadius,
+    this.maxLines = 1,
     this.inputType = TextInputType.text
   });
 
@@ -269,8 +271,10 @@ class PlatformTextField
       controller: controller,
       decoration: androidDecoration,
       onTap: onTap,
+      maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : maxLines) ,
       readOnly: readOnly,
       keyboardType: inputType,
+      obscureText: inputType == TextInputType.visiblePassword ,
     );
   }
 
@@ -298,6 +302,8 @@ class PlatformTextField
       decoration: iosDecoration,
       suffix: suffix,
       prefix: prefix,
+      maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : maxLines),
+      obscureText: inputType == TextInputType.visiblePassword ,
       onTap: onTap,
       readOnly: readOnly,
       controller: controller,
