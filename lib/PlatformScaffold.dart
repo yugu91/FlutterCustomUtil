@@ -271,8 +271,9 @@ class PlatformTextField
       controller: controller,
       decoration: androidDecoration,
       onTap: onTap,
-      maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : maxLines) ,
+      maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : 1) ,
       readOnly: readOnly,
+      expands: maxLines != 1 || inputType == TextInputType.multiline,
       keyboardType: inputType,
       obscureText: inputType == TextInputType.visiblePassword ,
     );
