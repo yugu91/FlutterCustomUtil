@@ -388,7 +388,7 @@ class PlatformButton extends BasePlatformWidget<FlatButton, CupertinoButton> {
       this.child,
       this.color,
       this.padding,
-      this.disabledColor,
+      this.disabledColor = Colors.transparent,
       this.minSize,
       this.borderRadius,
       this.textTheme});
