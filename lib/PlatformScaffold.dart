@@ -490,31 +490,37 @@ class PlatformPicker
                   color: CupertinoTheme.of(context).primaryColor,
                   height: 240,
                   child: Row(children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        PlatformButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: Text("取消"),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        PlatformButton(
-                          onPressed: () {
-                            onChanged(tmpValue);
-                            controller.text = data[tmpValue];
-                          },
-                          child: Text(
-                            "确定",
-                            style: CupertinoTheme.of(context)
-                                .textTheme
-                                .textStyle
-                                .copyWith(
-                                    color: CupertinoTheme.of(context)
-                                        .primaryColor),
+                    SizedBox(
+                      height: 40,
+                      child: Column(
+                        children: <Widget>[
+                          PlatformButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text("取消"),
                           ),
-                        )
-                      ],
+                          Expanded(flex: 1, child: SizedBox()),
+                          PlatformButton(
+                            onPressed: () {
+                              onChanged(tmpValue);
+                              controller.text = data[tmpValue];
+                            },
+                            child: Text(
+                              "确定",
+                              style: CupertinoTheme.of(context)
+                                  .textTheme
+                                  .textStyle
+                                  .copyWith(
+                                  color: CupertinoTheme.of(context)
+                                      .primaryColor),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    picker
+                    Expanded(
+                      flex: 1,
+                      child: picker,
+                    ),
                   ]));
             });
       },
