@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 
@@ -60,10 +61,45 @@ class CustomNetwork {
 //      throw e;
     }
     return response.data;
-//    var httpClient = new HttpClient();
-//    var request = await httpClient.getUrl(Uri.parse(url));
-//    var response = await request.close();
-//    final String body = await response.transform(utf8.decoder).join();
-//    return body;
+  }
+
+  /// post 数据 和 上传文件
+  /// [url] 接口地址
+  /// [parame] 需要传递的参数
+  /// [files] 上传的文件 多张图片值可为数组
+  Future<Object> post(String url,{
+    Map<String,Object> parame,
+    Map<String,Object> files
+  }){
+    if(parame == null)
+      parame = Map();
+    files.map((key,value){
+      if(value is List){
+        List<UploadFileInfo> arr = [];
+        List<String> v = value as List<String>;
+        v.forEach((c){
+          arr.add(UploadFileInfo(File(c),key));
+        });
+        parame[key] = arr;
+      }else {
+        parame[key] = UploadFileInfo(File(value), key);
+      }
+      return null;
+    });
+
+    return _postRequest(url, FormData.from(parame)).then<Object>((body){
+      return json.decode(body);
+    });
+  }
+
+  Future<String> _postRequest(String url,FormData data) async{
+    Response response;
+    try {
+      response = await _dio.post(url,data: data);
+    } on DioError catch (e) {
+      throw CustomError(e.message,canReload: true);
+//      throw e;
+    }
+    return response.data;
   }
 }
