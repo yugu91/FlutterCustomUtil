@@ -490,13 +490,14 @@ class PlatformPicker
                   color: CupertinoTheme.of(context).primaryColor,
                   height: 240,
                   child: Column(children: <Widget>[
-                    SizedBox(
+                    Container(
+                      color: CupertinoTheme.of(context).primaryContrastingColor,
                       height: 40,
                       child: Row(
                         children: <Widget>[
                           PlatformButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            child: Text("取消"),
+                            child: Text("取消",style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(color: CupertinoTheme.of(context).textTheme.textStyle.color),),
                           ),
                           Expanded(flex: 1, child: SizedBox()),
                           PlatformButton(
