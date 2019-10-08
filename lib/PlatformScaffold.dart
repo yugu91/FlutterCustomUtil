@@ -493,13 +493,16 @@ class PlatformPicker
                   child: Column(children: <Widget>[
                     Container(
                       color: CupertinoTheme.of(context).primaryContrastingColor,
-                      height: 40,
+                      height: 50,
                       child: Row(
                         children: <Widget>[
                           PlatformButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            padding: EdgeInsets.all(6),
-                            child: Text("取消",style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(color: CupertinoTheme.of(context).textTheme.textStyle.color),),
+                            padding: EdgeInsets.symmetric(vertical: 6,horizontal: 14),
+                            child: Text("取消",style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(
+                                color: CupertinoTheme.of(context).textTheme.textStyle.color,
+                              fontSize: 16
+                            ),),
                           ),
                           Expanded(flex: 1, child: SizedBox()),
                           PlatformButton(
@@ -507,13 +510,14 @@ class PlatformPicker
                               onChanged(tmpValue);
                               controller.text = data[tmpValue];
                             },
-                            padding: EdgeInsets.all(6),
+                            padding: EdgeInsets.symmetric(vertical: 6,horizontal: 14),
                             child: Text(
                               "确定",
                               style: CupertinoTheme.of(context)
                                   .textTheme
                                   .textStyle
                                   .copyWith(
+                                  fontSize: 16,
                                   color: CupertinoTheme.of(context)
                                       .primaryColor),
                             ),
