@@ -476,6 +476,7 @@ class PlatformPicker
       onTap: () {
         final picker = CupertinoPicker(
           children: _data,
+          backgroundColor: CupertinoTheme.of(context).primaryContrastingColor,
           onSelectedItemChanged: (num) {
             tmpValue = num;
             // onChanged(num);
@@ -487,7 +488,7 @@ class PlatformPicker
             context: context,
             builder: (ctx) {
               return Container(
-                  color: CupertinoTheme.of(context).primaryColor,
+                  color: CupertinoTheme.of(context).primaryContrastingColor,
                   height: 240,
                   child: Column(children: <Widget>[
                     Container(
@@ -497,6 +498,7 @@ class PlatformPicker
                         children: <Widget>[
                           PlatformButton(
                             onPressed: () => Navigator.of(context).pop(),
+                            padding: EdgeInsets.all(6),
                             child: Text("取消",style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(color: CupertinoTheme.of(context).textTheme.textStyle.color),),
                           ),
                           Expanded(flex: 1, child: SizedBox()),
@@ -505,6 +507,7 @@ class PlatformPicker
                               onChanged(tmpValue);
                               controller.text = data[tmpValue];
                             },
+                            padding: EdgeInsets.all(6),
                             child: Text(
                               "确定",
                               style: CupertinoTheme.of(context)
