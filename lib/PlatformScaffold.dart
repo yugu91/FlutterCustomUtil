@@ -493,7 +493,7 @@ class PlatformPicker
                   child: Column(children: <Widget>[
                     Container(
                       color: CupertinoTheme.of(context).primaryContrastingColor,
-                      height: 50,
+                      height: 60,
                       child: Row(
                         children: <Widget>[
                           PlatformButton(
@@ -509,6 +509,7 @@ class PlatformPicker
                             onPressed: () {
                               onChanged(tmpValue);
                               controller.text = data[tmpValue];
+                              Navigator.of(context).pop();
                             },
                             padding: EdgeInsets.symmetric(vertical: 6,horizontal: 14),
                             child: Text(
