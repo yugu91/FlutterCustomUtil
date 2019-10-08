@@ -489,10 +489,10 @@ class PlatformPicker
               return Container(
                   color: CupertinoTheme.of(context).primaryColor,
                   height: 240,
-                  child: Row(children: <Widget>[
+                  child: Column(children: <Widget>[
                     SizedBox(
                       height: 40,
-                      child: Column(
+                      child: Row(
                         children: <Widget>[
                           PlatformButton(
                             onPressed: () => Navigator.of(context).pop(),
