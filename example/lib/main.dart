@@ -57,12 +57,12 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Container(
-          child: PlatformPicker(
-            <String>["ddd","fff","gggg"],
-            onChanged: (int value) {},
-//              hidText:"ddd",
-//            value: 0,
-          ),
+          child: PlatformTextField(
+            controller: TextEditingController(text: "sdfdsf"),
+            borderRadius: BorderRadius.circular(6.0),
+            borderSide: BorderSide(
+                color: CupertinoTheme.of(context).barBackgroundColor),
+          )
         ) ,
       ),
       router: {},
