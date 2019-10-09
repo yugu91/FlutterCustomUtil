@@ -237,22 +237,20 @@ class PlatformTextField
   @override
   TextField createAndroidWidget(BuildContext context) {
     // TODO: implement createAndroidWidget
-    if (placeholder != null) if (androidDecoration != null)
+    if(androidDecoration == null)
+      androidDecoration = InputDecoration(
+        contentPadding: EdgeInsets.all(10.0)
+      );
+    if (placeholder != null)
       androidDecoration = androidDecoration.copyWith(hintText: placeholder);
-    else
-      androidDecoration = InputDecoration(hintText: placeholder);
-    if (suffix != null) if (androidDecoration != null)
+    
+    if (suffix != null)
       androidDecoration = androidDecoration.copyWith(suffix: suffix);
-    else
-      androidDecoration = InputDecoration(suffix: suffix);
 
-    if (prefix != null) if (androidDecoration != null)
+    if (prefix != null)
       androidDecoration = androidDecoration.copyWith(prefix: prefix);
-    else
-      androidDecoration = InputDecoration(prefix: prefix);
 
-    if (borderSide != null || borderRadius != null) if (androidDecoration !=
-        null)
+    if (borderSide != null || borderRadius != null) 
       androidDecoration = androidDecoration.copyWith(
         border: OutlineInputBorder(
             borderSide: borderSide, borderRadius: borderRadius),
@@ -261,15 +259,7 @@ class PlatformTextField
         focusedBorder: OutlineInputBorder(
             borderSide: borderSide, borderRadius: borderRadius),
       );
-    else
-      androidDecoration = InputDecoration(
-          border: OutlineInputBorder(
-              borderSide: borderSide, borderRadius: borderRadius),
-          enabledBorder: OutlineInputBorder(
-              borderSide: borderSide, borderRadius: borderRadius),
-          focusedBorder: OutlineInputBorder(
-              borderSide: borderSide, borderRadius: borderRadius));
-
+    
     return TextField(
       controller: controller,
       decoration: androidDecoration,
@@ -278,7 +268,7 @@ class PlatformTextField
       readOnly: readOnly,
       expands: expands,
       keyboardType: inputType,
-      style: CupertinoTheme.of(context).textTheme.textStyle,
+      style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(textBaseline: TextBaseline.alphabetic),
       obscureText: inputType == TextInputType.visiblePassword ,
     );
   }
@@ -307,6 +297,7 @@ class PlatformTextField
       decoration: iosDecoration,
       suffix: suffix,
       prefix: prefix,
+      padding: EdgeInsets.all(10),
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : maxLines),
       obscureText: inputType == TextInputType.visiblePassword ,
       expands: expands,
