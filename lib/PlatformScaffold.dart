@@ -278,6 +278,7 @@ class PlatformTextField
       readOnly: readOnly,
       expands: expands,
       keyboardType: inputType,
+      style: CupertinoTheme.of(context).textTheme.textStyle,
       obscureText: inputType == TextInputType.visiblePassword ,
     );
   }
@@ -310,6 +311,7 @@ class PlatformTextField
       obscureText: inputType == TextInputType.visiblePassword ,
       expands: expands,
       onTap: onTap,
+      style: CupertinoTheme.of(context).textTheme.textStyle,
       readOnly: readOnly,
       controller: controller,
       keyboardType: inputType,
