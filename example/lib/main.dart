@@ -52,23 +52,18 @@ class _MyAppState extends State<MyApp> {
     // });
     return PlatformApp(
       home: PlatformScaffold(
-        // initLoad: true,
+         initLoad: false,
         appBar: PlatformAppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Column(
-          children: <Widget>[
-            Text("ffgfgh"),
-            PlatformPicker(["ddddd", "cccccc", "kkkkkk"],
-                borderRadius: BorderRadius.circular(6.0),
-                borderSide: BorderSide(
-                  color: CupertinoTheme.of(context).barBackgroundColor,
-                ),
-                value: 0, onChanged: (value) {
-              print(value);
-            })
-          ],
-        ),
+        body: Container(
+          child: PlatformPicker(
+            <String>["ddd","fff","gggg"],
+            onChanged: (int value) {},
+//              hidText:"ddd",
+//            value: 0,
+          ),
+        ) ,
       ),
       router: {},
       title: "测试",
