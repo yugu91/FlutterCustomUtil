@@ -22,7 +22,7 @@ class ApplicationStart {
     _instance ??= ApplicationStart._internal();
     return _instance;
   }
-
+  final bool isDebug = !(const bool.fromEnvironment("dart.vm.product"));
   String _remoteUrl;
   void start(
     BuildContext context, {

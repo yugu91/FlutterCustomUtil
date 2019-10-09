@@ -1,4 +1,5 @@
 
+import 'package:custom_util_plugin/ApplicationStart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sentry/sentry.dart';
 class ReportError {
@@ -34,16 +35,21 @@ class ReportError {
     };
   }
 
-  /// 主动上报错误
+  /// 主动上报错误,DEBUG模式不会上报
   /// [error] 错误信息
   /// [stackTrace] 输出信息
+  /// [alwaysReport] DEBUG模式仍然上报
   /// try{ }catch(error,stackTrace){}
   Future<SentryResponse> report(Error error, {
-    dynamic stackTrace
+    dynamic stackTrace,
+    bool alwaysReport = false
   }) async{
-    return await _sentry.captureException(
-      exception: error,
-      stackTrace:stackTrace
-    );
+    if(!alwaysReport && ApplicationStart.instance.isDebug)
+      return Future.value(SentryResponse.success(eventId: "0"));
+    else
+      return await _sentry.captureException(
+        exception: error,
+        stackTrace:stackTrace
+      );
   }
 }
