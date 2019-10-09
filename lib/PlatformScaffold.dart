@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -464,15 +465,24 @@ class PlatformPicker
     for (var i = 0; i < data.length; i++)
       _data
           .add(DropdownMenuItem(child: Center(child: Text(data[i])), value: i));
-    tmpValue = value;
-    controller.text = data[tmpValue];
+    if(value != null) {
+      tmpValue = value;
+      controller.text = data[tmpValue];
+    }
+//    jt.quarterTurns = 180;
     return PlatformTextField(
       borderRadius: borderRadius,
       borderSide: borderSide,
       placeholder: this.hidText,
       controller: controller,
       readOnly: true,
-      suffix: Icon(CupertinoIcons.down_arrow),
+      suffix: RotatedBox(
+        quarterTurns: 135,
+        child: Icon(
+          CupertinoIcons.back,
+          color: CupertinoTheme.of(context).textTheme.textStyle.color,
+        ),
+      ),
       onTap: () {
         final picker = CupertinoPicker(
           children: _data,
