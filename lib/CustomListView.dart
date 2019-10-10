@@ -23,7 +23,7 @@ class CustomListView extends StatefulWidget {
   final IndexedWidgetBuilder itemBuilder;
   final Function(int index,CustomListViewLinsentFlag flag) lisent;
 
-  final SliverAppBar sliderTop;
+  final Widget sliderTop;
 
   Function(List _data) updateData;
   Function(int _pageIndex) updatePageMax;
