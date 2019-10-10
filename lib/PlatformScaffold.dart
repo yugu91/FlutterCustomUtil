@@ -51,43 +51,26 @@ class PlatformApp extends CupertinoApp {
  * 脚手架
  */
 class PlatformScaffold
-    extends BasePlatformFulWidget<Scaffold, CupertinoPageScaffold> {
+    extends BasePlatformWidget<Scaffold, CupertinoPageScaffold> {
   final PlatformAppBar appBar;
   final Widget body;
   final Color backgroundColor;
-  bool initLoad;
-  bool loading = false;
   State nowState;
-  Function showLoading;
-  Function hideLoading;
   PlatformScaffold({
     this.appBar,
     @required this.body,
     this.backgroundColor,
-    this.initLoad = false,
   });
 
   @override
-  _PlatformScaffoldState createState() {
-    nowState = _PlatformScaffoldState();
-    return nowState;
-  }
-}
-
-class _PlatformScaffoldState extends BasePlatformFulWidgetState<Scaffold,
-    CupertinoPageScaffold, PlatformScaffold> {
-  @override
   Scaffold createAndroidWidget(BuildContext context) {
     return Scaffold(
-      appBar: widget.appBar != null
-          ? widget.appBar.createAndroidWidget(context)
+      appBar: appBar != null
+          ? appBar.createAndroidWidget(context)
           : null,
-      body: ModalProgressHUD(
-        child: widget.initLoad ? SizedBox() : widget.body,
-        inAsyncCall: widget.initLoad || widget.loading,
-      ),
-      backgroundColor: widget.backgroundColor != null
-          ? widget.backgroundColor
+      body: body,
+      backgroundColor: backgroundColor != null
+          ? backgroundColor
           : CupertinoTheme.of(context).scaffoldBackgroundColor,
     );
   }
@@ -96,34 +79,12 @@ class _PlatformScaffoldState extends BasePlatformFulWidgetState<Scaffold,
   CupertinoPageScaffold createIosWidget(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar:
-          widget.appBar != null ? widget.appBar.createIosWidget(context) : null,
-      child: ModalProgressHUD(
-        child: widget.initLoad ? SizedBox() : widget.body,
-        inAsyncCall: widget.initLoad || widget.loading,
-      ),
-      backgroundColor: widget.backgroundColor != null
-          ? widget.backgroundColor
+      appBar != null ? appBar.createIosWidget(context) : null,
+      child: body,
+      backgroundColor: backgroundColor != null
+          ? backgroundColor
           : CupertinoTheme.of(context).scaffoldBackgroundColor,
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    widget.showLoading = () {
-      setState(() {
-        widget.loading = true;
-      });
-    };
-    widget.hideLoading = () {
-      setState(() {
-        widget.loading = false;
-        widget.initLoad = false;
-      });
-    };
-    return Platform.isIOS
-        ? createIosWidget(context)
-        : createAndroidWidget(context);
   }
 }
 
