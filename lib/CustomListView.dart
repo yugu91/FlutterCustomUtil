@@ -7,46 +7,46 @@ import 'package:flutter/rendering.dart';
 import 'generated/i18n.dart';
 //import 'package:flutter/material.dart';
 
-enum CustomListViewLinsentFlag {
-  refresh,
-  nextPage,
-  passItem
-}
+enum CustomListViewLinsentFlag { refresh, nextPage, passItem }
 
-class CustomListView extends StatefulWidget {
+class CustomListView<T> extends StatefulWidget {
   List<Object> data;
   int pageMax;
   final bool pullRefresh;
   final Widget header;
   final Widget footer;
+  final Future<T> future;      //future 初始化加载时候等待的FUTURE
+  final Widget futureLoading;  //future 时候loading界面
 //  int pageCount;
   final IndexedWidgetBuilder itemBuilder;
-  final Function(int index,CustomListViewLinsentFlag flag) lisent;
+  final Function(int index, CustomListViewLinsentFlag flag) lisent;
 
   final Widget sliderTop;
 
   Function(List _data) updateData;
   Function(int _pageIndex) updatePageMax;
-  CustomListView({
-    @required this.itemBuilder,
-    @required this.data,
+  CustomListView(
+      {@required this.itemBuilder,
+      @required this.data,
 //    @required this.pageCount,
-    this.pullRefresh = true,
-    this.lisent,
-    this.pageMax = 1,
-    this.footer,
-    this.header,
-    this.sliderTop
-  }) : super();
+      this.pullRefresh = true,
+      this.lisent,
+      this.pageMax = 1,
+      this.footer,
+      this.header,
+      this.sliderTop,
+      this.future,
+      this.futureLoading})
+      : super();
   State nowState;
   @override
   State<StatefulWidget> createState() {
-    nowState = _CustomListViewState();
+    nowState = _CustomListViewState<T>();
     return nowState;
   }
 }
 
-class _CustomListViewState extends State<CustomListView> {
+class _CustomListViewState<T> extends State<CustomListView> {
   final ScrollController _scrollController = ScrollController();
   int pageNum = 1;
 
@@ -103,50 +103,67 @@ class _CustomListViewState extends State<CustomListView> {
     );
   }
 
-  Widget _addView(Widget child){
+  Widget _addView(Widget child) {
     return SliverToBoxAdapter(
       child: child,
     );
   }
 
+  Widget _getSliver() {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          //普通数据显示
+          return CupertinoButton(
+            child: widget.itemBuilder(context, index),
+            padding: EdgeInsets.all(0),
+            onPressed: () {
+              widget.lisent(index, CustomListViewLinsentFlag.passItem);
+            },
+          );
+          //          return Text("fdgfh");
+        },
+        childCount: widget.data.length,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    widget.updateData = (List _data){
+    widget.updateData = (List _data) {
       setState(() {
         widget.data = _data;
       });
     };
-    widget.updatePageMax = (int _pageMax){
+    widget.updatePageMax = (int _pageMax) {
       setState(() {
         widget.pageMax = _pageMax;
       });
     };
 
     var list = <Widget>[];
-    if(widget.sliderTop != null)
-      list.add(widget.sliderTop);
+    if (widget.sliderTop != null) list.add(widget.sliderTop);
     if (widget.pullRefresh && Platform.isIOS)
       list.add(CupertinoSliverRefreshControl(
-        onRefresh: () => widget.lisent(1,CustomListViewLinsentFlag.refresh)
-      ));
-    if(widget.header != null)
-      list.add(_addView(widget.header));
-    list.add(SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-            //普通数据显示
-            return CupertinoButton(
-              child: widget.itemBuilder(context, index),
-              padding: EdgeInsets.all(0),
-              onPressed: (){
-                widget.lisent(index, CustomListViewLinsentFlag.passItem);
-              },
-            );
-            //          return Text("fdgfh");
+          onRefresh: () =>
+              widget.lisent(1, CustomListViewLinsentFlag.refresh)));
+    if (widget.header != null) list.add(_addView(widget.header));
+
+    if (widget.future != null)
+      list.add(FutureBuilder<T>(
+        future: widget.future,
+        builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done)
+            return _getSliver();
+          return widget.futureLoading != null
+              ? widget.futureLoading
+              : Center(
+                  child: CircularProgressIndicator(),
+                );
         },
-        childCount: widget.data.length,
-      ),
-    ));
+      ));
+    else
+      list.add(_getSliver());
 //    if(widget.footer != null)
 //      list.add(widget.footer);
 
@@ -155,21 +172,21 @@ class _CustomListViewState extends State<CustomListView> {
       list.add(_addView(_noData()));
     } else if (widget.pageMax > 1) {
       //没有下一页
-      if(pageNum >= widget.pageMax)
+      if (pageNum >= widget.pageMax)
         list.add(_addView(_loadFinalWidget()));
       else
         list.add(_addView(_loadMoreWidget()));
     }
 
-    if(Platform.isIOS) {
+    if (Platform.isIOS) {
       return CustomScrollView(
         slivers: list,
         controller: _scrollController,
       );
-    }else{
-      if(widget.pullRefresh)
+    } else {
+      if (widget.pullRefresh)
         return RefreshIndicator(
-          onRefresh: ()=> widget.lisent(1,CustomListViewLinsentFlag.refresh),
+          onRefresh: () => widget.lisent(1, CustomListViewLinsentFlag.refresh),
           child: CustomScrollView(
             slivers: list,
             controller: _scrollController,
