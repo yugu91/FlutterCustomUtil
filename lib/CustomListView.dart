@@ -23,6 +23,8 @@ class CustomListView extends StatefulWidget {
   final IndexedWidgetBuilder itemBuilder;
   final Function(int index,CustomListViewLinsentFlag flag) lisent;
 
+  final SliverAppBar sliderTop;
+
   Function(List _data) updateData;
   Function(int _pageIndex) updatePageMax;
   CustomListView({
@@ -33,7 +35,8 @@ class CustomListView extends StatefulWidget {
     this.lisent,
     this.pageMax = 1,
     this.footer,
-    this.header
+    this.header,
+    this.sliderTop
   }) : super();
   State nowState;
   @override
@@ -120,6 +123,8 @@ class _CustomListViewState extends State<CustomListView> {
     };
 
     var list = <Widget>[];
+    if(widget.sliderTop != null)
+      list.add(widget.sliderTop);
     if (widget.pullRefresh && Platform.isIOS)
       list.add(CupertinoSliverRefreshControl(
         onRefresh: () => widget.lisent(1,CustomListViewLinsentFlag.refresh)
