@@ -24,7 +24,7 @@ class CustomLoading extends StatelessWidget{
             return Positioned(
               left: 0,top: 0,bottom: 0,right: 0,
               child: this.loading != null ? this.loading : Container(
-                color: Color.fromRGBO(0, 0, 0, 0.3),
+                color: Color.fromRGBO(0, 0, 0, 0.18),
                 child: Center(
                   child: CircularProgressIndicator(),
                 ),
