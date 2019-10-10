@@ -52,7 +52,6 @@ class _MyAppState extends State<MyApp> {
     // });
     return PlatformApp(
       home: PlatformScaffold(
-         initLoad: false,
         appBar: PlatformAppBar(
           title: const Text('Plugin example app'),
         ),

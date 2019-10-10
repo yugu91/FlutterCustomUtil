@@ -1,10 +1,10 @@
 import 'package:custom_util_plugin/CustomListView.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:flutter/services.dart';
 import 'package:custom_util_plugin/custom_util_plugin.dart';
-
+import 'package:custom_util_plugin/PlatformScaffold.dart';
 void main() => runApp(ListViewTest());
 
 class ListViewTest extends StatefulWidget {
@@ -43,14 +43,28 @@ class _ListViewTestState extends State<ListViewTest> {
 
   var data = ["测试1","测试1","测试1","测试1","测试1","测试1","测试1","测试1","测试1","测试1","测试1"];
 
+
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
+    return PlatformApp(
+      router: {},
+      title: "测试",
+      theme: CupertinoThemeData(),
+      home: PlatformScaffold(
+//        appBar: AppBar(
+//          title: const Text('Plugin example app'),
+//        ),
         body: CustomListView(
+          sliderTop: SliverAppBar(
+              pinned:true,
+              snap: true,
+              floating:true,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text("fgfdgd"),
+              ),//_getGradle(context),
+            expandedHeight: 220,
+          ),
           itemBuilder: (_,index){
             return SizedBox(
               height: 100,
