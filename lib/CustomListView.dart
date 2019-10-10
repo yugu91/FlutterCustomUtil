@@ -15,8 +15,6 @@ class CustomListView<T> extends StatefulWidget {
   final bool pullRefresh;
   final Widget header;
   final Widget footer;
-  final Future<T> future;      //future 初始化加载时候等待的FUTURE
-  final Widget futureLoading;  //future 时候loading界面
 //  int pageCount;
   final IndexedWidgetBuilder itemBuilder;
   final Function(int index, CustomListViewLinsentFlag flag) lisent;
@@ -34,9 +32,7 @@ class CustomListView<T> extends StatefulWidget {
       this.pageMax = 1,
       this.footer,
       this.header,
-      this.sliderTop,
-      this.future,
-      this.futureLoading})
+      this.sliderTop})
       : super();
   State nowState;
   @override
@@ -149,23 +145,9 @@ class _CustomListViewState<T> extends State<CustomListView> {
               widget.lisent(1, CustomListViewLinsentFlag.refresh)));
     if (widget.header != null) list.add(_addView(widget.header));
 
-    if (widget.future != null)
-      list.add(FutureBuilder<T>(
-        future: widget.future,
-        builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done)
-            return _getSliver();
-          return widget.futureLoading != null
-              ? widget.futureLoading
-              : Center(
-                  child: CircularProgressIndicator(),
-                );
-        },
-      ));
-    else
-      list.add(_getSliver());
-//    if(widget.footer != null)
-//      list.add(widget.footer);
+    list.add(_getSliver());
+    if(widget.footer != null)
+      list.add(widget.footer);
 
     if (widget.data.length == 0) {
       //没有数据
