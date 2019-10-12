@@ -7,12 +7,17 @@ import 'package:dio/dio.dart';
 import 'ApplicationStart.dart';
 import 'HandleError.dart';
 
+typedef String CustomNetworkCheckResult(String url,dynamic parame,dynamic result);
+
 class CustomNetwork {
   factory CustomNetwork() => _getInstance();
   static CustomNetwork get instance => _getInstance();
   static CustomNetwork _instance;
   Dio _dio;
   CustomNetwork._internal();
+
+  CustomNetworkCheckResult checkResult;
+
   static CustomNetwork _getInstance(){
     _instance ??= CustomNetwork._internal();
     _instance._dio = Dio(BaseOptions(
@@ -48,6 +53,12 @@ class CustomNetwork {
 //    if(!url.contains("http"))
 //      url = ApplicationStart.instance.getRemoteUrl() + url;
     return _getRequest(url,parame).then<Object>((body){
+      if(checkResult != null) {
+        String check = checkResult(url, parame, body);
+        if (check != null) {
+          throw CustomError(check, title: "抱歉", canReload: true);
+        }
+      }
       return json.decode(body);
     });
   }
@@ -88,6 +99,12 @@ class CustomNetwork {
     });
 
     return _postRequest(url, FormData.from(parame)).then<Object>((body){
+      if(checkResult != null) {
+        String check = checkResult(url, parame, body);
+        if (check != null) {
+          throw CustomError(check, title: "抱歉", canReload: true);
+        }
+      }
       return json.decode(body);
     });
   }
