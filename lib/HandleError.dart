@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'CustomDialog.dart';
 import 'generated/i18n.dart';
-class CustomError implements Exception{
+class CustomError implements Error{
   String msg;
   bool canReload;
   String title;
@@ -17,6 +17,10 @@ class CustomError implements Exception{
   String toString() {
     return msg;
   }
+
+  @override
+  // TODO: implement stackTrace
+  StackTrace get stackTrace => null;
 }
 
 class HandleError {
