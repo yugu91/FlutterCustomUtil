@@ -84,19 +84,20 @@ class CustomNetwork {
   }){
     if(parame == null)
       parame = Map();
-    files.map((key,value){
-      if(value is List){
-        List<UploadFileInfo> arr = [];
-        List<String> v = value as List<String>;
-        v.forEach((c){
-          arr.add(UploadFileInfo(File(c),key));
-        });
-        parame[key] = arr;
-      }else {
-        parame[key] = UploadFileInfo(File(value), key);
-      }
-      return null;
-    });
+    if(files != null && files.length > 0)
+      files.map((key,value){
+        if(value is List){
+          List<UploadFileInfo> arr = [];
+          List<String> v = value as List<String>;
+          v.forEach((c){
+            arr.add(UploadFileInfo(File(c),key));
+          });
+          parame[key] = arr;
+        }else {
+          parame[key] = UploadFileInfo(File(value), key);
+        }
+        return null;
+      });
 
     return _postRequest(url, FormData.from(parame)).then<Object>((body){
       if(checkResult != null) {
