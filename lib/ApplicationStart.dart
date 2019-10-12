@@ -24,13 +24,19 @@ class ApplicationStart {
   }
   final bool isDebug = !(const bool.fromEnvironment("dart.vm.product"));
   String _remoteUrl;
+  String webFileDict = "";
+  String webFileEncodeKey = "";
   void start(
     BuildContext context, {
     @required String remoteUrl,
     String checkUpdateUrl,
     String sentryDSN,
+    String webFileDict,
+    String webFileEncodeKey,
   }) {
     _remoteUrl = remoteUrl;
+    this.webFileDict = webFileDict;
+    this.webFileEncodeKey = webFileEncodeKey;
     if(sentryDSN != null)
       ReportError.instance.InitSentry(sentryDSN);
 
