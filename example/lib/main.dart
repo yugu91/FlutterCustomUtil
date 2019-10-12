@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:custom_util_plugin/ApplicationStart.dart';
 import 'package:custom_util_plugin/PlatformScaffold.dart';
 import 'package:custom_util_plugin/Util.dart';
+import 'package:custom_util_plugin/WebFileHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -11,6 +13,8 @@ import 'package:custom_util_plugin/ReportError.dart';
 void main() {
   runZoned(() {
     runApp(MyApp());
+
+
   }, onError: (Object obj, StackTrace stack) {
     ReportError.instance.report(obj, stackTrace: stack);
   });
@@ -46,6 +50,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    ApplicationStart.instance.start(context, remoteUrl: "https://www.hot008.app/",webFileDict: "appcachefile",webFileEncodeKey: "bXkgcGxhbmkgdGV4dA");
 
     // Future.delayed(Duration(seconds: 5),(){
     //   baseLayout.hideLoading();
@@ -56,11 +61,9 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Container(
-          child: PlatformTextField(
-            controller: TextEditingController(text: "sdfdsf"),
-            borderRadius: BorderRadius.circular(6.0),
-            borderSide: BorderSide(
-                color: CupertinoTheme.of(context).barBackgroundColor),
+          child: PlatformButton(
+            child: Text("drgdg"),
+            onPressed: ()=> WebFileHelper.instance.getWebFile().then((val)=> print(val)).catchError((err)=>print(err)),
           )
         ) ,
       ),
