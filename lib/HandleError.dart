@@ -27,7 +27,14 @@ class CustomError implements Error{
 }
 
 class HandleError {
-  static Future<int> show(BuildContext context,Error error,[bool canReload,String title = null]){
+  static Future<int> show(
+      BuildContext context,
+      Error error,
+      {
+        bool canReload,
+        String title = null
+      }
+  ){
     var bt = <String>[];
     if(canReload == null){
       if((error is CustomError && error.canReload) || error is DioError){
