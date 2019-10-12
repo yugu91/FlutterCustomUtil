@@ -56,7 +56,7 @@ class CustomNetwork {
       if(checkResult != null) {
         String check = checkResult(url, parame, body);
         if (check != null) {
-          throw CustomError(check, title: "抱歉", canReload: true);
+          throw CustomError(check, title: "抱歉", canReload: true,result: body);
         }
       }
       return json.decode(body);
