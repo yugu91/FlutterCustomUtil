@@ -17,6 +17,7 @@
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/custom_util_plugin/package/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/custom_util_plugin/package/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/custom_util_plugin/package/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/Flutter/App.framework/flutter_assets/packages" />
       <excludeFolder url="file://$MODULE_DIR$/package/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/package/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/package/build" />
