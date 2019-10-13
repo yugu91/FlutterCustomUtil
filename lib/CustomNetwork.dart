@@ -124,7 +124,7 @@ class CustomNetwork {
     return response.data;
   }
 
-  Future<String> upload(String url,Map<String,Object>parame,File file,String key){
+  Future<Object> upload(String url,Map<String,Object>parame,File file,String key){
     var p = parame == null ? <String,Object>{} : parame;
     p[key] = UploadFileInfo(file,key);
     return _postRequest(url, FormData.from(p)).then<Object>((body){
