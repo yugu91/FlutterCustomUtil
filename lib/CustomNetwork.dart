@@ -87,7 +87,7 @@ class CustomNetwork {
 
     Future<String> postAct;
     if(files != null && files.length > 0)
-      files.map((key,value){
+      files.forEach((key,value){
         if(value is List){
           List<UploadFileInfo> arr = [];
           List<String> v = value as List<String>;
@@ -98,7 +98,6 @@ class CustomNetwork {
         }else {
           parame[key] = UploadFileInfo(File(value), key);
         }
-        return null;
       });
 
     return _postRequest(url, FormData.from(parame)).then<Object>((body){
