@@ -94,7 +94,7 @@ class CustomNetwork {
     });
   }
 
-  Future<String> _postRequest(String url,FormData data,{
+  Future<String> _postRequest(String url,Object data,{
     bool isFile = false
   }) async{
     Response response;
