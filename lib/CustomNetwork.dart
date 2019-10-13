@@ -124,6 +124,20 @@ class CustomNetwork {
     return response.data;
   }
 
+  Future<String> upload(String url,File file,String key){
+    var p = <String,UploadFileInfo>{};
+    p[key] = UploadFileInfo(file,key);
+    return _postRequest(url, FormData.from(p)).then<Object>((body){
+      if(checkResult != null) {
+        String check = checkResult(url, p, body);
+        if (check != null) {
+          throw CustomError(check, title: "抱歉", canReload: true);
+        }
+      }
+      return json.decode(body);
+    });
+  }
+
   Future<String> download(String url,String savePath) async {
     try {
       await _dio.download(url, savePath);
