@@ -77,30 +77,13 @@ class CustomNetwork {
   /// post 数据 和 上传文件
   /// [url] 接口地址
   /// [parame] 需要传递的参数
-  /// [files] 上传的文件 多张图片值可为数组
   Future<Object> post(String url,{
     Map<String,Object> parame,
-    Map<String,Object> files
   }){
     if(parame == null)
       parame = Map();
 
-    Future<String> postAct;
-    if(files != null && files.length > 0)
-      files.forEach((key,value){
-        if(value is List){
-          List<UploadFileInfo> arr = [];
-          List<String> v = value as List<String>;
-          v.forEach((c){
-            arr.add(UploadFileInfo(File(c),key));
-          });
-          parame[key] = arr;
-        }else {
-          parame[key] = UploadFileInfo(File(value), key);
-        }
-      });
-
-    return _postRequest(url, FormData.from(parame)).then<Object>((body){
+    return _postRequest(url, parame).then<Object>((body){
       if(checkResult != null) {
         String check = checkResult(url, parame, body);
         if (check != null) {
