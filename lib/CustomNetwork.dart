@@ -98,6 +98,7 @@ class CustomNetwork {
         }else {
           parame[key] = UploadFileInfo(File(value), key);
         }
+        return null;
       });
 
     return _postRequest(url, FormData.from(parame)).then<Object>((body){
