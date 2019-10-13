@@ -84,6 +84,8 @@ class CustomNetwork {
   }){
     if(parame == null)
       parame = Map();
+
+    Future<String> postAct;
     if(files != null && files.length > 0)
       files.map((key,value){
         if(value is List){
@@ -96,7 +98,6 @@ class CustomNetwork {
         }else {
           parame[key] = UploadFileInfo(File(value), key);
         }
-        return null;
       });
 
     return _postRequest(url, FormData.from(parame)).then<Object>((body){
@@ -110,7 +111,9 @@ class CustomNetwork {
     });
   }
 
-  Future<String> _postRequest(String url,FormData data) async{
+  Future<String> _postRequest(String url,FormData data,{
+    bool isFile = false
+  }) async{
     Response response;
     try {
       response = await _dio.post(url,data: data);
