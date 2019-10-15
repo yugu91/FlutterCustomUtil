@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+
 class CustomLoading extends StatelessWidget{
   final Widget child;
   final Widget loading;
@@ -30,7 +31,7 @@ class CustomLoading extends StatelessWidget{
                 ),
               ),
             );
-          };
+          }
           if(isViewChild)
             return SizedBox();
           else
