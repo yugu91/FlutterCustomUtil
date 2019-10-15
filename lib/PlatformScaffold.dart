@@ -1,9 +1,7 @@
 import 'dart:io';
-import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import 'BasePlatformWidget.dart';
 import 'generated/i18n.dart';
@@ -422,6 +420,8 @@ class PlatformPicker
     if(value != null) {
       tmpValue = value;
       controller.text = data[tmpValue];
+    }else{
+      tmpValue = 0;
     }
 //    jt.quarterTurns = 180;
     return PlatformTextField(
