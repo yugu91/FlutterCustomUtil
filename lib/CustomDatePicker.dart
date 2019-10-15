@@ -25,6 +25,7 @@ class CustomDatePicker{
   }
 
   void iosDatePicker(BuildContext context){
+    lisent(now == null ? DateTime.now() : now);
     showCupertinoModalPopup(context: context,
         builder: (_){
           return SizedBox(
