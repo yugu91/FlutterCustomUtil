@@ -417,12 +417,10 @@ class PlatformPicker
     for (var i = 0; i < data.length; i++)
       _data
           .add(DropdownMenuItem(child: Center(child: Text(data[i])), value: i));
-    if(value != null) {
-      tmpValue = value;
-      controller.text = data[tmpValue];
-    }else{
-      tmpValue = 0;
-    }
+    if(value == null)
+      value = 0;
+    tmpValue = value;
+//    controller.text = data[tmpValue];
 //    jt.quarterTurns = 180;
     return PlatformTextField(
       borderRadius: borderRadius,
