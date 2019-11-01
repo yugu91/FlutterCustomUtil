@@ -20,7 +20,7 @@ class PlatformApp extends CupertinoApp {
     @required this.home,
     @required this.router,
     this.delegate,
-    this.defaultLocal,
+    this.defaultLocal, //非英语环境需要在xcode加入中文支持选项
     this.local,
   }) : super(
             title: title,
@@ -33,7 +33,6 @@ class PlatformApp extends CupertinoApp {
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                     GlobalCupertinoLocalizations.delegate,
-//              const FallbackCupertinoLocalisationsDelegate()
                   ]
                 : [
                     delegate,
