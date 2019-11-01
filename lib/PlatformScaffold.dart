@@ -13,35 +13,40 @@ class PlatformApp extends CupertinoApp {
   final Map<String, WidgetBuilder> router;
   final LocalizationsDelegate delegate;
   final List<Locale> local;
-
+  final Locale defaultLocal;
   PlatformApp({
     @required this.title,
     @required this.theme,
     @required this.home,
     @required this.router,
     this.delegate,
+    this.defaultLocal,
     this.local,
   }) : super(
             title: title,
             home: home,
+            locale:defaultLocal,
             localizationsDelegates: delegate == null
                 ? [
                     //此处
                     S.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+//              const FallbackCupertinoLocalisationsDelegate()
                   ]
                 : [
                     delegate,
                     S.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
                   ],
             supportedLocales: local != null
                 ? local.contains(S.delegate.supportedLocales)
                 : S.delegate.supportedLocales,
-            localeResolutionCallback:
-                S.delegate.resolution(fallback: const Locale('en', '')),
+//            localeResolutionCallback:
+//                S.delegate.resolution(fallback: defaultLocal),
             routes: router);
 }
 
