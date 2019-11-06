@@ -407,7 +407,7 @@ class PlatformPicker
     this.borderRadius,
     this.textAlign = TextAlign.start,
     this.textStyle,
-    this.hideUnderLine,
+    this.hideUnderLine = false,
     this.widthForAndroid
   });
 
