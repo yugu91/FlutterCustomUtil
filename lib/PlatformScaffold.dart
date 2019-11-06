@@ -412,7 +412,7 @@ class PlatformPicker
     );
   }
 
-  var controller = TextEditingController();
+  var _controller = TextEditingController();
 
   @override
   PlatformTextField createIosWidget(BuildContext context) {
@@ -425,14 +425,14 @@ class PlatformPicker
       if (value == null)
         value = 0;
       tmpValue = value;
+      _controller.text = data[tmpValue];
     }
-//    controller.text = data[tmpValue];
 //    jt.quarterTurns = 180;
     return PlatformTextField(
       borderRadius: borderRadius,
       borderSide: borderSide,
       placeholder: this.hidText,
-      controller: controller,
+      controller: _controller,
       readOnly: true,
       suffix: RotatedBox(
         quarterTurns: 135,
@@ -476,7 +476,7 @@ class PlatformPicker
                           PlatformButton(
                             onPressed: () {
                               onChanged(tmpValue);
-                              controller.text = data[tmpValue];
+                              _controller.text = data[tmpValue];
                               Navigator.of(context).pop();
                             },
                             padding: EdgeInsets.symmetric(vertical: 6,horizontal: 14),
