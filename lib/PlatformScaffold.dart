@@ -181,6 +181,7 @@ class PlatformTextField
   final TextInputType inputType;
   final int maxLines;
   final bool expands;
+  final TextAlign textAlign;
   PlatformTextField({
     this.controller,
     this.suffix,
@@ -194,7 +195,8 @@ class PlatformTextField
     this.borderRadius,
     this.maxLines = 1,
     this.expands = false,
-    this.inputType = TextInputType.text
+    this.inputType = TextInputType.text,
+    this.textAlign = TextAlign.start
   });
 
   @override
@@ -227,6 +229,7 @@ class PlatformTextField
       controller: controller,
       decoration: androidDecoration,
       onTap: onTap,
+      textAlign: textAlign,
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : 1) ,
       readOnly: readOnly,
       expands: expands,
@@ -258,6 +261,7 @@ class PlatformTextField
     return CupertinoTextField(
       placeholder: placeholder,
       decoration: iosDecoration,
+      textAlign: textAlign,
       suffix: suffix,
       prefix: prefix,
       padding: EdgeInsets.all(10),
@@ -386,6 +390,7 @@ class PlatformPicker
   final Function(int value) onChanged;
   final BorderSide borderSide;
   final BorderRadius borderRadius;
+  final TextAlign textAlign;
   int tmpValue;
   PlatformPicker(
     this.data, {
@@ -395,6 +400,7 @@ class PlatformPicker
     this.childHeight = 60,
     this.borderSide,
     this.borderRadius,
+    this.textAlign = TextAlign.start
   });
 
   @override
@@ -433,6 +439,7 @@ class PlatformPicker
       borderSide: borderSide,
       placeholder: this.hidText,
       controller: _controller,
+      textAlign: textAlign,
       readOnly: true,
       suffix: RotatedBox(
         quarterTurns: 135,
