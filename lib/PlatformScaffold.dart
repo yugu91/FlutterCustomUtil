@@ -394,6 +394,8 @@ class PlatformPicker
   final BorderRadius borderRadius;
   final TextAlign textAlign;
   final TextStyle textStyle;
+  final bool hideUnderLine;
+  final double widthForAndroid;
   int tmpValue;
   PlatformPicker(
     this.data, {
@@ -404,7 +406,9 @@ class PlatformPicker
     this.borderSide,
     this.borderRadius,
     this.textAlign = TextAlign.start,
-    this.textStyle
+    this.textStyle,
+    this.hideUnderLine,
+    this.widthForAndroid
   });
 
   @override
@@ -412,11 +416,16 @@ class PlatformPicker
     // TODO: implement createAndroidWidget
     List<DropdownMenuItem<int>> _data = [];
     for (var i = 0; i < data.length; i++)
-      _data.add(DropdownMenuItem<int>(child: Center(child: Text(data[i]),) , value: i));
+      _data.add(DropdownMenuItem<int>(child:
+        widthForAndroid != null && widthForAndroid > 0 ?
+          SizedBox(width: widthForAndroid,child: Center(child: Text(data[i])))
+          : Center(child: Text(data[i])),
+          value: i));
 
     return DropdownButton<int>(
       items: _data,
       style: textStyle,
+      underline: hideUnderLine ? SizedBox(height: 0,) : null,
       hint: this.hidText != null ? Center(child: Text(this.hidText),)  : null,
       onChanged: (value) => onChanged(value),
       value: this.value,
