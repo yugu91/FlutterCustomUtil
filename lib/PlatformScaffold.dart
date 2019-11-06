@@ -451,6 +451,9 @@ class PlatformPicker
       onTap: () {
         final picker = CupertinoPicker(
           children: _data,
+          scrollController:FixedExtentScrollController(
+            initialItem: value
+          ),
           backgroundColor: CupertinoTheme.of(context).primaryContrastingColor,
           onSelectedItemChanged: (num) {
             tmpValue = num;
