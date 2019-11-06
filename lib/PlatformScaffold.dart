@@ -182,6 +182,7 @@ class PlatformTextField
   final int maxLines;
   final bool expands;
   final TextAlign textAlign;
+  final TextStyle textStyle;
   PlatformTextField({
     this.controller,
     this.suffix,
@@ -196,7 +197,8 @@ class PlatformTextField
     this.maxLines = 1,
     this.expands = false,
     this.inputType = TextInputType.text,
-    this.textAlign = TextAlign.start
+    this.textAlign = TextAlign.start,
+    this.textStyle
   });
 
   @override
@@ -234,7 +236,7 @@ class PlatformTextField
       readOnly: readOnly,
       expands: expands,
       keyboardType: inputType,
-      style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(textBaseline: TextBaseline.alphabetic),
+      style: textStyle != null ? textStyle : CupertinoTheme.of(context).textTheme.textStyle.copyWith(textBaseline: TextBaseline.alphabetic),
       obscureText: inputType == TextInputType.visiblePassword ,
     );
   }
@@ -269,7 +271,7 @@ class PlatformTextField
       obscureText: inputType == TextInputType.visiblePassword ,
       expands: expands,
       onTap: onTap,
-      style: CupertinoTheme.of(context).textTheme.textStyle,
+      style: textStyle != null ? textStyle : CupertinoTheme.of(context).textTheme.textStyle,
       readOnly: readOnly,
       controller: controller,
       keyboardType: inputType,
@@ -391,6 +393,7 @@ class PlatformPicker
   final BorderSide borderSide;
   final BorderRadius borderRadius;
   final TextAlign textAlign;
+  final TextStyle textStyle;
   int tmpValue;
   PlatformPicker(
     this.data, {
@@ -400,7 +403,8 @@ class PlatformPicker
     this.childHeight = 60,
     this.borderSide,
     this.borderRadius,
-    this.textAlign = TextAlign.start
+    this.textAlign = TextAlign.start,
+    this.textStyle
   });
 
   @override
@@ -412,6 +416,7 @@ class PlatformPicker
 
     return DropdownButton<int>(
       items: _data,
+      style: textStyle,
       hint: this.hidText != null ? Center(child: Text(this.hidText),)  : null,
       onChanged: (value) => onChanged(value),
       value: this.value,
@@ -441,6 +446,7 @@ class PlatformPicker
       controller: _controller,
       textAlign: textAlign,
       readOnly: true,
+      textStyle: textStyle,
       suffix: RotatedBox(
         quarterTurns: 135,
         child: Icon(
