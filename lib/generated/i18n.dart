@@ -27,6 +27,7 @@ class S implements WidgetsLocalizations {
   String get errorTryAgain => "Try again";
   String get listLoadMore => "Load more...";
   String get listNoMore => "No more";
+  String get sorry => "sorry";
 }
 
 class $en extends S {
@@ -47,6 +48,8 @@ class $zh extends S {
   String get dialogDismiss => "关闭";
   @override
   String get errorTryAgain => "重试";
+  @override
+  String get sorry => "抱歉";
   @override
   String get listNoMore => "已没有更多数据";
   @override

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:custom_util_plugin/ReportError.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sentry/sentry.dart';
 
 import 'CustomDialog.dart';
 import 'CustomNetwork.dart';
@@ -15,6 +14,7 @@ class ApplicationStart {
   factory ApplicationStart() => _getInstance();
   static ApplicationStart get instance => _getInstance();
   static ApplicationStart _instance;
+
   
   Map<String,dynamic> packageInfo;
   ApplicationStart._internal();
@@ -26,6 +26,7 @@ class ApplicationStart {
   String _remoteUrl;
   String webFileDict = "";
   String webFileEncodeKey = "";
+  BuildContext _context;
   void start(
     BuildContext context, {
     @required String remoteUrl,
@@ -35,6 +36,7 @@ class ApplicationStart {
     String webFileEncodeKey,
   }) {
     _remoteUrl = remoteUrl;
+    this._context = context;
     this.webFileDict = webFileDict;
     this.webFileEncodeKey = webFileEncodeKey;
     if(sentryDSN != null)
@@ -81,6 +83,8 @@ class ApplicationStart {
   }
 
   String getRemoteUrl() => _remoteUrl;
+
+  BuildContext getContext() => _context;
 }
 
 //checkUpdateJsonTemplate

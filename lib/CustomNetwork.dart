@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 
 import 'ApplicationStart.dart';
 import 'HandleError.dart';
+import 'generated/i18n.dart';
 
 typedef String CustomNetworkCheckResult(String url,dynamic parame,dynamic result);
 
@@ -56,7 +57,7 @@ class CustomNetwork {
       if(checkResult != null) {
         String check = checkResult(url, parame, body);
         if (check != null) {
-          throw CustomError(check, title: "抱歉", canReload: true,result: body);
+          throw CustomError(check, title: S.of(ApplicationStart.instance.getContext()).sorry, canReload: true,result: body);
         }
       }
       return json.decode(body);
@@ -87,7 +88,7 @@ class CustomNetwork {
       if(checkResult != null) {
         String check = checkResult(url, parame, body);
         if (check != null) {
-          throw CustomError(check, title: "抱歉", canReload: true);
+          throw CustomError(check, title: S.of(ApplicationStart.instance.getContext()).sorry, canReload: true);
         }
       }
       return json.decode(body);
@@ -114,7 +115,7 @@ class CustomNetwork {
       if(checkResult != null) {
         String check = checkResult(url, p, body);
         if (check != null) {
-          throw CustomError(check, title: "抱歉", canReload: true);
+          throw CustomError(check, title: S.of(ApplicationStart.instance.getContext()).sorry, canReload: true);
         }
       }
       return json.decode(body);
