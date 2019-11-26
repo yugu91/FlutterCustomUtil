@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:custom_util_plugin/ApplicationStart.dart';
+import 'package:custom_util_plugin/CustomDialog.dart';
 import 'package:custom_util_plugin/PlatformScaffold.dart';
 import 'package:custom_util_plugin/Util.dart';
 import 'package:custom_util_plugin/WebFileHelper.dart';
+import 'package:custom_util_plugin/generated/i18n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -56,20 +58,42 @@ class _MyAppState extends State<MyApp> {
     //   baseLayout.hideLoading();
     // });
     return PlatformApp(
-      home: PlatformScaffold(
-        appBar: PlatformAppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Container(
-          child: PlatformButton(
-            child: Text("drgdg"),
-            onPressed: ()=> WebFileHelper.instance.getWebFile().then((val)=> print(val)).catchError((err)=>print(err)),
-          )
-        ) ,
-      ),
+      home: _main(),
       router: {},
       title: "测试",
+//      nowLocale: Locale("zh",""),
+//      defaultLocal: Locale("en",""),
       theme: CupertinoThemeData(),
     );
   }
+}
+
+class _main extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _State();
+
+}
+
+class _State extends State<_main>{
+  Widget getMain(){
+    return Container(
+        child: PlatformButton(
+            child: Text("drgdg"),
+            onPressed: () {
+              CustomDialog.of(context, msg: "Sdfsf").show();
+            }
+        )
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return PlatformScaffold(
+        appBar: PlatformAppBar(
+          title: const Text('Plugin example app'),
+        ),
+        body: getMain());
+  }
+
 }

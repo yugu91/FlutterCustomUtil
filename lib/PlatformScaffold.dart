@@ -12,8 +12,12 @@ class PlatformApp extends CupertinoApp {
   final Widget home;
   final Map<String, WidgetBuilder> router;
   final LocalizationsDelegate delegate;
+  /// 默认[英语,中文] 再默认上新增
   final List<Locale> local;
+  /// 默认语言，null则为 support 第一个
   final Locale defaultLocal;
+  /// 当前语言
+  final Locale nowLocale;
   PlatformApp({
     @required this.title,
     @required this.theme,
@@ -21,6 +25,7 @@ class PlatformApp extends CupertinoApp {
     @required this.router,
     this.delegate,
     this.defaultLocal, //非英语环境需要在xcode加入中文支持选项
+    this.nowLocale,
     this.local,
   }) : super(
             title: title,
@@ -44,8 +49,22 @@ class PlatformApp extends CupertinoApp {
             supportedLocales: local != null
                 ? local.contains(S.delegate.supportedLocales)
                 : S.delegate.supportedLocales,
-//            localeResolutionCallback:
-//                S.delegate.resolution(fallback: defaultLocal),
+            localeResolutionCallback: (local,support) {
+              Locale myLocale;
+              if (nowLocale == null) {
+                myLocale = local;
+              } else {
+                myLocale = nowLocale;
+              }
+
+              return S.delegate.resolution(
+                  fallback: defaultLocal,
+                  withCountry: myLocale.countryCode != null && myLocale.countryCode != ""
+              )(
+                  myLocale,
+                  S.delegate.supportedLocales
+              );
+            },
             routes: router);
 }
 
