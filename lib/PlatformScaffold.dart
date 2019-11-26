@@ -59,16 +59,15 @@ class PlatformApp extends CupertinoApp {
               } else {
                 myLocale = nowLocale;
               }
-              callBackLocal(
-                  S.delegate.isSupported(myLocale) ? myLocale : (defaultLocal ?? S.delegate.supportedLocales.first),
-              );
-              return S.delegate.resolution(
+              Locale l = S.delegate.resolution(
                   fallback: defaultLocal,
-                  withCountry: myLocale.countryCode != null && myLocale.countryCode != ""
+                  withCountry: false//myLocale.countryCode != null && myLocale.countryCode != ""
               )(
                   myLocale,
                   S.delegate.supportedLocales
               );
+              callBackLocal(l);
+              return l;
             },
             routes: router);
 }
