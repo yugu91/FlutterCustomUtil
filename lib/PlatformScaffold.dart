@@ -19,7 +19,7 @@ class PlatformApp extends CupertinoApp {
   /// 当前语言
   final Locale nowLocale;
   /// 返回当前LOCALE
-  final Function(Locale) callBackLocal;
+  final Function(Locale local,bool hasChange) callBackLocal;
   PlatformApp({
     @required this.title,
     @required this.theme,
@@ -59,7 +59,10 @@ class PlatformApp extends CupertinoApp {
               } else {
                 myLocale = nowLocale;
               }
-              callBackLocal(S.delegate.isSupported(myLocale) ? myLocale : (defaultLocal ?? S.delegate.supportedLocales.first));
+              callBackLocal(
+                  S.delegate.isSupported(myLocale) ? myLocale : (defaultLocal ?? S.delegate.supportedLocales.first),
+                  nowLocale != null && S.delegate.isSupported(myLocale)
+              );
               return S.delegate.resolution(
                   fallback: defaultLocal,
                   withCountry: myLocale.countryCode != null && myLocale.countryCode != ""
