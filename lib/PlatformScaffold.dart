@@ -66,7 +66,8 @@ class PlatformApp extends CupertinoApp {
                   myLocale,
                   S.delegate.supportedLocales
               );
-              callBackLocal(l);
+              if(callBackLocal != null)
+                callBackLocal(l);
               return l;
             },
             routes: router);
