@@ -30,6 +30,28 @@ class S implements WidgetsLocalizations {
   String get sorry => "sorry";
 }
 
+class $km extends S {
+  const $km();
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+
+  @override
+  String get cancel => "Cancel";
+  @override
+  String get listLoadMore => "Load more...";
+  @override
+  String get dialogDismiss => "Dismiss";
+  @override
+  String get errorTryAgain => "Try again";
+  @override
+  String get sorry => "sorry";
+  @override
+  String get listNoMore => "No more";
+  @override
+  String get errorTitle => "Error";
+}
+
 class $en extends S {
   const $en();
 }
@@ -61,6 +83,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
+      Locale("km", ""),
       Locale("en", ""),
       Locale("zh", ""),
     ];
@@ -87,6 +110,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     final String lang = getLang(locale);
     if (lang != null) {
       switch (lang) {
+        case "km":
+          S.current = const $km();
+          return SynchronousFuture<S>(S.current);
         case "en":
           S.current = const $en();
           return SynchronousFuture<S>(S.current);
