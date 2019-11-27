@@ -123,6 +123,7 @@ class PlatformAppBar
   final Widget trailing;
   final bool showBackButton;
   final Color backButtonColor;
+  final bool showCloseButton;
   final Function() backTap;
   PlatformAppBar(
       {this.title,
@@ -130,6 +131,7 @@ class PlatformAppBar
       this.backgroundColor,
       this.trailing,
       this.showBackButton = false,
+      this.showCloseButton = false,
       this.backButtonColor,
       this.backTap});
 
@@ -138,10 +140,10 @@ class PlatformAppBar
     var leftBt;
     if (leading != null)
       leftBt = leading;
-    else if (showBackButton)
+    else if (showBackButton || showCloseButton)
       leftBt = IconButton(
         icon: Icon(
-          Icons.arrow_back_ios,
+          showCloseButton ? Icons.clear : Icons.arrow_back_ios,
           color: backButtonColor != null
               ? backButtonColor
               : Theme.of(context).backgroundColor,
