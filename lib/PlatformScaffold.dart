@@ -143,7 +143,7 @@ class PlatformAppBar
     else if (showBackButton || showCloseButton)
       leftBt = IconButton(
         icon: Icon(
-          showCloseButton ? Icons.clear : Icons.arrow_back_ios,
+          showCloseButton ? PlatformIcon.getIcon(PlatformIconEnum.close) : Icons.arrow_back_ios,
           color: backButtonColor != null
               ? backButtonColor
               : Theme.of(context).backgroundColor,
