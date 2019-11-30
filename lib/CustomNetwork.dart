@@ -80,6 +80,7 @@ class CustomNetwork {
   /// [parame] 需要传递的参数
   Future<Object> post(String url,{
     Map<String,Object> parame,
+
   }){
     if(parame == null)
       parame = Map();
@@ -96,11 +97,15 @@ class CustomNetwork {
   }
 
   Future<String> _postRequest(String url,Object data,{
-    bool isFile = false
+    bool isFile = false,
+    bool isFormUrlencoded = true,
   }) async{
     Response response;
+    var option = Options();
+    if(isFormUrlencoded)
+      option.contentType = ContentType.parse("application/x-www-form-urlencoded");
     try {
-      response = await _dio.post(url,data: data);
+      response = await _dio.post(url,data: data,options: option);
     } on DioError catch (e) {
       throw CustomError(e.message,canReload: true);
 //      throw e;
