@@ -85,7 +85,7 @@ class CustomNetwork {
     if(parame == null)
       parame = Map();
 
-    return _postRequest(url, parame).then<Object>((body){
+    return _postRequest(url, parame,isFormUrlencoded: isFormUrlencoded).then<Object>((body){
       if(checkResult != null) {
         String check = checkResult(url, parame, body);
         var localStr = S.of(ApplicationStart.instance.getContext());
