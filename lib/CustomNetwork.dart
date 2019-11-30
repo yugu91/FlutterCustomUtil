@@ -88,8 +88,9 @@ class CustomNetwork {
     return _postRequest(url, parame).then<Object>((body){
       if(checkResult != null) {
         String check = checkResult(url, parame, body);
+        var localStr = S.of(ApplicationStart.instance.getContext());
         if (check != null) {
-          throw CustomError(check, title: S.of(ApplicationStart.instance.getContext()).sorry, canReload: true);
+          throw CustomError(check, title: localStr == null ? "sorry" : localStr.sorry, canReload: true);
         }
       }
       return json.decode(body);
