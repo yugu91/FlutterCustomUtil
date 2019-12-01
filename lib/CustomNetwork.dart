@@ -57,7 +57,8 @@ class CustomNetwork {
       if(checkResult != null) {
         String check = checkResult(url, parame, body);
         if (check != null) {
-          throw CustomError(check, title: S.of(ApplicationStart.instance.getContext()).sorry, canReload: true,result: body);
+          var l = S.of(ApplicationStart.instance.getContext());
+          throw CustomError(check, title: l != null ? l.sorry : "抱歉", canReload: true,result: body);
         }
       }
       return json.decode(body);
@@ -90,7 +91,7 @@ class CustomNetwork {
         String check = checkResult(url, parame, body);
         var localStr = S.of(ApplicationStart.instance.getContext());
         if (check != null) {
-          throw CustomError(check, title: localStr == null ? "sorry" : localStr.sorry, canReload: true);
+          throw CustomError(check, title: localStr == null ? "抱歉" : localStr.sorry, canReload: true);
         }
       }
       return json.decode(body);
@@ -121,7 +122,8 @@ class CustomNetwork {
       if(checkResult != null) {
         String check = checkResult(url, p, body);
         if (check != null) {
-          throw CustomError(check, title: S.of(ApplicationStart.instance.getContext()).sorry, canReload: true);
+          var k = S.of(ApplicationStart.instance.getContext());
+          throw CustomError(check, title: k != null ? k.sorry : "抱歉", canReload: true);
         }
       }
       return json.decode(body);
