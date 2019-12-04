@@ -33,6 +33,7 @@ class PlatformApp extends CupertinoApp {
   }) : super(
             title: title,
             home: home,
+
             locale:defaultLocal,
             localizationsDelegates: delegate == null
                 ? [
@@ -363,7 +364,7 @@ class PlatformIcon {
 /**
  * Button
  */
-class PlatformButton extends BasePlatformWidget<FlatButton, CupertinoButton> {
+class PlatformButton extends BasePlatformWidget<Widget, CupertinoButton> {
   final VoidCallback onPressed;
   final Widget child;
   final Color color;
@@ -383,16 +384,31 @@ class PlatformButton extends BasePlatformWidget<FlatButton, CupertinoButton> {
       this.textTheme});
 
   @override
-  FlatButton createAndroidWidget(BuildContext context) {
-    var bt = FlatButton(
-      onPressed: onPressed,
-      child: child,
-      color: color,
-      disabledColor: disabledColor,
-      padding: padding,
-      textTheme: textTheme,
+  Widget createAndroidWidget(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        padding:padding,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: borderRadius
+        ),
+        child: child,
+      ),
     );
-    return bt;
+//    var bt = ButtonTheme(
+//      minWidth: 0,
+//      height: 2,
+//      child:Button(
+//        onPressed: onPressed,
+//        child: child,
+//        color: color,
+//        disabledColor: disabledColor,
+//        padding: padding == null ? EdgeInsets.all(0) : padding,
+//        textTheme: textTheme,
+//      ) ,
+//    ) ;
+//    return bt;
   }
 
   @override
