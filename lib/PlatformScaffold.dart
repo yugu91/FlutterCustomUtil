@@ -392,10 +392,7 @@ class PlatformButton extends BasePlatformWidget<Widget, CupertinoButton> {
 
   @override
   Widget createAndroidWidget(BuildContext context) {
-    const EdgeInsets _kBackgroundButtonPadding = EdgeInsets.symmetric(
-      vertical: 14.0,
-      horizontal: 64.0,
-    );
+    const EdgeInsets _kBackgroundButtonPadding = EdgeInsets.all(16);
     final CupertinoThemeData themeData = CupertinoTheme.of(context);
     final Color primaryColor = themeData.primaryColor;
     final Color backgroundColor = color == null
