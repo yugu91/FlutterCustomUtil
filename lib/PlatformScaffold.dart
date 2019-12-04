@@ -236,12 +236,9 @@ class PlatformTextField
         contentPadding: EdgeInsets.all(10.0)
       );
     if (placeholder != null) {
-      var def = Theme.of(context).inputDecorationTheme.hintStyle;
-      if(placeHolderStyle != null)
-        def = def.merge(placeHolderStyle);
       androidDecoration = androidDecoration.copyWith(
         hintText: placeholder,
-        hintStyle: def
+        hintStyle: placeHolderStyle
       );
     }
     
