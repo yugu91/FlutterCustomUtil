@@ -257,6 +257,11 @@ class PlatformTextField
         focusedBorder: OutlineInputBorder(
             borderSide: borderSide, borderRadius: borderRadius),
       );
+    else if(borderSide == null){
+      androidDecoration = androidDecoration.copyWith(
+        border: InputBorder.none
+      );
+    }
     
     return TextField(
       controller: controller,
