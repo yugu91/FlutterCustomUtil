@@ -392,7 +392,7 @@ class PlatformButton extends BasePlatformWidget<Widget, CupertinoButton> {
     final CupertinoThemeData themeData = CupertinoTheme.of(context);
     final Color primaryColor = themeData.primaryColor;
     final Color backgroundColor = color == null
-        ? primaryColor
+        ? Colors.transparent
         : CupertinoDynamicColor.resolve(color, context);
 
     final TextStyle textStyle = themeData.textTheme.textStyle.copyWith(color: themeData.primaryContrastingColor);
@@ -402,7 +402,7 @@ class PlatformButton extends BasePlatformWidget<Widget, CupertinoButton> {
         padding:padding == null ? _kBackgroundButtonPadding : padding,
         decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: borderRadius
+          borderRadius: borderRadius,
         ),
         child: Center(
             widthFactor: 1.0,
