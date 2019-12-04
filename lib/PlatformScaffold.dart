@@ -199,6 +199,7 @@ class PlatformTextField
   final bool readOnly;
   final Function() onTap;
   final String placeholder;
+  final TextStyle placeHolderStyle;
   InputDecoration androidDecoration;
   BoxDecoration iosDecoration;
   final BorderSide borderSide;
@@ -215,6 +216,7 @@ class PlatformTextField
     this.readOnly = false,
     this.onTap,
     this.placeholder,
+    this.placeHolderStyle,
     this.androidDecoration,
     this.iosDecoration,
     this.borderSide,
@@ -233,8 +235,15 @@ class PlatformTextField
       androidDecoration = InputDecoration(
         contentPadding: EdgeInsets.all(10.0)
       );
-    if (placeholder != null)
-      androidDecoration = androidDecoration.copyWith(hintText: placeholder);
+    if (placeholder != null) {
+      var def = Theme.of(context).inputDecorationTheme.hintStyle;
+      if(placeHolderStyle != null)
+        def = def.merge(placeHolderStyle);
+      androidDecoration = androidDecoration.copyWith(
+        hintText: placeholder,
+        hintStyle: def
+      );
+    }
     
     if (suffix != null)
       androidDecoration = androidDecoration.copyWith(suffix: suffix);
@@ -288,6 +297,7 @@ class PlatformTextField
           borderRadius: borderRadius);
     return CupertinoTextField(
       placeholder: placeholder,
+      placeholderStyle: placeHolderStyle,
       decoration: iosDecoration,
       textAlign: textAlign,
       suffix: suffix,
