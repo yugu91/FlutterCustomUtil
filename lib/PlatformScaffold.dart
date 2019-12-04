@@ -380,20 +380,38 @@ class PlatformButton extends BasePlatformWidget<Widget, CupertinoButton> {
       this.padding,
       this.disabledColor = Colors.transparent,
       this.minSize,
-      this.borderRadius,
+      this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
       this.textTheme});
 
   @override
   Widget createAndroidWidget(BuildContext context) {
+    const EdgeInsets _kBackgroundButtonPadding = EdgeInsets.symmetric(
+      vertical: 14.0,
+      horizontal: 64.0,
+    );
+    final CupertinoThemeData themeData = CupertinoTheme.of(context);
+    final Color primaryColor = themeData.primaryColor;
+    final Color backgroundColor = color == null
+        ? primaryColor
+        : CupertinoDynamicColor.resolve(color, context);
+
+    final TextStyle textStyle = themeData.textTheme.textStyle.copyWith(color: themeData.primaryContrastingColor);
     return InkWell(
       onTap: onPressed,
       child: Container(
-        padding:padding,
+        padding:padding == null ? _kBackgroundButtonPadding : padding,
         decoration: BoxDecoration(
-          color: color,
+          color: backgroundColor,
           borderRadius: borderRadius
         ),
-        child: child,
+        child: Center(
+            widthFactor: 1.0,
+            heightFactor: 1.0,
+          child: DefaultTextStyle(
+            style: textStyle,
+            child: child,
+          )
+        ),
       ),
     );
 //    var bt = ButtonTheme(
