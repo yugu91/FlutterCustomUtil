@@ -89,6 +89,7 @@ class _State extends State<_main>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     return PlatformScaffold(
         appBar: PlatformAppBar(
           title: const Text('Plugin example app'),
