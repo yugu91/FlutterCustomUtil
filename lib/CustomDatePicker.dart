@@ -37,7 +37,7 @@ class CustomDatePicker{
               mode: CupertinoDatePickerMode.date,
               minimumDate: minDate,
               maximumYear: maxDate != null ? maxDate.year : null,
-              minimumYear: minDate != null ? minDate.year : null,
+              minimumYear: minDate != null ? minDate.year : 2010,
             ),
             height: 300,
           );
