@@ -48,7 +48,7 @@ class CustomDatePicker{
     showDatePicker(
         context: context,
         initialDate: now == null ? DateTime.now() : now ,
-        firstDate: minDate,
+        firstDate: minDate != null ? minDate : DateTime.now().add(Duration(days: -1500)),
         lastDate: maxDate
     ).then((val){
       lisent(val);
