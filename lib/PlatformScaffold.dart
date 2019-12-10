@@ -291,7 +291,7 @@ class PlatformTextField
       textAlign: textAlign,
       suffix: suffix,
       prefix: prefix,
-      onChanged: (s) => onTap != null ? onTap() : print(s),
+      onChanged: (s) => onTap != null ? onTap() : nullTap(),
       padding: EdgeInsets.all(10),
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : maxLines),
       obscureText: inputType == TextInputType.visiblePassword ,
@@ -302,6 +302,9 @@ class PlatformTextField
       controller: controller,
       keyboardType: inputType,
     );
+  }
+  void nullTap(){
+
   }
 }
 
