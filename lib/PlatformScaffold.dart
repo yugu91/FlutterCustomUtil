@@ -259,7 +259,7 @@ class PlatformTextField
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : 1) ,
       readOnly: readOnly,
       expands: expands,
-      onChanged: (s) => onTap != null ? onTap() : print(s),
+      onChanged: (s) => onTap != null ? onTap() : nullTap(),
       keyboardType: inputType,
       style: textStyle != null ? textStyle : CupertinoTheme.of(context).textTheme.textStyle.copyWith(textBaseline: TextBaseline.alphabetic),
       obscureText: inputType == TextInputType.visiblePassword ,
