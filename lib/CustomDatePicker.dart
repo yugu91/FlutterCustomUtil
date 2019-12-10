@@ -36,8 +36,8 @@ class CustomDatePicker{
               initialDateTime: now == null ? DateTime.now() : now,
               mode: CupertinoDatePickerMode.date,
               minimumDate: minDate,
-              maximumYear: maxDate.year,
-              minimumYear: minDate.year,
+              maximumYear: maxDate != null ? maxDate.year : null,
+              minimumYear: minDate != null ? minDate.year : null,
             ),
             height: 300,
           );
