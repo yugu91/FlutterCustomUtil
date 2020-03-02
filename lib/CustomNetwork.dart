@@ -63,11 +63,15 @@ class CustomNetwork {
           throw CustomError(check, title: l != null ? l.sorry : "抱歉", canReload: true,result: body);
         }
       }
-      return json.decode(body);
+      if(body is String) {
+        return json.decode(body);
+      }else{
+        return body;
+      }
     });
   }
 
-  Future<String> _getRequest(String url,Map<String,Object> parame,{
+  Future<Object> _getRequest(String url,Map<String,Object> parame,{
     Map<String,Object> headers,
   }) async {
     Response response;
@@ -104,11 +108,15 @@ class CustomNetwork {
           throw CustomError(check, title: localStr == null ? "抱歉" : localStr.sorry, canReload: true);
         }
       }
-      return json.decode(body);
+      if(body is String) {
+        return json.decode(body);
+      }else{
+        return body;
+      }
     });
   }
 
-  Future<String> _postRequest(String url,Object data,{
+  Future<Object> _postRequest(String url,Object data,{
     bool isFile = false,
     bool isFormUrlencoded = false,
     Map<String,Object> headers,
