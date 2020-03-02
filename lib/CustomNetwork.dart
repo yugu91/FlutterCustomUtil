@@ -50,7 +50,9 @@ class CustomNetwork {
     return _instance;
   }
 
-  Future<Object> get(String url,Map<String,Object> parame){
+  Future<Object> get(String url,Map<String,Object> parame,{
+    Map<String,Object> headers,
+  }){
 //    if(!url.contains("http"))
 //      url = ApplicationStart.instance.getRemoteUrl() + url;
     return _getRequest(url,parame).then<Object>((body){
@@ -65,10 +67,17 @@ class CustomNetwork {
     });
   }
 
-  Future<String> _getRequest(String url,Map<String,Object> parame) async {
+  Future<String> _getRequest(String url,Map<String,Object> parame,{
+    Map<String,Object> headers,
+  }) async {
     Response response;
+    var option = Options();
+    if(headers != null)
+      headers.forEach((k,v){
+        option.headers[k] = v;
+      });
     try {
-      response = await _dio.get<String>(url,queryParameters: parame);
+      response = await _dio.get<String>(url,queryParameters: parame,options: option);
     } on DioError catch (e) {
       throw CustomError(e.message,canReload: true);
 //      throw e;
@@ -82,6 +91,7 @@ class CustomNetwork {
   Future<Object> post(String url,{
     Map<String,Object> parame,
     bool isFormUrlencoded = false,
+    Map<String,Object> headers,
   }){
     if(parame == null)
       parame = Map();
@@ -101,12 +111,16 @@ class CustomNetwork {
   Future<String> _postRequest(String url,Object data,{
     bool isFile = false,
     bool isFormUrlencoded = false,
+    Map<String,Object> headers,
   }) async{
     Response response;
     var option = Options();
     if(isFormUrlencoded)
       option.contentType = ContentType.parse("application/x-www-form-urlencoded").value;
-
+    if(headers != null)
+      headers.forEach((k,v){
+        option.headers[k] = v;
+      });
     try {
       response = await _dio.post(url,data: data,options: option);
     } on DioError catch (e) {
@@ -116,10 +130,12 @@ class CustomNetwork {
     return response.data;
   }
 
-  Future<Object> upload(String url,Map<String,Object>parame,File file,String key){
+  Future<Object> upload(String url,Map<String,Object>parame,File file,String key,{
+    Map<String,Object> headers,
+  }){
     var p = parame == null ? <String,Object>{} : parame;
     p[key] = MultipartFile.fromFile(file.path,filename: key);
-    return _postRequest(url, FormData.fromMap(p)).then((body){
+    return _postRequest(url, FormData.fromMap(p),headers: headers).then((body){
       if(checkResult != null) {
         String check = checkResult(url, p, body);
         if (check != null) {
