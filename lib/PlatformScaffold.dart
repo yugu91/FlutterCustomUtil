@@ -367,7 +367,7 @@ class PlatformIcon {
         case PlatformIconEnum.left_arrow:
           return Icon(Icons.arrow_back_ios, color: color);
         case PlatformIconEnum.close:
-          return Icon(Icons.cancel, color: color);
+          return Icon(Icons.close, color: color);
         default:
           return null;
       }
