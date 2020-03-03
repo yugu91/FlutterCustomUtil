@@ -12,6 +12,7 @@ class PlatformApp extends CupertinoApp {
   final Widget home;
   final Map<String, WidgetBuilder> router;
   final LocalizationsDelegate delegate;
+  final List<NavigatorObserver> navigatorObservers;
   /// 默认[英语,中文] 再默认上新增
 //  final List<Locale> local;
   /// 默认语言，null则为 support 第一个
@@ -28,12 +29,13 @@ class PlatformApp extends CupertinoApp {
     this.delegate,
     this.defaultLocal, //非英语环境需要在xcode加入中文支持选项
     this.nowLocale,
+    this.navigatorObservers,
 //    this.local,
     this.callBackLocal,
   }) : super(
             title: title,
             home: home,
-
+            navigatorObservers:navigatorObservers,
             locale:defaultLocal,
             localizationsDelegates: delegate == null
                 ? [
