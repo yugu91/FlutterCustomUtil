@@ -145,8 +145,8 @@ class PlatformAppBar
       leftBt = leading;
     else if (showBackButton || showCloseButton)
       leftBt = IconButton(
-        icon: Icon(
-          showCloseButton ? PlatformIcon.getIcon(PlatformIconEnum.close) : Icons.arrow_back_ios,
+        icon:
+          showCloseButton ? PlatformIcon.getIcon(PlatformIconEnum.close,color: backButtonColor) : Icon(Icons.arrow_back_ios,
           color: backButtonColor != null
               ? backButtonColor
               : Theme.of(context).backgroundColor,
@@ -367,7 +367,7 @@ class PlatformIcon {
         case PlatformIconEnum.left_arrow:
           return Icon(Icons.arrow_back_ios, color: color);
         case PlatformIconEnum.close:
-          return Icon(CupertinoIcons.clear, color: color);
+          return Icon(Icons.clear, color: color);
         default:
           return null;
       }
