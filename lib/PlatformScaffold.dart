@@ -128,6 +128,7 @@ class PlatformAppBar
   final Color backButtonColor;
   final bool showCloseButton;
   final Function() backTap;
+  final double elevation;
   PlatformAppBar(
       {this.title,
       this.leading,
@@ -136,6 +137,7 @@ class PlatformAppBar
       this.showBackButton = false,
       this.showCloseButton = false,
       this.backButtonColor,
+      this.elevation = 4.0,
       this.backTap});
 
   @override
@@ -156,6 +158,7 @@ class PlatformAppBar
     return new AppBar(
         leading: leftBt,
         title: title,
+        elevation:elevation,
         actions: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 8, bottom: 8, right: 15),
