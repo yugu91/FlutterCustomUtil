@@ -216,6 +216,8 @@ class PlatformTextField
   final TextStyle textStyle;
   final bool obscureText;
   final bool autofocus;
+  final ValueChanged<String> onSubmitted;
+  final TextInputAction textInputAction;
   PlatformTextField({
     this.controller,
     this.suffix,
@@ -235,6 +237,8 @@ class PlatformTextField
     this.textStyle,
     this.obscureText = false,
     this.autofocus = false,
+    this.onSubmitted,
+    this.textInputAction,
   });
 
   @override
@@ -276,7 +280,9 @@ class PlatformTextField
       controller: controller,
       decoration: androidDecoration,
       onTap: onTap,
+      onSubmitted: onSubmitted,
       textAlign: textAlign,
+      textInputAction: this.textInputAction,
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : 1) ,
       readOnly: readOnly,
       expands: expands,
@@ -314,6 +320,8 @@ class PlatformTextField
       textAlign: textAlign,
       suffix: suffix,
       prefix: prefix,
+      textInputAction: this.textInputAction,
+      onSubmitted: onSubmitted,
       onChanged: (s) => onTap != null ? onTap() : print(s),
       padding: EdgeInsets.all(10),
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : maxLines),
