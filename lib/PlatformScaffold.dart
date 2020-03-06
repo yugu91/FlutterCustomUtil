@@ -218,6 +218,7 @@ class PlatformTextField
   final bool autofocus;
   final ValueChanged<String> onSubmitted;
   final TextInputAction textInputAction;
+  final FocusNode focusNode;
   PlatformTextField({
     this.controller,
     this.suffix,
@@ -239,6 +240,7 @@ class PlatformTextField
     this.autofocus = false,
     this.onSubmitted,
     this.textInputAction,
+    this.focusNode
   });
 
   @override
@@ -285,6 +287,7 @@ class PlatformTextField
       textInputAction: this.textInputAction,
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : 1) ,
       readOnly: readOnly,
+      focusNode: focusNode,
       expands: expands,
       onChanged: (s) => onTap != null ? onTap() : print(s),
       keyboardType: inputType,
@@ -320,6 +323,7 @@ class PlatformTextField
       textAlign: textAlign,
       suffix: suffix,
       prefix: prefix,
+      focusNode:focusNode,
       textInputAction: this.textInputAction,
       onSubmitted: onSubmitted,
       onChanged: (s) => onTap != null ? onTap() : print(s),
