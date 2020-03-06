@@ -212,6 +212,7 @@ class PlatformTextField
   final TextAlign textAlign;
   final TextStyle textStyle;
   final bool obscureText;
+  final bool autofocus;
   PlatformTextField({
     this.controller,
     this.suffix,
@@ -230,6 +231,7 @@ class PlatformTextField
     this.textAlign = TextAlign.start,
     this.textStyle,
     this.obscureText = false,
+    this.autofocus = false,
   });
 
   @override
@@ -277,6 +279,7 @@ class PlatformTextField
       expands: expands,
       onChanged: (s) => onTap != null ? onTap() : print(s),
       keyboardType: inputType,
+      autofocus:autofocus,
       style: textStyle != null ? textStyle : CupertinoTheme.of(context).textTheme.textStyle.copyWith(textBaseline: TextBaseline.alphabetic),
       obscureText: inputType == TextInputType.visiblePassword || this.obscureText,
     );
@@ -314,6 +317,7 @@ class PlatformTextField
       obscureText: inputType == TextInputType.visiblePassword || this.obscureText,
       expands: expands,
       onTap: onTap,
+      autofocus: autofocus,
       style: textStyle != null ? textStyle : CupertinoTheme.of(context).textTheme.textStyle,
       readOnly: readOnly,
       controller: controller,
