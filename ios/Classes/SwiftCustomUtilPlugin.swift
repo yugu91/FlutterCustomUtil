@@ -34,7 +34,7 @@ public class SwiftCustomUtilPlugin: NSObject, FlutterPlugin {
     
     var chooseImg:chooseImage!;
     private func picImage(_ call: FlutterMethodCall, result: @escaping FlutterResult){
-        var type:UIImagePickerControllerSourceType?;
+        var type:UIImagePickerController.SourceType?;
         if let arg = call.arguments as? [String:Any] {
             if arg["source"] as! String == "img" {
                 type = .photoLibrary;

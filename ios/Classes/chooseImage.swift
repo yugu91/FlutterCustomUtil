@@ -16,7 +16,7 @@ class chooseImage: NSObject,UIImagePickerControllerDelegate,UINavigationControll
         self._result = result;
     }
     
-    func checkImageAccess(type:UIImagePickerControllerSourceType){
+    func checkImageAccess(type:UIImagePickerController.SourceType){
         if(UIImagePickerController.isSourceTypeAvailable(.photoLibrary)){
             self.pickImage(type: type);
         }else{
@@ -28,7 +28,7 @@ class chooseImage: NSObject,UIImagePickerControllerDelegate,UINavigationControll
         }
     }
     
-    func pickImage(type:UIImagePickerControllerSourceType) {
+    func pickImage(type:UIImagePickerController.SourceType) {
         let imagePicker: UIImagePickerController = UIImagePickerController()
         imagePicker.modalPresentationStyle = .overCurrentContext
         imagePicker.delegate = self
@@ -49,11 +49,11 @@ class chooseImage: NSObject,UIImagePickerControllerDelegate,UINavigationControll
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
             _viewController.dismiss(animated: true) {
                 if #available(iOS 11.0, *) {
-                    if let url = info[UIImagePickerControllerImageURL] as? URL {
+                    if let url = info[UIImagePickerController.InfoKey.imageURL.rawValue] as? URL {
                         self._result(url.absoluteString);
                     }
                 } else {
-                if let url = info[UIImagePickerControllerReferenceURL] as? URL {
+                if let url = info[UIImagePickerController.InfoKey.referenceURL.rawValue] as? URL {
                     self._result(url.absoluteString);
                 }
                     // Fallback on earlier versions
