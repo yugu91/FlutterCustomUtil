@@ -13,6 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   dio: any
+  dio_cookie_manager: 1.0.0
   cookie_jar: ^1.0.0
   modal_progress_hud: ^0.1.3
   sentry: any

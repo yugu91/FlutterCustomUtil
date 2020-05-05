@@ -2,7 +2,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 import 'ApplicationStart.dart';
 import 'HandleError.dart';
@@ -47,6 +49,9 @@ class CustomNetwork {
 
       },
     ));
+    var cookieJar=CookieJar();
+    _instance._dio.interceptors.add(CookieManager(cookieJar));
+
     return _instance;
   }
 
@@ -80,6 +85,7 @@ class CustomNetwork {
       headers.forEach((k,v){
         option.headers[k] = v;
       });
+
     try {
       response = await _dio.get<String>(url,queryParameters: parame,options: option);
     } on DioError catch (e) {
