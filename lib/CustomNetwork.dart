@@ -18,6 +18,7 @@ class CustomNetwork {
   static CustomNetwork get instance => _getInstance();
   static CustomNetwork _instance;
   Dio _dio;
+  bool _cookiesInitFinish = false;
   CustomNetwork._internal();
 
   CustomNetworkCheckResult checkResult;
@@ -55,11 +56,13 @@ class CustomNetwork {
   }
 
   Future<bool> _checkInit() async{
+    if(_cookiesInitFinish)
+      return Future.value(true);
     print("载入cookies");
-      return _CookiesApi.cookieJar.then((cookieJar){
-        _instance._dio.interceptors.add(CookieManager(cookieJar));
-        return Future.value(true);
-      }).catchError((err) => print(err));
+    return _CookiesApi.cookieJar.then((cookieJar){
+      _instance._dio.interceptors.add(CookieManager(cookieJar));
+      return Future.value(true);
+    }).catchError((err) => print(err)).whenComplete(() => _cookiesInitFinish = true);
   }
 
   Future<Object> get(String url,Map<String,Object> parame,{
