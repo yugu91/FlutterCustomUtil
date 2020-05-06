@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'ApplicationStart.dart';
 import 'HandleError.dart';
@@ -20,7 +21,7 @@ class CustomNetwork {
   CustomNetwork._internal();
 
   CustomNetworkCheckResult checkResult;
-
+  Future<bool> checkInit;
   static CustomNetwork _getInstance(){
     _instance ??= CustomNetwork._internal();
     _instance._dio = Dio(BaseOptions(
@@ -49,10 +50,16 @@ class CustomNetwork {
 
       },
     ));
-    var cookieJar=CookieJar();
-    _instance._dio.interceptors.add(CookieManager(cookieJar));
-
+    _instance.checkInit = _instance._checkInit();
     return _instance;
+  }
+
+  Future<bool> _checkInit() async{
+    print("载入cookies");
+      return _CookiesApi.cookieJar.then((cookieJar){
+        _instance._dio.interceptors.add(CookieManager(cookieJar));
+        return Future.value(true);
+      }).catchError((err) => print(err));
   }
 
   Future<Object> get(String url,Map<String,Object> parame,{
@@ -60,17 +67,21 @@ class CustomNetwork {
   }){
 //    if(!url.contains("http"))
 //      url = ApplicationStart.instance.getRemoteUrl() + url;
-    return _getRequest(url,parame).then<Object>((body){
-      if(checkResult != null) {
+    return checkInit.then((v) {
+      return _getRequest(url, parame);
+    }).then<Object>((body) {
+      if (checkResult != null) {
         String check = checkResult(url, parame, body);
         if (check != null) {
           var l = S.of(ApplicationStart.instance.getContext());
-          throw CustomError(check, title: l != null ? l.sorry : "抱歉", canReload: true,result: body);
+          throw CustomError(check, title: l != null ? l.sorry : "抱歉",
+              canReload: true,
+              result: body);
         }
       }
-      if(body is String) {
+      if (body is String) {
         return json.decode(body);
-      }else{
+      } else {
         return body;
       }
     });
@@ -106,7 +117,9 @@ class CustomNetwork {
     if(parame == null)
       parame = Map();
 
-    return _postRequest(url, parame,isFormUrlencoded: isFormUrlencoded,headers: headers).then<Object>((body){
+    return checkInit.then((v) {
+      return _postRequest(url, parame, isFormUrlencoded: isFormUrlencoded, headers: headers);
+    }).then<Object>((body){
       if(checkResult != null) {
         String check = checkResult(url, parame, body);
         var localStr = S.of(ApplicationStart.instance.getContext());
@@ -169,5 +182,18 @@ class CustomNetwork {
     }
 
     return Future.value(savePath);
+  }
+}
+
+class _CookiesApi {
+  static PersistCookieJar _cookieJar;
+  static Future<PersistCookieJar> get cookieJar async {
+    // print(_cookieJar);
+    if (_cookieJar == null) {
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String appDocPath  = appDocDir.path;
+      _cookieJar = new PersistCookieJar(dir: appDocPath);
+    }
+    return _cookieJar;
   }
 }
