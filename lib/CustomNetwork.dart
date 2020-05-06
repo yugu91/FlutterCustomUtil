@@ -56,9 +56,6 @@ class CustomNetwork {
   }
 
   Future<bool> _checkInit() async{
-    if(_cookiesInitFinish)
-      return Future.value(true);
-    print("载入cookies");
     return _CookiesApi.cookieJar.then((cookieJar){
       _instance._dio.interceptors.add(CookieManager(cookieJar));
       return Future.value(true);
