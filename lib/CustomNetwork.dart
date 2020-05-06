@@ -67,7 +67,7 @@ class CustomNetwork {
 
   Future<Object> get(String url,Map<String,Object> parame,{
     Map<String,Object> headers,
-  }){
+  }) {
 //    if(!url.contains("http"))
 //      url = ApplicationStart.instance.getRemoteUrl() + url;
     return checkInit.then((v) {
@@ -190,12 +190,30 @@ class CustomNetwork {
 
 class _CookiesApi {
   static PersistCookieJar _cookieJar;
+
+  static Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+
+  static Future<Directory> get _localCoookieDirectory async {
+    final path = await _localPath;
+    final Directory dir = new Directory('$path/cookies');
+    await dir.create();
+    return dir;
+  }
+
   static Future<PersistCookieJar> get cookieJar async {
     // print(_cookieJar);
     if (_cookieJar == null) {
-      Directory appDocDir = await getApplicationDocumentsDirectory();
-      String appDocPath  = appDocDir.path;
-      _cookieJar = new PersistCookieJar(dir: appDocPath);
+      final Directory dir = await _localCoookieDirectory;
+      final cookiePath = dir.path;
+      _cookieJar = new PersistCookieJar(dir: '$cookiePath');
+
+      var tmp = _cookieJar.loadForRequest(Uri.parse("https://www.hot008.app"));
+      for(var k in tmp){
+        print("sdfsdfsdfsf|" + k.name + "|" + k.value);
+      }
     }
     return _cookieJar;
   }
