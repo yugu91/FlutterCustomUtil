@@ -43,14 +43,14 @@ class CustomNetwork {
       //表示期望以那种格式(方式)接受响应数据。接受4种类型 `json`, `stream`, `plain`, `bytes`. 默认值是 `json`,
       responseType: ResponseType.json,
     ));
-    _instance._dio.interceptors.add(InterceptorsWrapper(
-//      onRequest: (RequestOptions options){
+//    _instance._dio.interceptors.add(InterceptorsWrapper(
+////      onRequest: (RequestOptions options){
+////
+////      },
+//      onResponse: (Response response){
 //
 //      },
-      onResponse: (Response response){
-
-      },
-    ));
+//    ));
     _instance.checkInit = _instance._checkInit();
     return _instance;
   }
