@@ -52,6 +52,28 @@ class $km extends S {
   String get errorTitle => "Error";
 }
 
+class $vi extends S {
+  const $vi();
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+
+  @override
+  String get cancel => "Hủy bỏ";
+  @override
+  String get listLoadMore => "Tải thêm...";
+  @override
+  String get dialogDismiss => "Bỏ qua";
+  @override
+  String get errorTryAgain => "Thử lại";
+  @override
+  String get sorry => "lấy làm tiếc";
+  @override
+  String get listNoMore => "kết thúc";
+  @override
+  String get errorTitle => "lỗi";
+}
+
 class $en extends S {
   const $en();
 }
@@ -84,6 +106,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("km", ""),
+      Locale("vi", ""),
       Locale("en", ""),
       Locale("zh", ""),
     ];
@@ -112,6 +135,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
       switch (lang) {
         case "km":
           S.current = const $km();
+          return SynchronousFuture<S>(S.current);
+        case "vi":
+          S.current = const $vi();
           return SynchronousFuture<S>(S.current);
         case "en":
           S.current = const $en();
