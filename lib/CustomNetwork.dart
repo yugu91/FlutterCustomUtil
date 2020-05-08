@@ -68,7 +68,7 @@ class CustomNetwork {
 //    if(!url.contains("http"))
 //      url = ApplicationStart.instance.getRemoteUrl() + url;
     return checkInit.then((v) {
-      return _getRequest(url, parame);
+      return _getRequest(url, parame,headers: headers);
     }).then<Object>((body) {
       if (checkResult != null) {
         String check = checkResult(url, parame, body);
