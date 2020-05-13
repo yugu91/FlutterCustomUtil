@@ -79,7 +79,7 @@ class PlatformApp extends CupertinoApp {
  */
 class PlatformScaffold
     extends BasePlatformWidget<Scaffold, CupertinoPageScaffold> {
-  final PlatformAppBar appBar;
+  final Widget appBar;
   final Widget body;
   final Color backgroundColor;
   State nowState;
