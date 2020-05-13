@@ -121,7 +121,7 @@ class WebFileModel {
       files: files,
 //      filePath: map["filePath"],
       isb3: map["isb3"] == null ? false : map["isb3"] as bool,
-      isInit:isInit
+      isInit:map["isInit"] == null ? false : map["isInit"] as bool,
     );
   }
 }
