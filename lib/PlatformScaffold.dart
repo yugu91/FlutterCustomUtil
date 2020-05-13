@@ -79,7 +79,7 @@ class PlatformApp extends CupertinoApp {
  */
 class PlatformScaffold
     extends BasePlatformWidget<Scaffold, CupertinoPageScaffold> {
-  final Widget appBar;
+  final PlatformAppBar appBar;
   final Widget body;
   final Color backgroundColor;
   State nowState;
@@ -119,7 +119,7 @@ class PlatformScaffold
  * AppBar
  */
 class PlatformAppBar
-    extends BasePlatformWidget<AppBar, CupertinoNavigationBar> {
+    extends BasePlatformWidget<Widget, CupertinoNavigationBar> {
   final Widget title;
   final Widget leading;
   final Color backgroundColor;
@@ -129,6 +129,7 @@ class PlatformAppBar
   final bool showCloseButton;
   final Function() backTap;
   final double elevation;
+  final double height;
   PlatformAppBar(
       {this.title,
       this.leading,
@@ -138,10 +139,11 @@ class PlatformAppBar
       this.showCloseButton = false,
       this.backButtonColor,
       this.elevation = 4.0,
+        this.height,
       this.backTap});
 
   @override
-  AppBar createAndroidWidget(BuildContext context) {
+  Widget createAndroidWidget(BuildContext context) {
     var leftBt;
     if (leading != null)
       leftBt = leading;
@@ -155,7 +157,7 @@ class PlatformAppBar
         ),
         onPressed: () => backTap(),
       );
-    return new AppBar(
+    var appBar = AppBar(
         leading: leftBt,
         title: title,
         elevation:elevation,
@@ -168,6 +170,14 @@ class PlatformAppBar
         backgroundColor: this.backgroundColor == null
             ? CupertinoTheme.of(context).primaryColor
             : this.backgroundColor);
+    if(height != null){
+      return PreferredSize(
+        child: appBar,
+        preferredSize: Size.fromHeight(height),
+      );
+    }else{
+      return appBar;
+    }
   }
 
   @override
