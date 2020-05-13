@@ -42,7 +42,7 @@ class WebFileHelper {
       _checkUpdate(model)
     ];
     if(model.files != null && model.files.length > 0){
-      model.files.forEach((m) => _checkUpdate(m));
+      model.files.forEach((m) => list.add(_checkUpdate(m)));
     }
     return Future.wait(list).then((_){
       return Future.value(model);
@@ -58,6 +58,7 @@ class WebFileHelper {
       String cont = tmpFile.readAsStringSync();
       var bytes = Utf8Encoder().convert(cont);
       var digest = md5.convert(bytes);
+      model.path = tmpFile;
       if(digest.toString() != model.md5){
         return _updateFile(model, tmpFile);
       }else{
@@ -97,7 +98,7 @@ class WebFileModel {
 //  final String filePath;
   final bool isb3;
   final bool isInit;
-
+  File path;
   WebFileModel({
     this.name,
     this.md5,
