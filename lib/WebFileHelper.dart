@@ -26,7 +26,7 @@ class WebFileHelper {
         var model = WebFileModel.fromMap(val);
         _webFileModel[name] = model;
         if(model.isInit)
-          initLoad.add(getFile(model.name));
+          initLoad.add(getFile(name));
       });
       if(initLoad.length > 0)
         return Future.wait(initLoad);
