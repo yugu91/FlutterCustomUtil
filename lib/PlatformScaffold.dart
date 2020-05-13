@@ -161,7 +161,7 @@ class PlatformAppBar
         elevation:elevation,
         actions: <Widget>[
           Container(
-            margin: EdgeInsets.only(top: 8, bottom: 8, right: 15),
+            margin: EdgeInsets.only(top: 4, bottom: 4, right: 15),
             child: trailing,
           )
         ],
