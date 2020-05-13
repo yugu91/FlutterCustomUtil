@@ -26,7 +26,7 @@ class WebFileHelper {
         var model = WebFileModel.fromMap(val);
         _webFileModel[name] = model;
         if(model.isInit)
-          initLoad.add(getFile(model));
+          initLoad.add(getFile(model.name));
       });
       if(initLoad.length > 0)
         return Future.wait(initLoad);
@@ -37,7 +37,8 @@ class WebFileHelper {
     });
   }
 
-  Future<WebFileModel> getFile(WebFileModel model) async {
+  Future<WebFileModel> getFile(String name) async {
+    var model = _webFileModel[name];
     var list = <Future<WebFileModel>>[
       _checkUpdate(model)
     ];
