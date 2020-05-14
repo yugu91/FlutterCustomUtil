@@ -40,6 +40,7 @@ class WebFileHelper {
 
   Future<WebFileModel> getFile(String name) async {
     var model = _webFileModel[name];
+    if(!model.isInit) return model;
     var list = <Future<WebFileModel>>[
       _checkUpdate(model)
     ];
