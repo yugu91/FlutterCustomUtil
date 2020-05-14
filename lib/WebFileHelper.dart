@@ -40,7 +40,11 @@ class WebFileHelper {
 
   Future<WebFileModel> getFile(String name) async {
     var model = _webFileModel[name];
-    if(!model.isInit) return model;
+    if(!model.isInit) {
+      if(model.path == null)
+        model.path = File("${appDocDir.path}/${model.name}");
+      return model;
+    }
     var list = <Future<WebFileModel>>[
       _checkUpdate(model)
     ];
