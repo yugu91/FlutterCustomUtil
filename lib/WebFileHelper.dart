@@ -5,11 +5,12 @@ import 'package:crypto/crypto.dart';
 import 'package:custom_util_plugin/ApplicationStart.dart';
 import 'package:custom_util_plugin/CustomNetwork.dart';
 import 'package:path_provider/path_provider.dart';
-
+import 'package:archive/archive.dart';
 class WebFileHelper {
   factory WebFileHelper() => _getInstance();
   static WebFileHelper get instance => _getInstance();
   static WebFileHelper _instance;
+  Directory appDocDir;
   WebFileHelper._internal();
   static WebFileHelper _getInstance() {
     _instance ??= WebFileHelper._internal();
@@ -51,7 +52,7 @@ class WebFileHelper {
   }
 
   Future<WebFileModel> _checkUpdate(WebFileModel model) async{
-    var appDocDir = await getTemporaryDirectory();
+    appDocDir = await getTemporaryDirectory();
     var tmpFile = File("${appDocDir.path}/${model.name}");
     if(!tmpFile.existsSync()){
       return _updateFile(model,tmpFile);
@@ -73,18 +74,24 @@ class WebFileHelper {
     var savePath = file.path;
     return CustomNetwork.instance.download(url, savePath).then((path){
       var newFile = File(path);
-      var contBase64 = newFile.readAsStringSync();
-      var cont = contBase64;
-      if(model.isb3) {
-        try {
-          List<int> bytes = base64Decode(contBase64.replaceAll(
-              ApplicationStart.instance.webFileEncodeKey, ""));
-          cont = Utf8Decoder().convert(bytes);
-        } catch (err) {
 
+      if(model.name.contains(".zip")){
+        var contBase64 = newFile.readAsBytesSync();
+        final archive = ZipDecoder().decodeBytes(contBase64);
+        for (final file in archive) {
+          final filename = file.name;
+          if (file.isFile) {
+            final data = file.content as List<int>;
+            File("${appDocDir.path}/${filename.toString()}")
+              ..createSync(recursive: true)
+              ..writeAsBytesSync(data);
+          }
         }
+      }else{
+        var contBase64 = newFile.readAsStringSync();
+        var cont = contBase64;
+        newFile.writeAsStringSync(cont);
       }
-      newFile.writeAsStringSync(cont);
 //      var digest = md5.convert(bytes);
 //      model.md5 = digest.toString();
       return Future.value(model);
