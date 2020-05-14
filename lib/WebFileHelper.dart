@@ -58,11 +58,19 @@ class WebFileHelper {
     if(!tmpFile.existsSync()){
       return _updateFile(model,tmpFile);
     }else{
-      String cont = tmpFile.readAsStringSync();
-      var bytes = Utf8Encoder().convert(cont);
-      var digest = md5.convert(bytes);
+      var md5Str = "";
+      if(model.name.contains(".zip")){
+        var cont = tmpFile.readAsBytesSync();
+        var bytes = Utf8Encoder().convert(String.fromCharCodes(cont));
+        md5Str = md5.convert(bytes).toString();
+      }else{
+        String cont = tmpFile.readAsStringSync();
+        var bytes = Utf8Encoder().convert(cont);
+        var digest = md5.convert(bytes);
+        md5Str = digest.toString();
+      }
       model.path = tmpFile;
-      if(digest.toString() != model.md5){
+      if(md5Str != model.md5){
         return _updateFile(model, tmpFile);
       }else{
         return Future.value(model);
