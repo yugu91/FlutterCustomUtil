@@ -196,6 +196,8 @@ class PlatformAppBar
       leading: leftBt,
       middle: title,
       trailing: trailing,
+      padding: EdgeInsetsDirectional.only(start: 0,bottom: 0),
+      border: elevation == 0 ? Border.all(width: elevation,color:Colors.transparent) : null,
       backgroundColor: this.backgroundColor == null
           ? CupertinoTheme.of(context).primaryColor
           : this.backgroundColor,

@@ -1,6 +1,7 @@
 
 
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -69,7 +70,7 @@ class CustomDialog {
     if(bts != null)
       for(var i = 0;i < bts.length;i++){
         actionBts.add(
-            CupertinoButton(
+            CupertinoDialogAction(
               child: Text(bts[i]),
               onPressed: (){
                 Navigator.pop(context,i);
@@ -77,17 +78,21 @@ class CustomDialog {
             )
         );
       }
-    actionBts.add(CupertinoButton(
+    actionBts.add(CupertinoDialogAction(
+      isDefaultAction: true,
       child: Text(S.of(context).dialogDismiss),
       onPressed: (){
         Navigator.pop(context,-1);
       },
     ));
-    // TODO: implement build
-    return CupertinoAlertDialog(
-      title: title != null && title != "" ? Text(title) : null,
-      content: Text(msg),
-      actions: actionBts,
-    );
+
+    return Container(
+      color: Color.fromARGB(70, 166, 166, 166),
+      child: CupertinoAlertDialog(
+        title: title != null && title != "" ? Text(title) : null,
+        content: Text(msg),
+        actions: actionBts,
+      ),
+    ) ;
   }
 }
