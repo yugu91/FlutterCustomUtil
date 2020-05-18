@@ -28,8 +28,9 @@ class CustomDialog {
     List<String> bts,
     String title,
     bool canCancel = true,
+    bool canSupport = false,
   }){
-    return CustomDialog(context,msg: msg,bts: bts,title: title,canCancel: canCancel);
+    return CustomDialog(context,msg: msg,bts: bts,title: title,canCancel: canCancel,canSupport: canSupport);
   }
 
   Future<int> show(){
@@ -89,13 +90,6 @@ class CustomDialog {
             )
         );
       }
-    actionBts.add(CupertinoDialogAction(
-      isDefaultAction: true,
-      child: Text(S.of(context).dialogDismiss),
-      onPressed: (){
-        Navigator.pop(context,-1);
-      },
-    ));
     if(canSupport){
       actionBts.add(CupertinoDialogAction(
         isDefaultAction: true,
@@ -105,6 +99,14 @@ class CustomDialog {
         },
       ));
     }
+
+    actionBts.add(CupertinoDialogAction(
+      isDefaultAction: true,
+      child: Text(S.of(context).dialogDismiss),
+      onPressed: (){
+        Navigator.pop(context,-1);
+      },
+    ));
     return Container(
       color: Color.fromARGB(70, 166, 166, 166),
       child: CupertinoAlertDialog(
