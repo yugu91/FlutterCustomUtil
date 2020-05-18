@@ -29,9 +29,9 @@ class CustomNetwork {
       //请求基地址,可以包含子路径
       baseUrl: ApplicationStart.instance.getRemoteUrl(),
       //连接服务器超时时间，单位是毫秒.
-      connectTimeout: 60000,
+      connectTimeout: 30000,
       //响应流上前后两次接受到数据的间隔，单位为毫秒。
-      receiveTimeout: 30000,
+      receiveTimeout: 60000,
 //      sendTimeout: 10000,
       //Http请求头.
 //    headers: {

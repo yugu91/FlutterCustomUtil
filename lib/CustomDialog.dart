@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'ApplicationStart.dart';
 import 'generated/i18n.dart';
 
 class CustomDialog {
@@ -13,11 +14,13 @@ class CustomDialog {
   final String title;
   final BuildContext context;
   final bool canCancel;
+  final bool canSupport;
   CustomDialog(this.context, {
     @required this.msg,
     this.bts,
     this.title,
     this.canCancel = true,
+    this.canSupport = false,
   });
 
   static CustomDialog of(BuildContext context,{
@@ -57,6 +60,14 @@ class CustomDialog {
           Navigator.pop(context,-1);
         },
       ));
+    if(canSupport){
+      actionBts.add(FlatButton(
+        child: Text(S.of(context).kefu),
+        onPressed: (){
+          Navigator.pop(context,-2);
+        },
+      ));
+    }
     // TODO: implement build
     return AlertDialog(
       title: title != null && title != "" ? Text(title) : null,
@@ -85,7 +96,15 @@ class CustomDialog {
         Navigator.pop(context,-1);
       },
     ));
-
+    if(canSupport){
+      actionBts.add(CupertinoDialogAction(
+        isDefaultAction: true,
+        child: Text(S.of(context).kefu),
+        onPressed: (){
+          Navigator.pop(context,-2);
+        },
+      ));
+    }
     return Container(
       color: Color.fromARGB(70, 166, 166, 166),
       child: CupertinoAlertDialog(

@@ -1,3 +1,4 @@
+import 'package:custom_util_plugin/ApplicationStart.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,8 @@ class HandleError {
       Error error,
       {
         bool canReload,
-        String title = null
+        String title = null,
+        bool canSupport = false
       }
   ){
     var bt = <String>[];
