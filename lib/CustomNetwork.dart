@@ -99,8 +99,8 @@ class CustomNetwork {
 
     try {
       response = await _dio.get<String>(url,queryParameters: parame,options: option);
-    } on DioError catch (e) {
-      throw CustomError(e.message,canReload: true);
+    } on DioError catch (e,stackTrace) {
+      throw CustomError(e.message,canReload: true,stackTrace: stackTrace);
 //      throw e;
     }
     return response.data;
@@ -150,8 +150,8 @@ class CustomNetwork {
       });
     try {
       response = await _dio.post(url,data: data,options: option);
-    } on DioError catch (e) {
-      throw CustomError(e.message,canReload: true);
+    } on DioError catch (e,stackTrace) {
+      throw CustomError(e.message,canReload: true,stackTrace: stackTrace);
 //      throw e;
     }
     return response.data;
@@ -177,8 +177,8 @@ class CustomNetwork {
   Future<String> download(String url,String savePath) async {
     try {
       await _dio.download(url, savePath);
-    } on DioError catch(e){
-      throw CustomError(e.message,canReload: true);
+    } on DioError catch(e,stackTrace){
+      throw CustomError(e.message,canReload: true,stackTrace:stackTrace);
     }
 
     return Future.value(savePath);
