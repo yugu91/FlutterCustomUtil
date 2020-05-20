@@ -19,7 +19,9 @@ class ReportError {
   void setUpPlatform(Map<String,dynamic> platform,String userName){
     _instance._sentry.userContext = User(
       extras: platform,
-      username: userName
+      username: userName == "" ? null : userName,
+      id: "0",
+      ipAddress: ""
     );
   }
 
