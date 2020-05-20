@@ -12,3 +12,5 @@ workspace.xml
 
 Podfile.lock
 xcshareddata
+
+.flutter-plugins-dependencies
