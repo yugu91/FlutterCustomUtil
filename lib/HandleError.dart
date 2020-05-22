@@ -36,12 +36,13 @@ class HandleError {
       }
   ){
     var bt = <String>[];
+    var lng = S.of(context);
     if(canReload == null){
       if((error is CustomError && error.canReload) || error is DioError){
-        bt.add(S.of(context).errorTryAgain);
+        bt.add(lng.errorTryAgain);
       }
     }else if(canReload == true){
-      bt.add(S.of(context).errorTryAgain);
+      bt.add(lng.errorTryAgain);
     }
     if(title == null && error is CustomError && error.title != null)
       title = error.title;
