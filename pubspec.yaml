@@ -17,10 +17,12 @@ dependencies:
   cookie_jar: ^1.0.0
   modal_progress_hud: ^0.1.3
   sentry: any
-  webview_flutter: ">=0.3.14"
+  webview_flutter:
+    path: ../flutter_plugins/packages/webview_flutter
   path_provider: ^1.6.7
   crypto: ^2.1.3
   archive: ^2.0.13
+#  shared_preferences: '>=0.4.1'
     #  url_launcher: ^5.1.3
 #  image_picker: ^0.6.1+4
 
