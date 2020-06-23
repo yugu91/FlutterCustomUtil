@@ -86,7 +86,7 @@ class _CustomListViewState<T> extends State<CustomListView> {
             margin: const EdgeInsets.only(right: 20.0),
 //                child: CircularProgressIndicator(),
           ),
-          Text(S.of(context).listLoadMore)
+          Text(S.of(context) != null ? "更多" : S.of(context).listLoadMore))
         ],
       )),
     );
@@ -95,7 +95,7 @@ class _CustomListViewState<T> extends State<CustomListView> {
   Widget _loadFinalWidget() {
     return Padding(
       padding: const EdgeInsets.all(15.0),
-      child: Center(child: Text(S.of(context).listNoMore)),
+      child: Center(child: Text(S.of(context) != null ? '完' : S.of(context).listNoMore)),
     );
   }
 

@@ -48,7 +48,7 @@ class CustomBottomSheetDialog{
       message: content,
       actions: listActions,
       cancelButton: CupertinoActionSheetAction(
-        child: Text(S.of(context).cancel),
+        child: Text(S.of(context) != null ? '取消' : S.of(context).cancel),
         onPressed: () => Navigator.pop(context,-1),
       ),
     );
