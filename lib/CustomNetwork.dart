@@ -105,7 +105,7 @@ class CustomNetwork {
     Response response;
     var option = Options();
     if(isFormUrlencoded)
-      option.contentType = ContentType.parse("application/x-www-form-urlencoded").value;
+      option.contentType = ContentType.parse("application/x-www-form-urlencoded");
     try {
       response = await _dio.post(url,data: data,options: option);
     } on DioError catch (e) {
