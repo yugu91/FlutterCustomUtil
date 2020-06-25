@@ -117,8 +117,8 @@ class CustomNetwork {
 
   Future<Object> upload(String url,Map<String,Object>parame,File file,String key){
     var p = parame == null ? <String,Object>{} : parame;
-    p[key] = MultipartFile.fromFile(file.path,filename:key);
-    return _postRequest(url, FormData.fromMap(p)).then((body){
+    p[key] = UploadFileInfo(file,key);
+    return _postRequest(url, FormData.from(p)).then<Object>((body){
       if(checkResult != null) {
         String check = checkResult(url, p, body);
         if (check != null) {
