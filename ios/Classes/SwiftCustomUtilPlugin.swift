@@ -71,10 +71,10 @@ public class SwiftCustomUtilPlugin: NSObject, FlutterPlugin {
     private func getPackageInfo(_ result:@escaping FlutterResult){
         if let dict = Bundle.main.infoDictionary,let package = Bundle.main.bundleIdentifier {
             var versionCode:Int = 0;
-            if let code = dict["CFBundleShortVersionString"] as? Int {
+            if let code = dict["CFBundleVersion"] as? Int {
                 versionCode = code;
             }
-            let version = dict["CFBundleVersion"] as! String;
+            let version = dict["CFBundleShortVersionString"] as! String;
             result([
                 "versionCode":versionCode,
                 "version":version,
