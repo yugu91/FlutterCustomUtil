@@ -23,6 +23,8 @@ class CustomListView<T> extends StatefulWidget {
 
   Function(List _data) updateData;
   Function(int _pageIndex) updatePageMax;
+  Function(double px) onscroll;
+  final ScrollController scrollController;
   CustomListView(
       {@required this.itemBuilder,
       @required this.data,
@@ -32,7 +34,9 @@ class CustomListView<T> extends StatefulWidget {
       this.pageMax = 1,
       this.footer,
       this.header,
-      this.sliderTop})
+      this.sliderTop,
+      this.onscroll,
+      this.scrollController})
       : super();
   State nowState;
   @override
@@ -43,10 +47,17 @@ class CustomListView<T> extends StatefulWidget {
 }
 
 class _CustomListViewState<T> extends State<CustomListView> {
-  final ScrollController _scrollController = ScrollController();
+  ScrollController _scrollController;
   int pageNum = 1;
 
-  _CustomListViewState() {
+  @override
+  void initState(){
+    super.initState();
+    if(widget.scrollController == null)
+      _scrollController = ScrollController();
+    else
+      _scrollController = widget.scrollController;
+
     _scrollController.addListener(() {
       if (widget.lisent == null) return;
       var maxScroll = _scrollController.position.maxScrollExtent;
@@ -57,10 +68,11 @@ class _CustomListViewState<T> extends State<CustomListView> {
         print('load more ...');
         pageNum += 1;
         widget.lisent(pageNum, CustomListViewLinsentFlag.nextPage);
+      }else if(widget.onscroll != null){
+        widget.onscroll(pixels);
       }
     });
   }
-
   Widget _noData() {
     return Padding(
       padding: const EdgeInsets.all(30.0),
@@ -171,7 +183,7 @@ class _CustomListViewState<T> extends State<CustomListView> {
           onRefresh: () => widget.lisent(1, CustomListViewLinsentFlag.refresh),
           child: CustomScrollView(
             slivers: list,
-            controller: _scrollController,
+            controller:_scrollController,
           ),
         );
       else
