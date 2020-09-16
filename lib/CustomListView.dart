@@ -159,7 +159,9 @@ class _CustomListViewState<T> extends State<CustomListView> {
 
     list.add(_getSliver());
     if(widget.footer != null)
-      list.add(widget.footer);
+      list.add(SliverToBoxAdapter(
+       child: widget.footer,
+      ));
 
     if (widget.data.length == 0) {
       //没有数据
