@@ -18,6 +18,7 @@ class CustomNetwork {
   static CustomNetwork get instance => _getInstance();
   static CustomNetwork _instance;
   Dio _dio;
+  // ignore: unused_field
   bool _cookiesInitFinish = false;
   CustomNetwork._internal();
 
@@ -136,6 +137,7 @@ class CustomNetwork {
   }
 
   Future<Object> _postRequest(String url,Object data,{
+    // ignore: unused_element
     bool isFile = false,
     bool isFormUrlencoded = false,
     Map<String,Object> headers,

@@ -8,13 +8,11 @@ import 'package:flutter/widgets.dart';
 import 'generated/i18n.dart';
 
 class SingleListView extends StatefulWidget {
-  List<Object> data;
-  int pageMax;
+  final List<Object> data;
+  final int pageMax;
   final bool pullRefresh;
   final IndexedWidgetBuilder itemBuilder;
   final Future<bool> Function(int index, CustomListViewLinsentFlag flag) lisent;
-  Function(List _data) updateData;
-  Function(int _pageIndex) updatePageMax;
 
   final ScrollController scrollController;
   SingleListView(
@@ -26,31 +24,27 @@ class SingleListView extends StatefulWidget {
       this.pageMax = 1,
       this.scrollController})
       : super();
-  State nowState;
   @override
-  State<StatefulWidget> createState() {
-    nowState = _State();
-    return nowState;
-  }
+  State<StatefulWidget> createState() => _State();
 }
 
 class _State extends State<SingleListView> {
   // ScrollController _scrollController;
   int pageNum = 1;
   bool loading = false;
-//   @override
-//   void initState() {
-//     super.initState();
+  @override
+  void initState() {
+    super.initState();
 //     if (widget.scrollController == null)
 //       _scrollController = ScrollController();
 //     else
 //       _scrollController = widget.scrollController;
-//
+
 //     _scrollController.addListener(() {
 //       if (widget.lisent == null) return;
 //       var maxScroll = _scrollController.position.maxScrollExtent;
 //       var pixels = _scrollController.position.pixels;
-//
+
 //       if (maxScroll == pixels && widget.pageMax > pageNum) {
 // //        上拉刷新做处理
 //         print('load more ...');
@@ -58,12 +52,13 @@ class _State extends State<SingleListView> {
 //         widget.lisent(pageNum, CustomListViewLinsentFlag.nextPage);
 //       }
 //     });
-//   }
+  }
 
   Widget _noData() {
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Center(
+        child: Text("暂无数据"),
 //          child: FlatButton.icon(onPressed: null, icon: Icon(Icons.announcement), label: Text("暂无数据"))
 //        child: Text(
 //          ic
@@ -114,9 +109,7 @@ class _State extends State<SingleListView> {
         itemBuilder: (context, index) {
           if (widget.data.length == 0)
             return _noData();
-            var _index = index;
-            if(Platform.isIOS)
-              _index -= 1;
+          var _index = index;
           if (widget.data.length == index)
             if (pageNum >= widget.pageMax)
               return _loadFinalWidget();
@@ -124,7 +117,8 @@ class _State extends State<SingleListView> {
               if(!loading) {
                 print("load more");
                 loading = true;
-                widget.lisent(0, CustomListViewLinsentFlag.nextPage).then((
+                pageNum += 1;
+                widget.lisent(pageNum, CustomListViewLinsentFlag.nextPage).then((
                     value) {
                   loading = false;
                 });
@@ -143,16 +137,6 @@ class _State extends State<SingleListView> {
 
   @override
   Widget build(BuildContext context) {
-    widget.updateData = (List _data) {
-      setState(() {
-        widget.data = _data;
-      });
-    };
-    widget.updatePageMax = (int _pageMax) {
-      setState(() {
-        widget.pageMax = _pageMax;
-      });
-    };
     if (Platform.isIOS) {
       return _getList();
     } else {

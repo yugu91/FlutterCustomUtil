@@ -10,8 +10,8 @@ import 'generated/i18n.dart';
 enum CustomListViewLinsentFlag { refresh, nextPage, passItem }
 
 class CustomListView<T> extends StatefulWidget {
-  List<Object> data;
-  int pageMax;
+  final List<Object> data;
+  final int pageMax;
   final bool pullRefresh;
   final Widget header;
   final Widget footer;
@@ -21,9 +21,9 @@ class CustomListView<T> extends StatefulWidget {
 
   final Widget sliderTop;
 
-  Function(List _data) updateData;
-  Function(int _pageIndex) updatePageMax;
-  Function(double px) onscroll;
+  // Function(List _data) updateData;
+  // Function(int _pageIndex) updatePageMax;
+  final Function(double px) onscroll;
   final ScrollController scrollController;
   CustomListView(
       {@required this.itemBuilder,
@@ -31,19 +31,15 @@ class CustomListView<T> extends StatefulWidget {
 //    @required this.pageCount,
       this.pullRefresh = true,
       this.lisent,
-      this.pageMax = 1,
+      @required this.pageMax,
       this.footer,
       this.header,
       this.sliderTop,
       this.onscroll,
       this.scrollController})
       : super();
-  State nowState;
   @override
-  State<StatefulWidget> createState() {
-    nowState = _CustomListViewState<T>();
-    return nowState;
-  }
+  State<StatefulWidget> createState() => _CustomListViewState<T>();
 }
 
 class _CustomListViewState<T> extends State<CustomListView> {
@@ -138,16 +134,16 @@ class _CustomListViewState<T> extends State<CustomListView> {
 
   @override
   Widget build(BuildContext context) {
-    widget.updateData = (List _data) {
-      setState(() {
-        widget.data = _data;
-      });
-    };
-    widget.updatePageMax = (int _pageMax) {
-      setState(() {
-        widget.pageMax = _pageMax;
-      });
-    };
+    // widget.updateData = (List _data) {
+    //   setState(() {
+    //     widget.data = _data;
+    //   });
+    // };
+    // widget.updatePageMax = (int _pageMax) {
+    //   setState(() {
+    //     widget.pageMax = _pageMax;
+    //   });
+    // };
 
     var list = <Widget>[];
     if (widget.sliderTop != null) list.add(widget.sliderTop);

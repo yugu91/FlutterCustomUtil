@@ -5,6 +5,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import 'CustomJavascript.dart';
 
+// ignore: must_be_immutable
 class CustomWebView extends StatefulWidget{
   final CustomJavascriptDelegate channel;
   final String url;

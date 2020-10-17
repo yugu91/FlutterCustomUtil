@@ -5,7 +5,6 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'ApplicationStart.dart';
 import 'generated/i18n.dart';
 
 class CustomDialog {

@@ -1,10 +1,6 @@
-
-import 'dart:convert';
 import 'dart:io';
-import 'package:crypto/crypto.dart';
 import 'package:custom_util_plugin/ApplicationStart.dart';
 import 'package:custom_util_plugin/CustomNetwork.dart';
-import 'package:custom_util_plugin/ReportError.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:archive/archive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -142,8 +138,8 @@ class WebFileModel {
     List<WebFileModel> files = [];
     if(map["files"] != null)
       (map["files"] as List<dynamic>).forEach((val) => files.add(WebFileModel.fromMap(val as Map<String,dynamic>)));
-    var isInit = false;
-    if(map["name"] == "runm.html") isInit = true;
+    // var isInit = false;
+    // if(map["name"] == "runm.html") isInit = true;
     return WebFileModel(
       name: map["name"],
       md5: map["md5"],

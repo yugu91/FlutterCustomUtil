@@ -1,4 +1,3 @@
-import 'package:custom_util_plugin/ApplicationStart.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

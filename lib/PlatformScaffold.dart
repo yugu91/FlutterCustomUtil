@@ -82,7 +82,6 @@ class PlatformScaffold
   final PlatformAppBar appBar;
   final Widget body;
   final Color backgroundColor;
-  State nowState;
   PlatformScaffold({
     this.appBar,
     @required this.body,
@@ -130,6 +129,7 @@ class PlatformAppBar
   final Function() backTap;
   final double elevation;
   final double height;
+  final String heroTag;
   PlatformAppBar(
       {this.title,
       this.leading,
@@ -140,6 +140,7 @@ class PlatformAppBar
       this.backButtonColor,
       this.elevation = 4.0,
         this.height,
+      this.heroTag = "appbar",
       this.backTap});
 
   @override
@@ -192,10 +193,13 @@ class PlatformAppBar
             ? backButtonColor
             : CupertinoTheme.of(context).primaryContrastingColor,
       );
+    
     return new CupertinoNavigationBar(
       leading: leftBt,
       middle: title,
       trailing: trailing,
+      heroTag: heroTag,
+      transitionBetweenRoutes: false,
       padding: EdgeInsetsDirectional.only(start: 0,bottom: 0),
       border: elevation == 0 ? Border.all(width: elevation,color:Colors.transparent) : null,
       backgroundColor: this.backgroundColor == null
@@ -217,8 +221,8 @@ class PlatformTextField
   final Function() onTap;
   final String placeholder;
   final TextStyle placeHolderStyle;
-  InputDecoration androidDecoration;
-  BoxDecoration iosDecoration;
+  final InputDecoration androidDecoration;
+  final BoxDecoration iosDecoration;
   final BorderSide borderSide;
   final BorderRadius borderRadius;
   final TextInputType inputType;
@@ -258,25 +262,26 @@ class PlatformTextField
   @override
   TextField createAndroidWidget(BuildContext context) {
     // TODO: implement createAndroidWidget
-    if(androidDecoration == null)
-      androidDecoration = InputDecoration(
+    var _androidDecoration = androidDecoration;
+    if(_androidDecoration == null)
+      _androidDecoration = InputDecoration(
         contentPadding: EdgeInsets.all(10.0)
       );
     if (placeholder != null) {
-      androidDecoration = androidDecoration.copyWith(
+      _androidDecoration = _androidDecoration.copyWith(
         hintText: placeholder,
         hintStyle: placeHolderStyle
       );
     }
     
     if (suffix != null)
-      androidDecoration = androidDecoration.copyWith(suffix: suffix);
+      _androidDecoration = _androidDecoration.copyWith(suffix: suffix);
 
     if (prefix != null)
-      androidDecoration = androidDecoration.copyWith(prefix: prefix);
+      _androidDecoration = _androidDecoration.copyWith(prefix: prefix);
 
     if (borderSide != null || borderRadius != null) 
-      androidDecoration = androidDecoration.copyWith(
+      _androidDecoration = _androidDecoration.copyWith(
         border: OutlineInputBorder(
             borderSide: borderSide, borderRadius: borderRadius),
         enabledBorder: OutlineInputBorder(
@@ -285,14 +290,14 @@ class PlatformTextField
             borderSide: borderSide, borderRadius: borderRadius),
       );
     else if(borderSide == null){
-      androidDecoration = androidDecoration.copyWith(
+      _androidDecoration = _androidDecoration.copyWith(
         border: InputBorder.none
       );
     }
     
     return TextField(
       controller: controller,
-      decoration: androidDecoration,
+      decoration: _androidDecoration,
       onTap: onTap,
       onSubmitted: onSubmitted,
       textAlign: textAlign,
@@ -301,7 +306,7 @@ class PlatformTextField
       readOnly: readOnly,
       focusNode: focusNode,
       expands: expands,
-      onChanged: (s) => onTap != null ? onTap() : print(s),
+      onChanged: (s) => onTap != null ? onTap() : null,
       keyboardType: inputType,
       autofocus:autofocus,
       style: textStyle != null ? textStyle : CupertinoTheme.of(context).textTheme.textStyle.copyWith(textBaseline: TextBaseline.alphabetic),
@@ -312,8 +317,9 @@ class PlatformTextField
   @override
   CupertinoTextField createIosWidget(BuildContext context) {
     // TODO: implement createIosWidget
-    if (borderSide != null || borderRadius != null) if (iosDecoration != null)
-      iosDecoration.copyWith(
+    var _iosDecoration = iosDecoration;
+    if (borderSide != null || borderRadius != null) if (_iosDecoration != null)
+      _iosDecoration.copyWith(
           border: Border(
               bottom: borderSide,
               top: borderSide,
@@ -321,7 +327,7 @@ class PlatformTextField
               right: borderSide),
           borderRadius: borderRadius);
     else
-      iosDecoration = BoxDecoration(
+      _iosDecoration = BoxDecoration(
           border: Border(
               bottom: borderSide,
               top: borderSide,
@@ -331,14 +337,14 @@ class PlatformTextField
     return CupertinoTextField(
       placeholder: placeholder,
       placeholderStyle: placeHolderStyle,
-      decoration: iosDecoration,
+      decoration: _iosDecoration,
       textAlign: textAlign,
       suffix: suffix,
       prefix: prefix,
       focusNode:focusNode,
       textInputAction: this.textInputAction,
       onSubmitted: onSubmitted,
-      onChanged: (s) => onTap != null ? onTap() : print(s),
+      onChanged: (s) => onTap != null ? onTap() : null,
       padding: EdgeInsets.all(10),
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : maxLines),
       obscureText: inputType == TextInputType.visiblePassword || this.obscureText,
@@ -434,13 +440,13 @@ class PlatformButton extends BasePlatformWidget<Widget, CupertinoButton> {
   Widget createAndroidWidget(BuildContext context) {
     const EdgeInsets _kBackgroundButtonPadding = EdgeInsets.all(16);
     final CupertinoThemeData themeData = CupertinoTheme.of(context);
-    final Color primaryColor = themeData.primaryColor;
+    // final Color primaryColor = themeData.primaryColor;
     final Color backgroundColor = color == null
         ? Colors.transparent
         : CupertinoDynamicColor.resolve(color, context);
 
     final TextStyle textStyle = themeData.textTheme.textStyle.copyWith(color: themeData.primaryContrastingColor);
-    return InkWell(
+    return GestureDetector(
       onTap: onPressed,
       child: Container(
         padding:padding == null ? _kBackgroundButtonPadding : padding,
@@ -491,7 +497,7 @@ class PlatformPicker
     extends BasePlatformWidget<DropdownButton<int>, PlatformTextField> {
   final List<String> data;
   final String hidText;
-  int value;
+  final int value;
   final double childHeight;
   final Function(int value) onChanged;
   final BorderSide borderSide;
@@ -500,7 +506,6 @@ class PlatformPicker
   final TextStyle textStyle;
   final bool hideUnderLine;
   final double widthForAndroid;
-  int tmpValue;
   PlatformPicker(
     this.data, {
     @required this.onChanged,
@@ -536,19 +541,20 @@ class PlatformPicker
     );
   }
 
-  var _controller = TextEditingController();
-
   @override
   PlatformTextField createIosWidget(BuildContext context) {
     // TODO: implement createIosWidget
+    var _controller = TextEditingController();
+    int tmpValue;
     List<Widget> _data = [];
     for (var i = 0; i < data.length; i++)
       _data
           .add(DropdownMenuItem(child: Center(child: Text(data[i])), value: i));
+    var _value = value;
     if(_data.length > 0) {
-      if (value == null)
-        value = 0;
-      tmpValue = value;
+      if (_value == null)
+        _value = 0;
+      tmpValue = _value;
       _controller.text = data[tmpValue];
     }
 //    jt.quarterTurns = 180;
@@ -571,7 +577,7 @@ class PlatformPicker
         final picker = CupertinoPicker(
           children: _data,
           scrollController:FixedExtentScrollController(
-            initialItem: value
+            initialItem: _value
           ),
           backgroundColor: CupertinoTheme.of(context).primaryContrastingColor,
           onSelectedItemChanged: (num) {
