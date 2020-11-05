@@ -16,6 +16,15 @@ class ReportError {
     return _instance;
   }
 
+  void setUpPlatform(Map<String,dynamic> platform,String userName){
+    _instance._sentry.userContext = User(
+      extras: platform,
+      username: userName == "" ? null : userName,
+      id: "0",
+      ipAddress: ""
+    );
+  }
+
   /// 初始化Sentry
   /// [sentryDSN] 所获得得DSN
   void InitSentry(String sentryDSN){

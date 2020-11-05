@@ -10,8 +10,8 @@ import 'generated/i18n.dart';
 enum CustomListViewLinsentFlag { refresh, nextPage, passItem }
 
 class CustomListView<T> extends StatefulWidget {
-  List<Object> data;
-  int pageMax;
+  final List<Object> data;
+  final int pageMax;
   final bool pullRefresh;
   final Widget header;
   final Widget footer;
@@ -21,32 +21,39 @@ class CustomListView<T> extends StatefulWidget {
 
   final Widget sliderTop;
 
-  Function(List _data) updateData;
-  Function(int _pageIndex) updatePageMax;
+  // Function(List _data) updateData;
+  // Function(int _pageIndex) updatePageMax;
+  final Function(double px) onscroll;
+  final ScrollController scrollController;
   CustomListView(
       {@required this.itemBuilder,
       @required this.data,
 //    @required this.pageCount,
       this.pullRefresh = true,
       this.lisent,
-      this.pageMax = 1,
+      @required this.pageMax,
       this.footer,
       this.header,
-      this.sliderTop})
+      this.sliderTop,
+      this.onscroll,
+      this.scrollController})
       : super();
-  State nowState;
   @override
-  State<StatefulWidget> createState() {
-    nowState = _CustomListViewState<T>();
-    return nowState;
-  }
+  State<StatefulWidget> createState() => _CustomListViewState<T>();
 }
 
 class _CustomListViewState<T> extends State<CustomListView> {
-  final ScrollController _scrollController = ScrollController();
+  ScrollController _scrollController;
   int pageNum = 1;
 
-  _CustomListViewState() {
+  @override
+  void initState(){
+    super.initState();
+    if(widget.scrollController == null)
+      _scrollController = ScrollController();
+    else
+      _scrollController = widget.scrollController;
+
     _scrollController.addListener(() {
       if (widget.lisent == null) return;
       var maxScroll = _scrollController.position.maxScrollExtent;
@@ -57,10 +64,11 @@ class _CustomListViewState<T> extends State<CustomListView> {
         print('load more ...');
         pageNum += 1;
         widget.lisent(pageNum, CustomListViewLinsentFlag.nextPage);
+      }else if(widget.onscroll != null){
+        widget.onscroll(pixels);
       }
     });
   }
-
   Widget _noData() {
     return Padding(
       padding: const EdgeInsets.all(30.0),
@@ -126,16 +134,16 @@ class _CustomListViewState<T> extends State<CustomListView> {
 
   @override
   Widget build(BuildContext context) {
-    widget.updateData = (List _data) {
-      setState(() {
-        widget.data = _data;
-      });
-    };
-    widget.updatePageMax = (int _pageMax) {
-      setState(() {
-        widget.pageMax = _pageMax;
-      });
-    };
+    // widget.updateData = (List _data) {
+    //   setState(() {
+    //     widget.data = _data;
+    //   });
+    // };
+    // widget.updatePageMax = (int _pageMax) {
+    //   setState(() {
+    //     widget.pageMax = _pageMax;
+    //   });
+    // };
 
     var list = <Widget>[];
     if (widget.sliderTop != null) list.add(widget.sliderTop);
@@ -147,7 +155,9 @@ class _CustomListViewState<T> extends State<CustomListView> {
 
     list.add(_getSliver());
     if(widget.footer != null)
-      list.add(widget.footer);
+      list.add(SliverToBoxAdapter(
+       child: widget.footer,
+      ));
 
     if (widget.data.length == 0) {
       //没有数据
@@ -171,7 +181,7 @@ class _CustomListViewState<T> extends State<CustomListView> {
           onRefresh: () => widget.lisent(1, CustomListViewLinsentFlag.refresh),
           child: CustomScrollView(
             slivers: list,
-            controller: _scrollController,
+            controller:_scrollController,
           ),
         );
       else

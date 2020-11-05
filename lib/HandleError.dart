@@ -9,10 +9,12 @@ class CustomError implements Error{
   final bool canReload;
   final String title;
   final dynamic result;
+  final StackTrace stackTrace;
   CustomError(String msg,{
     this.title,
     this.canReload,
-    this.result
+    this.result,
+    this.stackTrace,
     }){
      this.msg = msg;
   }
@@ -20,10 +22,6 @@ class CustomError implements Error{
   String toString() {
     return msg;
   }
-
-  @override
-  // TODO: implement stackTrace
-  StackTrace get stackTrace => null;
 }
 
 class HandleError {
@@ -32,7 +30,8 @@ class HandleError {
       Error error,
       {
         bool canReload,
-        String title = null
+        String title = null,
+        bool canSupport = false
       }
   ){
     var bt = <String>[];

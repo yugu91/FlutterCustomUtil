@@ -19,6 +19,7 @@ class CustomNetwork {
   static CustomNetwork get instance => _getInstance();
   static CustomNetwork _instance;
   Dio _dio;
+  // ignore: unused_field
   bool _cookiesInitFinish = false;
   //api cookies 域，通常是 api接口即可
   String domain = "";
@@ -31,9 +32,9 @@ class CustomNetwork {
       //请求基地址,可以包含子路径
       baseUrl: ApplicationStart.instance.getRemoteUrl(),
       //连接服务器超时时间，单位是毫秒.
-      connectTimeout: 60000,
+      connectTimeout: 20000,
       //响应流上前后两次接受到数据的间隔，单位为毫秒。
-      receiveTimeout: 30000,
+      receiveTimeout: 50000,
 //      sendTimeout: 10000,
       //Http请求头.
 //    headers: {
@@ -101,8 +102,8 @@ class CustomNetwork {
 
     try {
       response = await _dio.get<String>(url,queryParameters: parame,options: option);
-    } on DioError catch (e) {
-      throw CustomError(e.message,canReload: true);
+    } on DioError catch (e,stackTrace) {
+      throw CustomError(e.message,canReload: true,stackTrace: stackTrace);
 //      throw e;
     }
     return response.data;
@@ -138,6 +139,7 @@ class CustomNetwork {
   }
 
   Future<Object> _postRequest(String url,Object data,{
+    // ignore: unused_element
     bool isFile = false,
     bool isFormUrlencoded = false,
     Map<String,Object> headers,
@@ -148,8 +150,8 @@ class CustomNetwork {
       option.contentType = ContentType.parse("application/x-www-form-urlencoded").value;
     try {
       response = await _dio.post(url,data: data,options: option);
-    } on DioError catch (e) {
-      throw CustomError(e.message,canReload: true);
+    } on DioError catch (e,stackTrace) {
+      throw CustomError(e.message,canReload: true,stackTrace: stackTrace);
 //      throw e;
     }
     return response.data;
@@ -176,8 +178,8 @@ class CustomNetwork {
   Future<String> download(String url,String savePath) async {
     try {
       await _dio.download(url, savePath);
-    } on DioError catch(e){
-      throw CustomError(e.message,canReload: true);
+    } on DioError catch(e,stackTrace){
+      throw CustomError(e.message,canReload: true,stackTrace:stackTrace);
     }
 
     return Future.value(savePath);

@@ -1,6 +1,7 @@
 
 
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,11 +13,13 @@ class CustomDialog {
   final String title;
   final BuildContext context;
   final bool canCancel;
+  final bool canSupport;
   CustomDialog(this.context, {
     @required this.msg,
     this.bts,
     this.title,
     this.canCancel = true,
+    this.canSupport = false,
   });
 
   static CustomDialog of(BuildContext context,{
@@ -24,8 +27,9 @@ class CustomDialog {
     List<String> bts,
     String title,
     bool canCancel = true,
+    bool canSupport = false,
   }){
-    return CustomDialog(context,msg: msg,bts: bts,title: title,canCancel: canCancel);
+    return CustomDialog(context,msg: msg,bts: bts,title: title,canCancel: canCancel,canSupport: canSupport);
   }
 
   Future<int> show(){
@@ -56,6 +60,14 @@ class CustomDialog {
           Navigator.pop(context,-1);
         },
       ));
+    if(canSupport){
+      actionBts.add(FlatButton(
+        child: Text(S.of(context).kefu),
+        onPressed: (){
+          Navigator.pop(context,-2);
+        },
+      ));
+    }
     // TODO: implement build
     return AlertDialog(
       title: title != null && title != "" ? Text(title) : null,
@@ -69,7 +81,7 @@ class CustomDialog {
     if(bts != null)
       for(var i = 0;i < bts.length;i++){
         actionBts.add(
-            CupertinoButton(
+            CupertinoDialogAction(
               child: Text(bts[i]),
               onPressed: (){
                 Navigator.pop(context,i);
@@ -77,17 +89,30 @@ class CustomDialog {
             )
         );
       }
-    actionBts.add(CupertinoButton(
+    if(canSupport){
+      actionBts.add(CupertinoDialogAction(
+        isDefaultAction: true,
+        child: Text(S.of(context).kefu),
+        onPressed: (){
+          Navigator.pop(context,-2);
+        },
+      ));
+    }
+
+    actionBts.add(CupertinoDialogAction(
+      isDefaultAction: true,
       child: Text(S.of(context) == null ? "关闭" : S.of(context).dialogDismiss),
       onPressed: (){
         Navigator.pop(context,-1);
       },
     ));
-    // TODO: implement build
-    return CupertinoAlertDialog(
-      title: title != null && title != "" ? Text(title) : null,
-      content: Text(msg),
-      actions: actionBts,
-    );
+    return Container(
+      color: Color.fromARGB(70, 166, 166, 166),
+      child: CupertinoAlertDialog(
+        title: title != null && title != "" ? Text(title) : null,
+        content: Text(msg),
+        actions: actionBts,
+      ),
+    ) ;
   }
 }

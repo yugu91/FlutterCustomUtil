@@ -2,8 +2,8 @@ import 'package:custom_util_plugin/CustomListView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter/services.dart';
-import 'package:custom_util_plugin/custom_util_plugin.dart';
+// import 'package:flutter/services.dart';
+// import 'package:custom_util_plugin/custom_util_plugin.dart';
 import 'package:custom_util_plugin/PlatformScaffold.dart';
 void main() => runApp(ListViewTest());
 
@@ -13,7 +13,7 @@ class ListViewTest extends StatefulWidget {
 }
 
 class _ListViewTestState extends State<ListViewTest> {
-  String _platformVersion = 'Unknown';
+  // String _platformVersion = 'Unknown';
 
   @override
   void initState() {
@@ -23,22 +23,22 @@ class _ListViewTestState extends State<ListViewTest> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
+    // String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await CustomUtilPlugin.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
+    // try {
+    //   platformVersion = await CustomUtilPlugin.platformVersion;
+    // } on PlatformException {
+    //   platformVersion = 'Failed to get platform version.';
+    // }
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
 
-    setState(() {
-      _platformVersion = platformVersion;
-    });
+    // setState(() {
+    //   _platformVersion = platformVersion;
+    // });
   }
 
   var data = ["测试1","测试1","测试1","测试1","测试1","测试1","测试1","测试1","测试1","测试1","测试1"];

@@ -25,6 +25,7 @@ class S implements WidgetsLocalizations {
   String get dialogDismiss => "Dismiss";
   String get errorTitle => "Error";
   String get errorTryAgain => "Try again";
+  String get kefu => "Support";
   String get listLoadMore => "Load more...";
   String get listNoMore => "No more";
   String get sorry => "sorry";
@@ -50,6 +51,8 @@ class $km extends S {
   String get listNoMore => "No more";
   @override
   String get errorTitle => "Error";
+  @override
+  String get kefu => "Support";
 }
 
 class $vi extends S {
@@ -72,6 +75,8 @@ class $vi extends S {
   String get listNoMore => "kết thúc";
   @override
   String get errorTitle => "lỗi";
+  @override
+  String get kefu => "Support";
 }
 
 class $en extends S {
@@ -98,6 +103,8 @@ class $zh extends S {
   String get listNoMore => "已没有更多数据";
   @override
   String get errorTitle => "抱歉，遇到错误!";
+  @override
+  String get kefu => "在线支持";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
