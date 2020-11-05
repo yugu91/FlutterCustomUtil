@@ -47,7 +47,6 @@ class HandleError {
       title = error.title;
     else if (title == null)
       title = location != null ? S.of(context).errorTitle : "抱歉";
-      title = S.of(context).errorTitle;
     return CustomDialog.of(context, msg: error.toString(),title: title,bts: bt,canSupport: canSupport).show();
   }
 }
