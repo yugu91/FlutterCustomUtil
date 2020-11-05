@@ -51,7 +51,7 @@ class CustomDialog {
       }
     if(canCancel)
       actionBts.add(FlatButton(
-        child: Text(S.of(context).dialogDismiss),
+        child: Text(S.of(context) == null ? "关闭" : S.of(context).dialogDismiss),
         onPressed: (){
           Navigator.pop(context,-1);
         },
@@ -78,7 +78,7 @@ class CustomDialog {
         );
       }
     actionBts.add(CupertinoButton(
-      child: Text(S.of(context).dialogDismiss),
+      child: Text(S.of(context) == null ? "关闭" : S.of(context).dialogDismiss),
       onPressed: (){
         Navigator.pop(context,-1);
       },

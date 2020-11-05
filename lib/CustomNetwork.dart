@@ -144,10 +144,6 @@ class CustomNetwork {
     var option = Options();
     if(isFormUrlencoded)
       option.contentType = ContentType.parse("application/x-www-form-urlencoded").value;
-    if(headers != null)
-      headers.forEach((k,v){
-        option.headers[k] = v;
-      });
     try {
       response = await _dio.post(url,data: data,options: option);
     } on DioError catch (e) {
@@ -157,12 +153,13 @@ class CustomNetwork {
     return response.data;
   }
 
-  Future<Object> upload(String url,Map<String,Object>parame,File file,String key,{
-    Map<String,Object> headers,
-  }){
+  Future<Object> upload(String url,Map<String,Object>parame,File file,String key) async{
     var p = parame == null ? <String,Object>{} : parame;
-    p[key] = MultipartFile.fromFile(file.path,filename: key);
-    return _postRequest(url, FormData.fromMap(p),headers: headers).then((body){
+    p[key] = await MultipartFile.fromFile(
+      file.path,
+      filename: key,
+    );
+    return _postRequest(url, FormData.fromMap(p)).then((body){
       if(checkResult != null) {
         String check = checkResult(url, p, body);
         if (check != null) {

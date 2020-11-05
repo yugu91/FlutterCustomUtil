@@ -33,6 +33,7 @@ class CustomDatePicker{
               onDateTimeChanged: (val){
                 lisent(val);
               },
+              backgroundColor: Colors.white,
               initialDateTime: now == null ? DateTime.now() : now,
               mode: CupertinoDatePickerMode.date,
               minimumDate: minDate,

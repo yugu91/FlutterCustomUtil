@@ -36,17 +36,18 @@ class HandleError {
       }
   ){
     var bt = <String>[];
+    var location = S.of(context);
     if(canReload == null){
       if((error is CustomError && error.canReload) || error is DioError){
-        bt.add(S.of(context).errorTryAgain);
+        bt.add(location != null ? location.errorTryAgain : "重试");
       }
     }else if(canReload == true){
-      bt.add(S.of(context).errorTryAgain);
+      bt.add(location != null ? location.errorTryAgain : "重试");
     }
     if(title == null && error is CustomError && error.title != null)
       title = error.title;
     else if (title == null)
-      title = S.of(context).errorTitle;
+      title = location != null ? S.of(context).errorTitle : "抱歉";
     return CustomDialog.of(context, msg: error.toString(),title: title,bts: bt).show();
   }
 }

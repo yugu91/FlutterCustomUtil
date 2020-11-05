@@ -299,7 +299,7 @@ class PlatformTextField
       readOnly: readOnly,
       focusNode: focusNode,
       expands: expands,
-      onChanged: (s) => onTap != null ? onTap() : print(s),
+      onChanged: (s) => onTap != null ? onTap() : nullTap(),
       keyboardType: inputType,
       autofocus:autofocus,
       style: textStyle != null ? textStyle : CupertinoTheme.of(context).textTheme.textStyle.copyWith(textBaseline: TextBaseline.alphabetic),
@@ -336,7 +336,7 @@ class PlatformTextField
       focusNode:focusNode,
       textInputAction: this.textInputAction,
       onSubmitted: onSubmitted,
-      onChanged: (s) => onTap != null ? onTap() : print(s),
+      onChanged: (s) => onTap != null ? onTap() : nullTap(),
       padding: EdgeInsets.all(10),
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : maxLines),
       obscureText: inputType == TextInputType.visiblePassword || this.obscureText,
@@ -348,6 +348,9 @@ class PlatformTextField
       controller: controller,
       keyboardType: inputType,
     );
+  }
+  void nullTap(){
+
   }
 }
 
