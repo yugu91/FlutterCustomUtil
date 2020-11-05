@@ -6,6 +6,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 import 'ApplicationStart.dart';
 import 'HandleError.dart';
@@ -20,8 +21,9 @@ class CustomNetwork {
   Dio _dio;
   // ignore: unused_field
   bool _cookiesInitFinish = false;
+  //api cookies 域，通常是 api接口即可
+  String domain = "";
   CustomNetwork._internal();
-
   CustomNetworkCheckResult checkResult;
   Future<bool> checkInit;
   static CustomNetwork _getInstance(){
@@ -146,10 +148,6 @@ class CustomNetwork {
     var option = Options();
     if(isFormUrlencoded)
       option.contentType = ContentType.parse("application/x-www-form-urlencoded").value;
-    if(headers != null)
-      headers.forEach((k,v){
-        option.headers[k] = v;
-      });
     try {
       response = await _dio.post(url,data: data,options: option);
     } on DioError catch (e,stackTrace) {
@@ -159,12 +157,13 @@ class CustomNetwork {
     return response.data;
   }
 
-  Future<Object> upload(String url,Map<String,Object>parame,File file,String key,{
-    Map<String,Object> headers,
-  }){
+  Future<Object> upload(String url,Map<String,Object>parame,File file,String key) async{
     var p = parame == null ? <String,Object>{} : parame;
-    p[key] = MultipartFile.fromFile(file.path,filename: key);
-    return _postRequest(url, FormData.fromMap(p),headers: headers).then((body){
+    p[key] = await MultipartFile.fromFile(
+      file.path,
+      filename: key,
+    );
+    return _postRequest(url, FormData.fromMap(p)).then((body){
       if(checkResult != null) {
         String check = checkResult(url, p, body);
         if (check != null) {
@@ -189,7 +188,8 @@ class CustomNetwork {
 
 class _CookiesApi {
   static PersistCookieJar _cookieJar;
-
+  static String domain;
+  static final webViewCookieManager = WebviewCookieManager();
   static Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
@@ -208,11 +208,18 @@ class _CookiesApi {
       final Directory dir = await _localCoookieDirectory;
       final cookiePath = dir.path;
       _cookieJar = new PersistCookieJar(dir: '$cookiePath');
-
-      var tmp = _cookieJar.loadForRequest(Uri.parse("https://www.hot008.app"));
-      for(var k in tmp){
-        print("sdfsdfsdfsf|" + k.name + "|" + k.value);
+      if(domain != null && domain != ""){
+        var apiCookies = _cookieJar.loadForRequest(Uri.parse(domain));
+        // var _cookies = <Cookie>[];
+        // apiCookies.forEach((cookie) {
+        //   _cookies.add(cookie);
+        // });
+        webViewCookieManager.setCookies(apiCookies);
       }
+      // var tmp = _cookieJar.loadForRequest(Uri.parse("https://www.hot008.app"));
+      // for(var k in tmp){
+      //   print("sdfsdfsdfsf|" + k.name + "|" + k.value);
+      // }
     }
     return _cookieJar;
   }
