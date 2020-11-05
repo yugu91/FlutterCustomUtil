@@ -178,7 +178,10 @@ class _CustomListViewState<T> extends State<CustomListView> {
     } else {
       if (widget.pullRefresh)
         return RefreshIndicator(
-          onRefresh: () => widget.lisent(1, CustomListViewLinsentFlag.refresh),
+          onRefresh: (){
+            pageNum = 1; 
+            return widget.lisent(pageNum, CustomListViewLinsentFlag.refresh);
+          },
           child: CustomScrollView(
             slivers: list,
             controller:_scrollController,
