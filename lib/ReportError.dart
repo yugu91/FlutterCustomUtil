@@ -1,7 +1,7 @@
 
 import 'package:custom_util_plugin/ApplicationStart.dart';
-import 'package:flutter/foundation.dart';
-import 'package:sentry/sentry.dart';
+import 'package:flutter/material.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 class ReportError {
   factory ReportError() => _getInstance();
   static ReportError get instance => _getInstance();
@@ -17,23 +17,31 @@ class ReportError {
   }
 
   void setUpPlatform(Map<String,dynamic> platform,String userName){
-    if(_instance._sentry != null)
-      _instance._sentry.userContext = User(
-        extras: platform,
-        username: userName == "" ? null : userName,
-        id: "0",
-        ipAddress: ""
-      );
+    // if(_instance._sentry != null)
+    //   _instance._sentry..userContext = User(
+    //     extras: platform,
+    //     username: userName == "" ? null : userName,
+    //     id: "0",
+    //     ipAddress: ""
+    //   );
   }
 
   /// 初始化Sentry
   /// [sentryDSN] 所获得得DSN
-  void InitSentry(String sentryDSN){
-    _instance._sentry = new SentryClient(dsn: sentryDSN);
+  void InitSentry({
+    @required String sentryDSN,
+    @required AppRunner appRunner
+  }) async{
+    await SentryFlutter.init(
+      (options) => options.dsn = sentryDSN,
+      appRunner: () => appRunner(),
+    );
+    // InitSentry(sentryDSN);
+    // // _instance._sentry = new SentryClient(dsn: sentryDSN);
     FlutterError.onError = (details, {bool forceReport = false}) {
       try {
         _instance._sentry.captureException(
-          exception: details.exception,
+          details.exception,
           stackTrace: details.stack,
         );
       } catch (e) {
@@ -50,15 +58,15 @@ class ReportError {
   /// [stackTrace] 输出信息
   /// [alwaysReport] DEBUG模式仍然上报
   /// try{ }catch(error,stackTrace){}
-  Future<SentryResponse> report(Error error, {
+  Future<SentryId> report(Error error, {
     dynamic stackTrace,
     bool alwaysReport = false
   }) async{
     if(!alwaysReport && ApplicationStart.instance.isDebug)
-      return Future.value(SentryResponse.success(eventId: "0"));
+      return Future.value(SentryId.empty());
     else
       return await _sentry.captureException(
-        exception: error,
+        error,
         stackTrace:stackTrace
       );
   }

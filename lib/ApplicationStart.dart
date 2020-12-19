@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:custom_util_plugin/ReportError.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'CustomDialog.dart';
@@ -31,7 +30,6 @@ class ApplicationStart {
     BuildContext context, {
     @required String remoteUrl,
     String checkUpdateUrl,
-    String sentryDSN,
     String webFileDict,
     String webFileEncodeKey,
   }) {
@@ -39,8 +37,8 @@ class ApplicationStart {
     this._context = context;
     this.webFileDict = webFileDict;
     this.webFileEncodeKey = webFileEncodeKey;
-    if(sentryDSN != null)
-      ReportError.instance.InitSentry(sentryDSN);
+    // if(sentryDSN != null)
+    //   ReportError.instance.InitSentry(sentryDSN);
     Util.getPackageInfo().then((val){
       packageInfo = val;
       if (checkUpdateUrl != null) _checkUpdate(context, checkUpdateUrl);

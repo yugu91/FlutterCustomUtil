@@ -18,7 +18,7 @@ dependencies:
       url: https://github.com/yugu91/webview_cookie_manager.git
   cookie_jar: ^1.0.0
   modal_progress_hud: ^0.1.3
-  sentry: any
+  sentry_flutter: ^4.0.0
   webview_flutter:
     path: ../flutter_plugins/packages/webview_flutter
   path_provider: ^1.6.7
