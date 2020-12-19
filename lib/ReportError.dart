@@ -17,12 +17,13 @@ class ReportError {
   }
 
   void setUpPlatform(Map<String,dynamic> platform,String userName){
-    _instance._sentry.userContext = User(
-      extras: platform,
-      username: userName == "" ? null : userName,
-      id: "0",
-      ipAddress: ""
-    );
+    if(_instance._sentry != null)
+      _instance._sentry.userContext = User(
+        extras: platform,
+        username: userName == "" ? null : userName,
+        id: "0",
+        ipAddress: ""
+      );
   }
 
   /// 初始化Sentry

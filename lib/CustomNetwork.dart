@@ -46,6 +46,15 @@ class CustomNetwork {
       //表示期望以那种格式(方式)接受响应数据。接受4种类型 `json`, `stream`, `plain`, `bytes`. 默认值是 `json`,
       responseType: ResponseType.json,
     ));
+    // (_instance._dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    //   (client) {
+    //     client.findProxy = (url) {
+    //       ///设置代理 电脑ip地址
+    //       return "PROXY 192.168.1.17:7890";
+    //     };
+    //     ///忽略证书
+    //     client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    //   };
 //    _instance._dio.interceptors.add(InterceptorsWrapper(
 ////      onRequest: (RequestOptions options){
 ////
@@ -148,8 +157,10 @@ class CustomNetwork {
     var option = Options();
     if(isFormUrlencoded)
       option.contentType = ContentType.parse("application/x-www-form-urlencoded").value;
+
+    option.headers = headers;
     try {
-      response = await _dio.post(url,data: data,options: option);
+      response = await _dio.post(url,data:FormData.fromMap(data),options: option);
     } on DioError catch (e,stackTrace) {
       throw CustomError(e.message,canReload: true,stackTrace: stackTrace);
 //      throw e;

@@ -20,7 +20,7 @@ class WebFileHelper {
 
   Future<bool> getWebFile(){
     return Future.wait([
-      CustomNetwork.instance.get("/html5/${ApplicationStart.instance.webFileDict}/webfile.json", null),
+      CustomNetwork.instance.get("${ApplicationStart.instance.webFileDict}/webfile.json", null),
       SharedPreferences.getInstance()
     ]) .then((arr){
       var val = arr[0];
@@ -89,7 +89,7 @@ class WebFileHelper {
   }
 
   Future<WebFileModel> _updateFile(WebFileModel model,File file) async{
-    var url = "/html5/${ApplicationStart.instance.webFileDict}/${model.name}";
+    var url = "${ApplicationStart.instance.webFileDict}/${model.name}";
     var savePath = file.path;
     return CustomNetwork.instance.download(url, savePath).then((path){
       var newFile = File(path);

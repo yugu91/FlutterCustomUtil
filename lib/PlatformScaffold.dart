@@ -235,6 +235,7 @@ class PlatformTextField
   final ValueChanged<String> onSubmitted;
   final TextInputAction textInputAction;
   final FocusNode focusNode;
+  final Iterable<String> autofillHints;
   PlatformTextField({
     this.controller,
     this.suffix,
@@ -256,7 +257,8 @@ class PlatformTextField
     this.autofocus = false,
     this.onSubmitted,
     this.textInputAction,
-    this.focusNode
+    this.focusNode,
+    this.autofillHints
   });
 
   @override
@@ -309,6 +311,7 @@ class PlatformTextField
       onChanged: (s) => onTap != null ? onTap() : nullTap(),
       keyboardType: inputType,
       autofocus:autofocus,
+      autofillHints: autofillHints,
       style: textStyle != null ? textStyle : CupertinoTheme.of(context).textTheme.textStyle.copyWith(textBaseline: TextBaseline.alphabetic),
       obscureText: inputType == TextInputType.visiblePassword || this.obscureText,
     );
@@ -351,6 +354,7 @@ class PlatformTextField
       expands: expands,
       onTap: onTap,
       autofocus: autofocus,
+      autofillHints: autofillHints,
       style: textStyle != null ? textStyle : CupertinoTheme.of(context).textTheme.textStyle,
       readOnly: readOnly,
       controller: controller,
