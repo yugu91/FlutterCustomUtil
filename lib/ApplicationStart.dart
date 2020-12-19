@@ -41,7 +41,6 @@ class ApplicationStart {
     this.webFileEncodeKey = webFileEncodeKey;
     if(sentryDSN != null)
       ReportError.instance.InitSentry(sentryDSN);
-
     Util.getPackageInfo().then((val){
       packageInfo = val;
       if (checkUpdateUrl != null) _checkUpdate(context, checkUpdateUrl);

@@ -6,7 +6,6 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 
 import 'ApplicationStart.dart';
 import 'HandleError.dart';
@@ -22,7 +21,6 @@ class CustomNetwork {
   // ignore: unused_field
   bool _cookiesInitFinish = false;
   //api cookies 域，通常是 api接口即可
-  String domain = "";
   CustomNetwork._internal();
   CustomNetworkCheckResult checkResult;
   Future<bool> checkInit;
@@ -176,7 +174,9 @@ class CustomNetwork {
   }
 
   Future<String> download(String url,String savePath) async {
+    
     try {
+      var _ = await checkInit;
       await _dio.download(url, savePath);
     } on DioError catch(e,stackTrace){
       throw CustomError(e.message,canReload: true,stackTrace:stackTrace);
@@ -184,12 +184,17 @@ class CustomNetwork {
 
     return Future.value(savePath);
   }
+
+  Future<List<Cookie>> getCookies(String url){
+    return _CookiesApi.cookieJar.then(
+      (cookieJar) => 
+        Future.value(cookieJar.loadForRequest(Uri.parse(url)))
+    );
+  }
 }
 
 class _CookiesApi {
   static PersistCookieJar _cookieJar;
-  static String domain;
-  static final webViewCookieManager = WebviewCookieManager();
   static Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
@@ -208,14 +213,14 @@ class _CookiesApi {
       final Directory dir = await _localCoookieDirectory;
       final cookiePath = dir.path;
       _cookieJar = new PersistCookieJar(dir: '$cookiePath');
-      if(domain != null && domain != ""){
-        var apiCookies = _cookieJar.loadForRequest(Uri.parse(domain));
-        // var _cookies = <Cookie>[];
-        // apiCookies.forEach((cookie) {
-        //   _cookies.add(cookie);
-        // });
-        webViewCookieManager.setCookies(apiCookies);
-      }
+      // if(domain != null && domain != ""){
+      //   var apiCookies = _cookieJar.loadForRequest(Uri.parse(domain));
+      //   // var _cookies = <Cookie>[];
+      //   // apiCookies.forEach((cookie) {
+      //   //   _cookies.add(cookie);
+      //   // });
+      //   webViewCookieManager.setCookies(apiCookies);
+      // }
       // var tmp = _cookieJar.loadForRequest(Uri.parse("https://www.hot008.app"));
       // for(var k in tmp){
       //   print("sdfsdfsdfsf|" + k.name + "|" + k.value);
