@@ -123,6 +123,7 @@ class CustomNetwork {
     Map<String,Object> parame,
     bool isFormUrlencoded = false,
     Map<String,Object> headers,
+    bool isFormData = false,
   }){
     if(parame == null)
       parame = Map();
@@ -149,6 +150,7 @@ class CustomNetwork {
     // ignore: unused_element
     bool isFile = false,
     bool isFormUrlencoded = false,
+    bool isFormData = false,
     Map<String,Object> headers,
   }) async{
     Response response;
@@ -156,9 +158,9 @@ class CustomNetwork {
     if(isFormUrlencoded)
       option.contentType = ContentType.parse("application/x-www-form-urlencoded").value;
 
-    option.headers = headers;
+    // option.headers = headers;
     try {
-      response = await _dio.post(url,data:FormData.fromMap(data),options: option);
+      response = await _dio.post(url,data:isFormData ? FormData.fromMap(data) : data,options: option);
     } on DioError catch (e,stackTrace) {
       throw CustomError(e.message,canReload: true,stackTrace: stackTrace);
 //      throw e;

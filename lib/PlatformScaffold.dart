@@ -347,7 +347,12 @@ class PlatformTextField
       focusNode:focusNode,
       textInputAction: this.textInputAction,
       onSubmitted: onSubmitted,
-      onChanged: (s) => onTap != null ? onTap() : nullTap(),
+      onChanged: (s){
+        if(onTap != null)
+          onTap();
+        else
+         nullTap();
+      },
       padding: EdgeInsets.all(10),
       maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : maxLines),
       obscureText: inputType == TextInputType.visiblePassword || this.obscureText,
