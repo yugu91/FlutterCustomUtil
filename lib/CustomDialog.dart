@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +12,8 @@ class CustomDialog {
   final BuildContext context;
   final bool canCancel;
   final bool canSupport;
-  CustomDialog(this.context, {
+  CustomDialog(
+    this.context, {
     @required this.msg,
     this.bts,
     this.title,
@@ -22,49 +21,55 @@ class CustomDialog {
     this.canSupport = false,
   });
 
-  static CustomDialog of(BuildContext context,{
+  static CustomDialog of(
+    BuildContext context, {
     @required String msg,
     List<String> bts,
     String title,
     bool canCancel = true,
     bool canSupport = false,
-  }){
-    return CustomDialog(context,msg: msg,bts: bts,title: title,canCancel: canCancel,canSupport: canSupport);
+  }) {
+    return CustomDialog(context,
+        msg: msg,
+        bts: bts,
+        title: title,
+        canCancel: canCancel,
+        canSupport: canSupport);
   }
 
-  Future<int> show(){
-    if(Platform.isIOS){
-      return showCupertinoDialog<int>(context: context, builder: (context) => _buildCuprDialog(context));
-    }else{
-      return showDialog<int>(context: context,builder: (context) => _buildMetDialog(context));
+  Future<int> show() {
+    if (Platform.isIOS) {
+      return showCupertinoDialog<int>(
+          context: context, builder: (context) => _buildCuprDialog(context));
+    } else {
+      return showDialog<int>(
+          context: context, builder: (context) => _buildMetDialog(context));
     }
   }
 
-  Widget _buildMetDialog(BuildContext context){
+  Widget _buildMetDialog(BuildContext context) {
     var actionBts = <Widget>[];
-    if(bts != null)
-      for(var i = 0;i < bts.length;i++){
-        actionBts.add(
-            FlatButton(
-              child: Text(bts[i]),
-              onPressed: (){
-                Navigator.pop(context,i);
-              },
-            )
-        );
+    if (bts != null)
+      for (var i = 0; i < bts.length; i++) {
+        actionBts.add(FlatButton(
+          child: Text(bts[i]),
+          onPressed: () {
+            Navigator.pop(context, i);
+          },
+        ));
       }
-    if(canCancel)
+    if (canCancel)
       actionBts.add(FlatButton(
         child: Text(S.of(context) == null ? "关闭" : S.of(context).dialogDismiss),
-        onPressed: (){
-          Navigator.pop(context,-1);
+        onPressed: () {
+          Navigator.pop(context, -1);
         },
       ));
-    if(canSupport){
+    if (canSupport) {
       actionBts.add(FlatButton(
         child: Text(S.of(context).kefu),
-        onPressed: (){
-          Navigator.pop(context,-2);
+        onPressed: () {
+          Navigator.pop(context, -2);
         },
       ));
     }
@@ -76,25 +81,23 @@ class CustomDialog {
     );
   }
 
-  Widget _buildCuprDialog(BuildContext context){
+  Widget _buildCuprDialog(BuildContext context) {
     var actionBts = <Widget>[];
-    if(bts != null)
-      for(var i = 0;i < bts.length;i++){
-        actionBts.add(
-            CupertinoDialogAction(
-              child: Text(bts[i]),
-              onPressed: (){
-                Navigator.pop(context,i);
-              },
-            )
-        );
+    if (bts != null)
+      for (var i = 0; i < bts.length; i++) {
+        actionBts.add(CupertinoDialogAction(
+          child: Text(bts[i]),
+          onPressed: () {
+            Navigator.pop(context, i);
+          },
+        ));
       }
-    if(canSupport){
+    if (canSupport) {
       actionBts.add(CupertinoDialogAction(
         isDefaultAction: true,
-        child: Text(S.of(context).kefu),
-        onPressed: (){
-          Navigator.pop(context,-2);
+        child: Text(S.of(context) == null ? "Service" : S.of(context).kefu),
+        onPressed: () {
+          Navigator.pop(context, -2);
         },
       ));
     }
@@ -102,8 +105,8 @@ class CustomDialog {
     actionBts.add(CupertinoDialogAction(
       isDefaultAction: true,
       child: Text(S.of(context) == null ? "关闭" : S.of(context).dialogDismiss),
-      onPressed: (){
-        Navigator.pop(context,-1);
+      onPressed: () {
+        Navigator.pop(context, -1);
       },
     ));
     return Container(
@@ -113,6 +116,6 @@ class CustomDialog {
         content: Text(msg),
         actions: actionBts,
       ),
-    ) ;
+    );
   }
 }

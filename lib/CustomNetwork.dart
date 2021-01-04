@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -11,7 +10,8 @@ import 'ApplicationStart.dart';
 import 'HandleError.dart';
 import 'generated/i18n.dart';
 
-typedef String CustomNetworkCheckResult(String url,dynamic parame,dynamic result);
+typedef String CustomNetworkCheckResult(
+    String url, dynamic parame, dynamic result);
 
 class CustomNetwork {
   factory CustomNetwork() => _getInstance();
@@ -24,7 +24,7 @@ class CustomNetwork {
   CustomNetwork._internal();
   CustomNetworkCheckResult checkResult;
   Future<bool> checkInit;
-  static CustomNetwork _getInstance(){
+  static CustomNetwork _getInstance() {
     _instance ??= CustomNetwork._internal();
     _instance._dio = Dio(BaseOptions(
       //请求基地址,可以包含子路径
@@ -65,28 +65,32 @@ class CustomNetwork {
     return _instance;
   }
 
-  Future<bool> _checkInit() async{
-    return _CookiesApi.cookieJar.then((cookieJar){
-      _instance._dio.interceptors.add(CookieManager(cookieJar));
-      return Future.value(true);
-    }).catchError((err) => print(err)).whenComplete(() => _cookiesInitFinish = true);
+  Future<bool> _checkInit() async {
+    return _CookiesApi.cookieJar
+        .then((cookieJar) {
+          _instance._dio.interceptors.add(CookieManager(cookieJar));
+          return Future.value(true);
+        })
+        .catchError((err) => print(err))
+        .whenComplete(() => _cookiesInitFinish = true);
   }
 
-  Future<Object> get(String url,Map<String,Object> parame,{
-    Map<String,Object> headers,
+  Future<Object> get(
+    String url,
+    Map<String, Object> parame, {
+    Map<String, Object> headers,
   }) {
 //    if(!url.contains("http"))
 //      url = ApplicationStart.instance.getRemoteUrl() + url;
     return checkInit.then((v) {
-      return _getRequest(url, parame,headers: headers);
+      return _getRequest(url, parame, headers: headers);
     }).then<Object>((body) {
       if (checkResult != null) {
         String check = checkResult(url, parame, body);
         if (check != null) {
           var l = S.of(ApplicationStart.instance.getContext());
-          throw CustomError(check, title: l != null ? l.sorry : "抱歉",
-              canReload: true,
-              result: body);
+          throw CustomError(check,
+              title: l != null ? l.sorry : "抱歉", canReload: true, result: body);
         }
       }
       if (body is String) {
@@ -97,20 +101,23 @@ class CustomNetwork {
     });
   }
 
-  Future<Object> _getRequest(String url,Map<String,Object> parame,{
-    Map<String,Object> headers,
+  Future<Object> _getRequest(
+    String url,
+    Map<String, Object> parame, {
+    Map<String, Object> headers,
   }) async {
     Response response;
     var option = Options();
-    if(headers != null)
-      headers.forEach((k,v){
+    if (headers != null)
+      headers.forEach((k, v) {
         option.headers[k] = v;
       });
 
     try {
-      response = await _dio.get<String>(url,queryParameters: parame,options: option);
-    } on DioError catch (e,stackTrace) {
-      throw CustomError(e.message,canReload: true,stackTrace: stackTrace);
+      response =
+          await _dio.get<String>(url, queryParameters: parame, options: option);
+    } on DioError catch (e, stackTrace) {
+      throw CustomError(e.message, canReload: true, stackTrace: stackTrace);
 //      throw e;
     }
     return response.data;
@@ -119,90 +126,94 @@ class CustomNetwork {
   /// post 数据 和 上传文件
   /// [url] 接口地址
   /// [parame] 需要传递的参数
-  Future<Object> post(String url,{
-    Map<String,Object> parame,
+  Future<Object> post(
+    String url, {
+    Map<String, Object> parame,
     bool isFormUrlencoded = false,
-    Map<String,Object> headers,
+    Map<String, Object> headers,
     bool isFormData = false,
-  }){
-    if(parame == null)
-      parame = Map();
+  }) {
+    if (parame == null) parame = Map();
 
     return checkInit.then((v) {
-      return _postRequest(url, parame, isFormUrlencoded: isFormUrlencoded, headers: headers);
-    }).then<Object>((body){
-      if(checkResult != null) {
+      return _postRequest(url, parame,
+          isFormUrlencoded: isFormUrlencoded, headers: headers);
+    }).then<Object>((body) {
+      if (checkResult != null) {
         String check = checkResult(url, parame, body);
         var localStr = S.of(ApplicationStart.instance.getContext());
         if (check != null) {
-          throw CustomError(check, title: localStr == null ? "抱歉" : localStr.sorry, canReload: true);
+          throw CustomError(check,
+              title: localStr == null ? "抱歉" : localStr.sorry, canReload: true);
         }
       }
-      if(body is String) {
+      if (body is String) {
         return json.decode(body);
-      }else{
+      } else {
         return body;
       }
     });
   }
 
-  Future<Object> _postRequest(String url,Object data,{
+  Future<Object> _postRequest(
+    String url,
+    Object data, {
     // ignore: unused_element
     bool isFile = false,
     bool isFormUrlencoded = false,
     bool isFormData = false,
-    Map<String,Object> headers,
-  }) async{
+    Map<String, Object> headers,
+  }) async {
     Response response;
     var option = Options();
-    if(isFormUrlencoded)
-      option.contentType = ContentType.parse("application/x-www-form-urlencoded").value;
-
-    // option.headers = headers;
+    if (isFormUrlencoded)
+      option.contentType =
+          ContentType.parse("application/x-www-form-urlencoded").value;
+    if (headers != null) option.headers = headers;
     try {
-      response = await _dio.post(url,data:isFormData ? FormData.fromMap(data) : data,options: option);
-    } on DioError catch (e,stackTrace) {
-      throw CustomError(e.message,canReload: true,stackTrace: stackTrace);
+      response = await _dio.post(url,
+          data: isFormData ? FormData.fromMap(data) : data, options: option);
+    } on DioError catch (e, stackTrace) {
+      throw CustomError(e.message, canReload: true, stackTrace: stackTrace);
 //      throw e;
     }
     return response.data;
   }
 
-  Future<Object> upload(String url,Map<String,Object>parame,File file,String key) async{
-    var p = parame == null ? <String,Object>{} : parame;
+  Future<Object> upload(
+      String url, Map<String, Object> parame, File file, String key) async {
+    var p = parame == null ? <String, Object>{} : parame;
     p[key] = await MultipartFile.fromFile(
       file.path,
       filename: key,
     );
-    return _postRequest(url, FormData.fromMap(p)).then((body){
-      if(checkResult != null) {
+    return _postRequest(url, FormData.fromMap(p)).then((body) {
+      if (checkResult != null) {
         String check = checkResult(url, p, body);
         if (check != null) {
           var k = S.of(ApplicationStart.instance.getContext());
-          throw CustomError(check, title: k != null ? k.sorry : "抱歉", canReload: true);
+          throw CustomError(check,
+              title: k != null ? k.sorry : "抱歉", canReload: true);
         }
       }
       return json.decode(body);
     });
   }
 
-  Future<String> download(String url,String savePath) async {
-    
+  Future<String> download(String url, String savePath) async {
     try {
       var _ = await checkInit;
       await _dio.download(url, savePath);
-    } on DioError catch(e,stackTrace){
-      throw CustomError(e.message,canReload: true,stackTrace:stackTrace);
+    } on DioError catch (e, stackTrace) {
+      throw CustomError(e.message, canReload: true, stackTrace: stackTrace);
     }
 
     return Future.value(savePath);
   }
 
-  Future<List<Cookie>> getCookies(String url){
+  Future<List<Cookie>> getCookies(String url) {
     return _CookiesApi.cookieJar.then(
-      (cookieJar) => 
-        Future.value(cookieJar.loadForRequest(Uri.parse(url)))
-    );
+        (cookieJar) => Future.value(cookieJar.loadForRequest(Uri.parse(url))));
   }
 }
 

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,7 @@ class CustomListView<T> extends StatefulWidget {
 //  int pageCount;
   final IndexedWidgetBuilder itemBuilder;
   final Function(int index, CustomListViewLinsentFlag flag) lisent;
-
+  final updateStream = StreamController<dynamic>();
   final Widget sliderTop;
 
   // Function(List _data) updateData;
@@ -47,9 +48,9 @@ class _CustomListViewState<T> extends State<CustomListView> {
   int pageNum = 1;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    if(widget.scrollController == null)
+    if (widget.scrollController == null)
       _scrollController = ScrollController();
     else
       _scrollController = widget.scrollController;
@@ -64,11 +65,26 @@ class _CustomListViewState<T> extends State<CustomListView> {
         print('load more ...');
         pageNum += 1;
         widget.lisent(pageNum, CustomListViewLinsentFlag.nextPage);
-      }else if(widget.onscroll != null){
+      } else if (widget.onscroll != null) {
         widget.onscroll(pixels);
       }
     });
+    widget.updateStream.stream.listen((event) {
+      this.pageSet(event);
+    });
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    widget.updateStream.close();
+  }
+
+  void pageSet(int pageNo) {
+    this.pageNum = pageNo;
+  }
+
   Widget _noData() {
     return Padding(
       padding: const EdgeInsets.all(30.0),
@@ -103,7 +119,8 @@ class _CustomListViewState<T> extends State<CustomListView> {
   Widget _loadFinalWidget() {
     return Padding(
       padding: const EdgeInsets.all(15.0),
-      child: Center(child: Text(S.of(context) == null ? '完' : S.of(context).listNoMore)),
+      child: Center(
+          child: Text(S.of(context) == null ? '完' : S.of(context).listNoMore)),
     );
   }
 
@@ -154,9 +171,9 @@ class _CustomListViewState<T> extends State<CustomListView> {
     if (widget.header != null) list.add(_addView(widget.header));
 
     list.add(_getSliver());
-    if(widget.footer != null)
+    if (widget.footer != null)
       list.add(SliverToBoxAdapter(
-       child: widget.footer,
+        child: widget.footer,
       ));
 
     if (widget.data.length == 0) {
@@ -173,23 +190,26 @@ class _CustomListViewState<T> extends State<CustomListView> {
     if (Platform.isIOS) {
       return CustomScrollView(
         slivers: list,
+        physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
       );
     } else {
       if (widget.pullRefresh)
         return RefreshIndicator(
-          onRefresh: (){
-            pageNum = 1; 
+          onRefresh: () {
+            pageNum = 1;
             return widget.lisent(pageNum, CustomListViewLinsentFlag.refresh);
           },
           child: CustomScrollView(
             slivers: list,
-            controller:_scrollController,
+            physics: const AlwaysScrollableScrollPhysics(),
+            controller: _scrollController,
           ),
         );
       else
         return CustomScrollView(
           slivers: list,
+          physics: const AlwaysScrollableScrollPhysics(),
           controller: _scrollController,
         );
     }
