@@ -5,8 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'generated/i18n.dart';
-//import 'package:flutter/material.dart';
+import 'generated/l10n.dart';
 
 enum CustomListViewLinsentFlag { refresh, nextPage, passItem }
 
@@ -16,6 +15,7 @@ class CustomListView<T> extends StatefulWidget {
   final bool pullRefresh;
   final Widget header;
   final Widget footer;
+  final bool alwaysScroll;
 //  int pageCount;
   final IndexedWidgetBuilder itemBuilder;
   final Function(int index, CustomListViewLinsentFlag flag) lisent;
@@ -36,6 +36,7 @@ class CustomListView<T> extends StatefulWidget {
       this.footer,
       this.header,
       this.sliderTop,
+      this.alwaysScroll = true,
       this.onscroll,
       this.scrollController})
       : super();
@@ -190,7 +191,8 @@ class _CustomListViewState<T> extends State<CustomListView> {
     if (Platform.isIOS) {
       return CustomScrollView(
         slivers: list,
-        physics: const AlwaysScrollableScrollPhysics(),
+        physics:
+            widget.alwaysScroll ? const AlwaysScrollableScrollPhysics() : null,
         controller: _scrollController,
       );
     } else {

@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'ApplicationStart.dart';
 import 'HandleError.dart';
-import 'generated/i18n.dart';
+import 'generated/l10n.dart';
 
 typedef String CustomNetworkCheckResult(
     String url, dynamic parame, dynamic result);

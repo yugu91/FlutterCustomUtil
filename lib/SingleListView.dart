@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'generated/i18n.dart';
+import 'generated/l10n.dart';
 
 class SingleListView extends StatefulWidget {
   final List<Object> data;
@@ -63,7 +63,7 @@ class _State extends State<SingleListView> {
 //        child: Text(
 //          ic
 //        ),
-          ),
+      ),
     );
   }
 
@@ -95,36 +95,35 @@ class _State extends State<SingleListView> {
 
   Widget _getList() {
     var length = widget.data.length;
-    if(length == 0)
+    if (length == 0)
       length = 1;
-    else if(Platform.isIOS)
+    else if (Platform.isIOS)
       length += 2;
     else
       length += 1;
     return ListView.builder(
-      padding: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
         // primary: true,
-          shrinkWrap: true,
+        shrinkWrap: true,
         // controller: _scrollController,
         itemBuilder: (context, index) {
-          if (widget.data.length == 0)
-            return _noData();
+          if (widget.data.length == 0) return _noData();
           var _index = index;
-          if (widget.data.length == index)
-            if (pageNum >= widget.pageMax)
-              return _loadFinalWidget();
-            else {
-              if(!loading) {
-                print("load more");
-                loading = true;
-                pageNum += 1;
-                widget.lisent(pageNum, CustomListViewLinsentFlag.nextPage).then((
-                    value) {
-                  loading = false;
-                });
-              }
-              return _loadMoreWidget();
+          if (widget.data.length == index) if (pageNum >= widget.pageMax)
+            return _loadFinalWidget();
+          else {
+            if (!loading) {
+              print("load more");
+              loading = true;
+              pageNum += 1;
+              widget
+                  .lisent(pageNum, CustomListViewLinsentFlag.nextPage)
+                  .then((value) {
+                loading = false;
+              });
             }
+            return _loadMoreWidget();
+          }
 
           return GestureDetector(
             onTap: () =>

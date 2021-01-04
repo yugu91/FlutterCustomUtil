@@ -388,9 +388,11 @@ packages:
   webview_flutter:
     dependency: "direct main"
     description:
-      path: "../flutter_plugins/packages/webview_flutter"
-      relative: true
-    source: path
+      path: "packages/webview_flutter"
+      ref: HEAD
+      resolved-ref: "2553c430ff511b97a5dcceb5c803ed142f54c697"
+      url: "https://github.com/yugu91/plugins.git"
+    source: git
     version: "1.0.3"
   win32:
     dependency: transitive

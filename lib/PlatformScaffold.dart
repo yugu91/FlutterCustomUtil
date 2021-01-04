@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'BasePlatformWidget.dart';
-import 'generated/i18n.dart';
+import 'generated/l10n.dart';
 
 class PlatformApp extends CupertinoApp {
   final String title;
@@ -13,12 +13,15 @@ class PlatformApp extends CupertinoApp {
   final Map<String, WidgetBuilder> router;
   final LocalizationsDelegate delegate;
   final List<NavigatorObserver> navigatorObservers;
+
   /// 默认[英语,中文] 再默认上新增
 //  final List<Locale> local;
   /// 默认语言，null则为 support 第一个
   final Locale defaultLocal;
+
   /// 当前语言
   final Locale nowLocale;
+
   /// 返回当前LOCALE
   final Function(Locale local) callBackLocal;
   PlatformApp({
@@ -35,8 +38,8 @@ class PlatformApp extends CupertinoApp {
   }) : super(
             title: title,
             home: home,
-            navigatorObservers:navigatorObservers,
-            locale:defaultLocal,
+            navigatorObservers: navigatorObservers,
+            locale: defaultLocal,
             localizationsDelegates: delegate == null
                 ? [
                     //此处
@@ -53,30 +56,21 @@ class PlatformApp extends CupertinoApp {
                     GlobalCupertinoLocalizations.delegate,
                   ],
             supportedLocales: S.delegate.supportedLocales,
-            localeResolutionCallback: (local,support) {
-              Locale myLocale;
-              if (nowLocale == null) {
-                myLocale = local;
-              } else {
-                myLocale = nowLocale;
-              }
-              Locale l = S.delegate.resolution(
-                  fallback: defaultLocal,
-                  withCountry: false//myLocale.countryCode != null && myLocale.countryCode != ""
-              )(
-                  myLocale,
-                  S.delegate.supportedLocales
-              );
-              if(callBackLocal != null)
-                callBackLocal(l);
-              return l;
+            localeResolutionCallback: (local, support) {
+              // Locale myLocale;
+              // if (nowLocale == null) {
+              //   myLocale = local;
+              // } else {
+              //   myLocale = nowLocale;
+              // }
+              Locale l = Locale.fromSubtags(languageCode: local.languageCode);
+              if (callBackLocal != null) callBackLocal(l);
+              return local;
             },
             routes: router);
 }
 
-/**
- * 脚手架
- */
+/// 脚手架
 class PlatformScaffold
     extends BasePlatformWidget<Scaffold, CupertinoPageScaffold> {
   final PlatformAppBar appBar;
@@ -91,9 +85,7 @@ class PlatformScaffold
   @override
   Scaffold createAndroidWidget(BuildContext context) {
     return Scaffold(
-      appBar: appBar != null
-          ? appBar.createAndroidWidget(context)
-          : null,
+      appBar: appBar != null ? appBar.createAndroidWidget(context) : null,
       body: body,
       backgroundColor: backgroundColor != null
           ? backgroundColor
@@ -104,8 +96,7 @@ class PlatformScaffold
   @override
   CupertinoPageScaffold createIosWidget(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar:
-      appBar != null ? appBar.createIosWidget(context) : null,
+      navigationBar: appBar != null ? appBar.createIosWidget(context) : null,
       child: body,
       backgroundColor: backgroundColor != null
           ? backgroundColor
@@ -114,9 +105,7 @@ class PlatformScaffold
   }
 }
 
-/**
- * AppBar
- */
+/// AppBar
 class PlatformAppBar
     extends BasePlatformWidget<Widget, CupertinoNavigationBar> {
   final Widget title;
@@ -139,7 +128,7 @@ class PlatformAppBar
       this.showCloseButton = false,
       this.backButtonColor,
       this.elevation = 4.0,
-        this.height,
+      this.height,
       this.heroTag = "appbar",
       this.backTap});
 
@@ -150,18 +139,21 @@ class PlatformAppBar
       leftBt = leading;
     else if (showBackButton || showCloseButton)
       leftBt = IconButton(
-        icon:
-          showCloseButton ? PlatformIcon.getIcon(PlatformIconEnum.close,color: backButtonColor) : Icon(Icons.arrow_back_ios,
-          color: backButtonColor != null
-              ? backButtonColor
-              : Theme.of(context).backgroundColor,
-        ),
+        icon: showCloseButton
+            ? PlatformIcon.getIcon(PlatformIconEnum.close,
+                color: backButtonColor)
+            : Icon(
+                Icons.arrow_back_ios,
+                color: backButtonColor != null
+                    ? backButtonColor
+                    : Theme.of(context).backgroundColor,
+              ),
         onPressed: () => backTap(),
       );
     var appBar = AppBar(
         leading: leftBt,
         title: title,
-        elevation:elevation,
+        elevation: elevation,
         actions: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 4, bottom: 4, right: 15),
@@ -171,12 +163,12 @@ class PlatformAppBar
         backgroundColor: this.backgroundColor == null
             ? CupertinoTheme.of(context).primaryColor
             : this.backgroundColor);
-    if(height != null){
+    if (height != null) {
       return PreferredSize(
         child: appBar,
         preferredSize: Size.fromHeight(height),
       );
-    }else{
+    } else {
       return appBar;
     }
   }
@@ -193,15 +185,17 @@ class PlatformAppBar
             ? backButtonColor
             : CupertinoTheme.of(context).primaryContrastingColor,
       );
-    
+
     return new CupertinoNavigationBar(
       leading: leftBt,
       middle: title,
       trailing: trailing,
       heroTag: heroTag,
       transitionBetweenRoutes: false,
-      padding: EdgeInsetsDirectional.only(start: 0,bottom: 0),
-      border: elevation == 0 ? Border.all(width: elevation,color:Colors.transparent) : null,
+      padding: EdgeInsetsDirectional.only(start: 0, bottom: 0),
+      border: elevation == 0
+          ? Border.all(width: elevation, color: Colors.transparent)
+          : null,
       backgroundColor: this.backgroundColor == null
           ? CupertinoTheme.of(context).primaryColor
           : this.backgroundColor,
@@ -209,9 +203,7 @@ class PlatformAppBar
   }
 }
 
-/**
- * TextField
- */
+/// TextField
 class PlatformTextField
     extends BasePlatformWidget<TextField, CupertinoTextField> {
   final TextEditingController controller;
@@ -236,53 +228,49 @@ class PlatformTextField
   final TextInputAction textInputAction;
   final FocusNode focusNode;
   final Iterable<String> autofillHints;
-  PlatformTextField({
-    this.controller,
-    this.suffix,
-    this.prefix,
-    this.readOnly = false,
-    this.onTap,
-    this.placeholder,
-    this.placeHolderStyle,
-    this.androidDecoration,
-    this.iosDecoration,
-    this.borderSide,
-    this.borderRadius,
-    this.maxLines = 1,
-    this.expands = false,
-    this.inputType = TextInputType.text,
-    this.textAlign = TextAlign.start,
-    this.textStyle,
-    this.obscureText = false,
-    this.autofocus = false,
-    this.onSubmitted,
-    this.textInputAction,
-    this.focusNode,
-    this.autofillHints
-  });
+  PlatformTextField(
+      {this.controller,
+      this.suffix,
+      this.prefix,
+      this.readOnly = false,
+      this.onTap,
+      this.placeholder,
+      this.placeHolderStyle,
+      this.androidDecoration,
+      this.iosDecoration,
+      this.borderSide,
+      this.borderRadius,
+      this.maxLines = 1,
+      this.expands = false,
+      this.inputType = TextInputType.text,
+      this.textAlign = TextAlign.start,
+      this.textStyle,
+      this.obscureText = false,
+      this.autofocus = false,
+      this.onSubmitted,
+      this.textInputAction,
+      this.focusNode,
+      this.autofillHints});
 
   @override
   TextField createAndroidWidget(BuildContext context) {
     // TODO: implement createAndroidWidget
     var _androidDecoration = androidDecoration;
-    if(_androidDecoration == null)
-      _androidDecoration = InputDecoration(
-        contentPadding: EdgeInsets.all(10.0)
-      );
+    if (_androidDecoration == null)
+      _androidDecoration =
+          InputDecoration(contentPadding: EdgeInsets.all(10.0));
     if (placeholder != null) {
       _androidDecoration = _androidDecoration.copyWith(
-        hintText: placeholder,
-        hintStyle: placeHolderStyle
-      );
+          hintText: placeholder, hintStyle: placeHolderStyle);
     }
-    
+
     if (suffix != null)
       _androidDecoration = _androidDecoration.copyWith(suffix: suffix);
 
     if (prefix != null)
       _androidDecoration = _androidDecoration.copyWith(prefix: prefix);
 
-    if (borderSide != null || borderRadius != null) 
+    if (borderSide != null || borderRadius != null)
       _androidDecoration = _androidDecoration.copyWith(
         border: OutlineInputBorder(
             borderSide: borderSide, borderRadius: borderRadius),
@@ -291,12 +279,11 @@ class PlatformTextField
         focusedBorder: OutlineInputBorder(
             borderSide: borderSide, borderRadius: borderRadius),
       );
-    else if(borderSide == null){
-      _androidDecoration = _androidDecoration.copyWith(
-        border: InputBorder.none
-      );
+    else if (borderSide == null) {
+      _androidDecoration =
+          _androidDecoration.copyWith(border: InputBorder.none);
     }
-    
+
     return TextField(
       controller: controller,
       decoration: _androidDecoration,
@@ -304,16 +291,24 @@ class PlatformTextField
       onSubmitted: onSubmitted,
       textAlign: textAlign,
       textInputAction: this.textInputAction,
-      maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : 1) ,
+      maxLines: maxLines != 1
+          ? maxLines
+          : (inputType == TextInputType.multiline ? 0 : 1),
       readOnly: readOnly,
       focusNode: focusNode,
       expands: expands,
       onChanged: (s) => onTap != null ? onTap() : nullTap(),
       keyboardType: inputType,
-      autofocus:autofocus,
+      autofocus: autofocus,
       autofillHints: autofillHints,
-      style: textStyle != null ? textStyle : CupertinoTheme.of(context).textTheme.textStyle.copyWith(textBaseline: TextBaseline.alphabetic),
-      obscureText: inputType == TextInputType.visiblePassword || this.obscureText,
+      style: textStyle != null
+          ? textStyle
+          : CupertinoTheme.of(context)
+              .textTheme
+              .textStyle
+              .copyWith(textBaseline: TextBaseline.alphabetic),
+      obscureText:
+          inputType == TextInputType.visiblePassword || this.obscureText,
     );
   }
 
@@ -344,31 +339,35 @@ class PlatformTextField
       textAlign: textAlign,
       suffix: suffix,
       prefix: prefix,
-      focusNode:focusNode,
+      focusNode: focusNode,
       textInputAction: this.textInputAction,
       onSubmitted: onSubmitted,
-      onChanged: (s){
-        if(onTap != null)
+      onChanged: (s) {
+        if (onTap != null)
           onTap();
         else
-         nullTap();
+          nullTap();
       },
       padding: EdgeInsets.all(10),
-      maxLines: maxLines != 1 ? maxLines : (inputType == TextInputType.multiline ? 0 : maxLines),
-      obscureText: inputType == TextInputType.visiblePassword || this.obscureText,
+      maxLines: maxLines != 1
+          ? maxLines
+          : (inputType == TextInputType.multiline ? 0 : maxLines),
+      obscureText:
+          inputType == TextInputType.visiblePassword || this.obscureText,
       expands: expands,
       onTap: onTap,
       autofocus: autofocus,
       autofillHints: autofillHints,
-      style: textStyle != null ? textStyle : CupertinoTheme.of(context).textTheme.textStyle,
+      style: textStyle != null
+          ? textStyle
+          : CupertinoTheme.of(context).textTheme.textStyle,
       readOnly: readOnly,
       controller: controller,
       keyboardType: inputType,
     );
   }
-  void nullTap(){
 
-  }
+  void nullTap() {}
 }
 
 enum PlatformIconEnum {
@@ -457,11 +456,12 @@ class PlatformButton extends BasePlatformWidget<Widget, CupertinoButton> {
         ? Colors.transparent
         : CupertinoDynamicColor.resolve(color, context);
 
-    final TextStyle textStyle = themeData.textTheme.textStyle.copyWith(color: themeData.primaryContrastingColor);
+    final TextStyle textStyle = themeData.textTheme.textStyle
+        .copyWith(color: themeData.primaryContrastingColor);
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        padding:padding == null ? _kBackgroundButtonPadding : padding,
+        padding: padding == null ? _kBackgroundButtonPadding : padding,
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: borderRadius,
@@ -469,11 +469,10 @@ class PlatformButton extends BasePlatformWidget<Widget, CupertinoButton> {
         child: Center(
             widthFactor: 1.0,
             heightFactor: 1.0,
-          child: DefaultTextStyle(
-            style: textStyle,
-            child: child,
-          )
-        ),
+            child: DefaultTextStyle(
+              style: textStyle,
+              child: child,
+            )),
       ),
     );
 //    var bt = ButtonTheme(
@@ -518,36 +517,43 @@ class PlatformPicker
   final TextStyle textStyle;
   final bool hideUnderLine;
   final double widthForAndroid;
-  PlatformPicker(
-    this.data, {
-    @required this.onChanged,
-    this.hidText,
-    this.value,
-    this.childHeight = 60,
-    this.borderSide,
-    this.borderRadius,
-    this.textAlign = TextAlign.start,
-    this.textStyle,
-    this.hideUnderLine = false,
-    this.widthForAndroid
-  });
+  PlatformPicker(this.data,
+      {@required this.onChanged,
+      this.hidText,
+      this.value,
+      this.childHeight = 60,
+      this.borderSide,
+      this.borderRadius,
+      this.textAlign = TextAlign.start,
+      this.textStyle,
+      this.hideUnderLine = false,
+      this.widthForAndroid});
 
   @override
   DropdownButton<int> createAndroidWidget(BuildContext context) {
     // TODO: implement createAndroidWidget
     List<DropdownMenuItem<int>> _data = [];
     for (var i = 0; i < data.length; i++)
-      _data.add(DropdownMenuItem<int>(child:
-        widthForAndroid != null && widthForAndroid > 0 ?
-          SizedBox(width: widthForAndroid,child: Center(child: Text(data[i])))
-          : Center(child: Text(data[i])),
+      _data.add(DropdownMenuItem<int>(
+          child: widthForAndroid != null && widthForAndroid > 0
+              ? SizedBox(
+                  width: widthForAndroid, child: Center(child: Text(data[i])))
+              : Center(child: Text(data[i])),
           value: i));
 
     return DropdownButton<int>(
       items: _data,
       style: textStyle,
-      underline: hideUnderLine ? SizedBox(height: 0,) : null,
-      hint: this.hidText != null ? Center(child: Text(this.hidText),)  : null,
+      underline: hideUnderLine
+          ? SizedBox(
+              height: 0,
+            )
+          : null,
+      hint: this.hidText != null
+          ? Center(
+              child: Text(this.hidText),
+            )
+          : null,
       onChanged: (value) => onChanged(value),
       value: this.value,
     );
@@ -563,9 +569,8 @@ class PlatformPicker
       _data
           .add(DropdownMenuItem(child: Center(child: Text(data[i])), value: i));
     var _value = value;
-    if(_data.length > 0) {
-      if (_value == null)
-        _value = 0;
+    if (_data.length > 0) {
+      if (_value == null) _value = 0;
       tmpValue = _value;
       _controller.text = data[tmpValue];
     }
@@ -588,9 +593,7 @@ class PlatformPicker
       onTap: () {
         final picker = CupertinoPicker(
           children: _data,
-          scrollController:FixedExtentScrollController(
-            initialItem: _value
-          ),
+          scrollController: FixedExtentScrollController(initialItem: _value),
           backgroundColor: CupertinoTheme.of(context).primaryContrastingColor,
           onSelectedItemChanged: (num) {
             tmpValue = num;
@@ -613,11 +616,20 @@ class PlatformPicker
                         children: <Widget>[
                           PlatformButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            padding: EdgeInsets.symmetric(vertical: 6,horizontal: 14),
-                            child: Text("取消",style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(
-                                color: CupertinoTheme.of(context).textTheme.textStyle.color,
-                              fontSize: 16
-                            ),),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 6, horizontal: 14),
+                            child: Text(
+                              "取消",
+                              style: CupertinoTheme.of(context)
+                                  .textTheme
+                                  .textStyle
+                                  .copyWith(
+                                      color: CupertinoTheme.of(context)
+                                          .textTheme
+                                          .textStyle
+                                          .color,
+                                      fontSize: 16),
+                            ),
                           ),
                           Expanded(flex: 1, child: SizedBox()),
                           PlatformButton(
@@ -626,16 +638,17 @@ class PlatformPicker
                               _controller.text = data[tmpValue];
                               Navigator.of(context).pop();
                             },
-                            padding: EdgeInsets.symmetric(vertical: 6,horizontal: 14),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 6, horizontal: 14),
                             child: Text(
                               "确定",
                               style: CupertinoTheme.of(context)
                                   .textTheme
                                   .textStyle
                                   .copyWith(
-                                  fontSize: 16,
-                                  color: CupertinoTheme.of(context)
-                                      .primaryColor),
+                                      fontSize: 16,
+                                      color: CupertinoTheme.of(context)
+                                          .primaryColor),
                             ),
                           )
                         ],

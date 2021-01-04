@@ -1,0 +1,18 @@
+analyzer:
+  # strong-mode:
+    # implicit-casts: false
+    # implicit-dynamic: false
+  enable-experiment:
+    - extension-methods       
+  errors:
+    todo: ignore
+    missing_return: warning
+    missing_required_param: warning
+  exclude:
+    - "**/*.g.dart"
+    - flutter_plugins/**
+    - pay_plugin/example/**
+    - umeng_plugin/**
+    - FlutterCustomUtil/example/**
+    - test/**
+    - pay_plugin/flutter_barcode_reader/**
