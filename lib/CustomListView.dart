@@ -21,6 +21,7 @@ class CustomListView<T> extends StatefulWidget {
   final Function(int index, CustomListViewLinsentFlag flag) lisent;
   final updateStream = StreamController<dynamic>();
   final Widget sliderTop;
+  final int pageNo;
 
   // Function(List _data) updateData;
   // Function(int _pageIndex) updatePageMax;
@@ -33,6 +34,7 @@ class CustomListView<T> extends StatefulWidget {
       this.pullRefresh = true,
       this.lisent,
       @required this.pageMax,
+      @required this.pageNo,
       this.footer,
       this.header,
       this.sliderTop,
@@ -51,6 +53,7 @@ class _CustomListViewState<T> extends State<CustomListView> {
   @override
   void initState() {
     super.initState();
+    this.pageNum = widget.pageNo;
     if (widget.scrollController == null)
       _scrollController = ScrollController();
     else
