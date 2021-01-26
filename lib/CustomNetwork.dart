@@ -137,7 +137,9 @@ class CustomNetwork {
 
     return checkInit.then((v) {
       return _postRequest(url, parame,
-          isFormUrlencoded: isFormUrlencoded, headers: headers);
+          isFormUrlencoded: isFormUrlencoded,
+          headers: headers,
+          isFormData: isFormData);
     }).then<Object>((body) {
       if (checkResult != null) {
         String check = checkResult(url, parame, body);
